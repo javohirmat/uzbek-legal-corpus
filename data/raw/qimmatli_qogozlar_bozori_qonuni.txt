@@ -1,0 +1,570 @@
+
+OʻZBEKISTON RESPUBLIKASINING 
+QONUNI 
+Qimmatli qogʻozlar bozori toʻgʻrisida
+1-bob. Umumiy qoidalar
+       1-modda. Ushbu Qonunning maqsadi va qoʻllanilish sohasi
+       Ushbu Qonunning maqsadi qimmatli qogʻozlar bozori sohasidagi munosabatlarni tartibga solishdan iborat.
+       Ushbu Qonun quyidagi qimmatli qogʻozlarga nisbatan amal qiladi: aksiyalar, obligatsiyalar, davlat gʻaznachilik obligatsiyalari, depozit sertifikatlari, qimmatli qogʻozlarning hosilalari va veksellar.
+       2-modda. Qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik
+       Qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik ushbu Qonun va boshqa qonunchilik hujjatlaridan iboratdir.
+       Ushbu Qonun banklarni sanatsiya qilish va tugatishga doir munosabatlarga nisbatan maxsus qonunchilikka zid boʻlmagan hollarda qoʻllaniladi.
+       Agar Oʻzbekiston Respublikasining xalqaro shartnomasida Oʻzbekiston Respublikasining qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchiligida nazarda tutilganidan boshqacha qoidalar belgilangan boʻlsa, xalqaro shartnoma qoidalari qoʻllaniladi.
+       3-modda. Asosiy tushunchalar
+       Ushbu Qonunda quyidagi asosiy tushunchalar qoʻllaniladi:
+       aksiya — oʻz egasining aksiyadorlik jamiyati foydasining bir qismini dividendlar tarzida olishga, aksiyadorlik jamiyatini boshqarishda ishtirok etishga va u tugatilganidan keyin qoladigan mol-mulkning bir qismiga boʻlgan huquqini tasdiqlovchi, amal qilish muddati belgilanmagan, egasining nomi yozilgan emissiyaviy qimmatli qogʻoz;
+       axborotni oshkor qilish — qimmatli qogʻozlar bozorida manfaatdor shaxslarning axborotni qaysi maqsadda olishidan qatʼi nazar, mazkur axborotdan uning topilishi va olinishini kafolatlaydigan shakllarda foydalanishini taʼminlash;
+       birja obligatsiyasi — chiqarilishi fond birjasi tomonidan roʻyxatga olinadigan va fond birjasining kotirovkalash varagʻiga kiritilgan, aksiyadorlik jamiyatlari tomonidan chiqariladigan qarz emissiyaviy qimmatli qogʻoz;
+       veksel — veksel beruvchining yoxud vekselda koʻrsatilgan boshqa toʻlovchining vekselda nazarda tutilgan muddat kelganda veksel egasiga muayyan summani toʻlashga doir qatʼiy majburiyatini tasdiqlovchi noemissiyaviy qimmatli qogʻoz;
+       davlat qimmatli qogʻozlari — Oʻzbekiston Respublikasi nomidan chiqarilgan davlat gʻaznachilik obligatsiyalari, xalqaro obligatsiyalar, shuningdek Oʻzbekiston Respublikasi Markaziy bankining obligatsiyalari;
+       depo hisobvaragʻi — deponentning qimmatli qogʻozlarini saqlash va qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish uchun moʻljallangan, investitsiya vositachisining va Qimmatli qogʻozlar markaziy depozitariysining hisobga olish registrlaridagi yozuvlar yigʻindisi;
+       depo hisobvaragʻidan koʻchirma — deponentning qimmatli qogʻozlarga boʻlgan huquqlarini tasdiqlaydigan, investitsiya vositachisi va (yoki) Qimmatli qogʻozlar markaziy depozitariysi tomonidan beriladigan hujjat;
+       depozitar operatsiyalar — hisobga olish registrlarida depozitar operatsiyalar standartlariga muvofiq bajariladigan operatsiyalar;
+       depozitar tilxatlar — nominal qiymatga ega boʻlmagan qimmatli qogʻoz boʻlib, u taqdim etiladigan qimmatli qogʻozlarning muayyan soniga boʻlgan mulk huquqini tasdiqlaydi va uning egasining ushbu qimmatli qogʻoz emitentidan depozitar tilxat oʻrniga taqdim etiladigan qimmatli qogʻozlarning tegishli sonini olishini hamda taqdim etiladigan qimmatli qogʻozlar bilan mustahkamlangan huquqlarning depozitar tilxat egasi tomonidan amalga oshirilishi bilan bogʻliq xizmatlar koʻrsatilishini talab qilish huquqini mustahkamlaydi; 
+       depozit sertifikati — bankka qoʻyilgan omonat summasini va omonatchining (sertifikat saqlovchining) omonat summasini hamda sertifikatda shartlashilgan foizlarni sertifikatni bergan bankdan yoki shu bankning istalgan filialidan belgilangan muddat tugaganidan keyin olish huquqini tasdiqlovchi noemissiyaviy qimmatli qogʻoz;
+       deponent — depo hisobvaragʻiga ega boʻlgan shaxs;
+       investitsiya aktivlari — qimmatli qogʻozlar, pul mablagʻlari va qonunchilikka muvofiq investitsiya aktivlari deb eʼtirof etiladigan boshqa mol-mulk;
+       investor — qimmatli qogʻozlarni oʻz nomidan va oʻz hisobidan oluvchi yuridik yoki jismoniy shaxs;
+       infratuzilma obligatsiyalari — ishlab chiqarish infratuzilmasini va boshqa infratuzilmani barpo etish va (yoki) rekonstruksiya qilishni moliyalashtirish uchun pul mablagʻlarini jalb etish maqsadida xoʻjalik jamiyatlari tomonidan chiqariladigan obligatsiyalar;
+       kliring — qimmatli qogʻozlar savdosining tashkilotchilari tomonidan roʻyxatdan oʻtkazilgan qimmatli qogʻozlarga doir bitimlar boʻyicha oʻzaro majburiyatlarni aniqlash, aniqlashtirish va hisobga olish;
+       korporativ obligatsiyalar — aksiyadorlik jamiyatlari va masʼuliyati cheklangan jamiyatlar tomonidan chiqariladigan obligatsiyalar;
+       market-meyker — qimmatli qogʻozlarga doir narxlar, talab va taklif darajasini saqlab turish uchun birja bitimlarini tuzish majburiyatini oʻz zimmasiga olgan investitsiya vositachisi;
+       netting — mijozning barcha pul talablarini uning barcha pul majburiyatlariga nisbatan hisobga olish orqali amalga oshiriladigan kliring usuli;
+       noemissiyaviy qimmatli qogʻozlar — ushbu Qonunga muvofiq emissiyaviy qimmatli qogʻozlar tushunchasiga oid boʻlmagan qimmatli qogʻozlar;
+       obligatsiya — emissiyaviy qimmatli qogʻoz boʻlib, u obligatsiyani saqlovchining obligatsiyaning nominal qiymatini yoki boshqa mulkiy ekvivalentini obligatsiyani chiqargan shaxsdan obligatsiyada nazarda tutilgan muddatda olishga, obligatsiyaning nominal qiymatidan qatʼiy belgilangan foizni olishga boʻlgan huquqini yoxud boshqa mulkiy huquqlarini tasdiqlaydi;
+       xalqaro obligatsiya — sotiladigan emissiyaviy qimmatli qogʻoz boʻlib, u emitent tomonidan chiqariladi va moliyaviy tashkilotlarning guruhi tomonidan joylashtiriladi, emitentning mamlakatidan tashqari bir yoki undan koʻproq davlatda taklif etiladi, birlamchi ravishda (shu jumladan obuna boʻyicha) faqat ushbu guruh orqali sotib olinadi;
+       chet ellik nominal saqlovchi — qimmatli qogʻozlarga doir huquqlarni hisobga olishning va (yoki) qimmatli qogʻozlar hisob-kitoblarining xalqaro markazlashgan tizimi boʻlgan yoxud chet el birjalaridagi yoki boshqa tartibga solinadigan bozorlardagi savdolar natijalariga koʻra qimmatli qogʻozlar boʻyicha hisob-kitoblarni amalga oshiruvchi markaziy depozitariy boʻlgan, qimmatli qogʻozlar egasining yoki u vakil qilgan shaxsning topshirigʻiga koʻra, qimmatli qogʻozlarning egasi boʻlmagan holda, qimmatli qogʻozlarni hisobga olishni va ularga boʻlgan huquqlarni tasdiqlashni amalga oshiradigan chet el tashkiloti;
+       opsion — emissiyaviy qimmatli qogʻoz boʻlib, u oʻz emitentining muayyan miqdordagi qimmatli qogʻozlarini unda nazarda tutilgan muddatda, qatʼiy belgilangan narx boʻyicha sotib olishga boʻlgan huquqini tasdiqlaydi;
+       fond birjasi — ommaviy va oshkora birja savdolarini oldindan belgilangan joyda va belgilangan vaqtda oʻrnatilgan qoidalar asosida tashkil etish hamda oʻtkazish orqali faqat qimmatli qogʻozlar savdosi uchun sharoitlar yaratib beruvchi yuridik shaxs;
+       egasining nomi yozilgan qimmatli qogʻozlar — mulkiy huquqlarning realizatsiya qilinishi oʻz egasining roʻyxatdan oʻtkazilgan boʻlishini talab etadigan qimmatli qogʻozlar;
+       emissiyaviy qimmatli qogʻozlar — bitta chiqarilish doirasida bir xil belgilar va rekvizitlarga ega boʻlgan, mazkur chiqarilish uchun yagona shartlar asosida joylashtiriladigan hamda muomalada boʻladigan qimmatli qogʻozlar;
+       Emissiyaviy qimmatli qogʻozlar chiqarilishlarining yagona davlat reyestri — roʻyxatdan oʻtkazilgan emissiyaviy qimmatli qogʻozlar chiqarilishlarining roʻyxati;
+       emitent — emissiyaviy qimmatli qogʻozlar chiqaruvchi va ular yuzasidan qimmatli qogʻozlarning egalari oldida majburiyatlari boʻlgan yuridik shaxs;
+       davlat gʻaznachilik obligatsiyalari — emissiyaviy qimmatli qogʻozlar boʻlib, toʻlanish muddatidan qatʼi nazar, ular egalik qiluvchi tomonidan Oʻzbekiston Respublikasining respublika budjetiga pul mablagʻlari kiritilganligini tasdiqlaydi va ushbu emissiyaviy qimmatli qogʻozlarga egalik qilishning butun muddati mobaynida qatʼiy belgilangan daromad olish huquqini beradi; 
+       qimmatli qogʻozlar — hujjatlar boʻlib, ular mazkur hujjatlarni chiqargan yuridik shaxs bilan ularning egasi oʻrtasidagi mulkiy huquqlarni yoki qarz munosabatlarini tasdiqlaydi, dividendlar yoki foizlar tarzida daromad toʻlashni hamda ushbu hujjatlardan kelib chiqadigan huquqlarni boshqa shaxslarga oʻtkazish imkoniyatini nazarda tutadi;
+       qimmatli qogʻozlar bozori — yuridik va jismoniy shaxslarning qimmatli qogʻozlarni chiqarish, joylashtirish va ularning muomalasi bilan bogʻliq munosabatlari tizimi;
+       qimmatli qogʻozlar bozori ishtirokchilari — qimmatli qogʻozlarning emitentlari, qimmatli qogʻozlarning egalari, investorlar, qimmatli qogʻozlar bozorining professional ishtirokchilari, shuningdek birjalar va Qimmatli qogʻozlar markaziy depozitariysi;
+       qimmatli qogʻozlar bozorining professional ishtirokchisi — qimmatli qogʻozlar bozorida professional faoliyatni amalga oshiruvchi yuridik shaxs;
+       qimmatli qogʻozlar bozori professional ishtirokchisining mijozi (mijoz) — deponent yoki qimmatli qogʻozlar bozori professional ishtirokchisining xizmatlaridan foydalanuvchi boshqa shaxs;
+       qimmatli qogʻozlar bozorida professional faoliyat — qimmatli qogʻozlarni chiqarish, joylashtirish va ularning muomalasi bilan bogʻliq xizmatlar koʻrsatish boʻyicha litsenziyalanadigan yoki vakolatli organni xabardor qilish tartibida amalga oshiriladigan faoliyat turi;
+       qimmatli qogʻozlarga doir bitimlar — qimmatli qogʻozlarning oldi-sotdisi, hadyasi, merosi, ustav fondiga kiritilishi va qimmatli qogʻozlar egasining almashuviga olib keladigan boshqa harakatlar, shuningdek qimmatli qogʻozlar garovi;
+       qimmatli qogʻozlarga doir fyuchers — qimmatli qogʻoz boʻlib, u oʻzida nazarda tutilgan muddatda qimmatli qogʻozlarning muayyan sonini qatʼiy belgilangan narxda sotib olish yoki sotish majburiyatini tasdiqlaydi;
+       qimmatli qogʻozlarni joylashtirish — qimmatli qogʻozlarni ularning dastlabki egalariga berish;
+       Qimmatli qogʻozlar markaziy depozitariysi — depo hisobvaraqlari boʻyicha qimmatli qogʻozlarni saqlashning, bunday qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olishning va qimmatli qogʻozlar harakatining yagona tizimini taʼminlovchi tashkilot;
+       qimmatli qogʻozlarning muomalasi — qimmatli qogʻozlarni sotib olish va sotish, shuningdek qonunchilikda nazarda tutilgan, qimmatli qogʻozlarning egasi almashuviga olib keladigan boshqa harakatlar;
+       qimmatli qogʻozlarni nominal saqlovchi — qimmatli qogʻozlar egasining yoki u vakil qilgan shaxsning topshirigʻiga koʻra qimmatli qogʻozlarni hisobga olishni va ularga boʻlgan huquqlarni tasdiqlashni qimmatli qogʻozlarning egasi boʻlmagan holda amalga oshiruvchi investitsiya vositachisi, Qimmatli qogʻozlar markaziy depozitariysi;
+       qimmatli qogʻozlarni chiqarish — yuridik shaxsning fuqarolik huquqlarining obyekti sifatida qimmatli qogʻozlar paydo boʻlishiga qaratilgan harakatlari;
+       qimmatli qogʻozlar egasi — qimmatli qogʻozlar oʻziga mulk huquqi yoki boshqa ashyoviy huquq asosida tegishli boʻlgan yuridik yoki jismoniy shaxs;
+       qimmatli qogʻozlar egalarining reyestri — roʻyxatdan oʻtkazilgan qimmatli qogʻozlar egalarining belgilangan sanadagi holatga koʻra shakllantirilgan, ularga qarashli egasining nomi yozilgan qimmatli qogʻozlar emitentining nomi, ushbu qimmatli qogʻozlarning soni, nominal qiymati, turi va xili, shuningdek reyestrda roʻyxatdan oʻtkazilgan shaxslarga axborot yuborish imkoniyatini beradigan maʼlumotlar koʻrsatilgan roʻyxati;
+       qimmatli qogʻozlar emissiyasi — emissiyaviy qimmatli qogʻozlarni chiqarish va joylashtirish;
+       qimmatli qogʻozlarning emissiya risolasi — emitent va u chiqaradigan qimmatli qogʻozlar toʻgʻrisidagi maʼlumotlarni, shuningdek investorning qimmatli qogʻozlar olish toʻgʻrisidagi qaroriga taʼsir koʻrsatishi mumkin boʻlgan boshqa axborotni aks ettiruvchi hujjat;
+       qimmatli qogʻozlarning hosilalari — oʻz egalarining boshqa qimmatli qogʻozlarga nisbatan huquqlarini yoki majburiyatlarini tasdiqlovchi va yuridik shaxslar tomonidan opsionlar, qimmatli qogʻozlarga doir fyucherslar, depozitar tilxatlar va boshqa moliyaviy vositalar tarzida chiqariladigan qimmatli qogʻozlar;
+       hisobga olish registrlari — investitsiya vositachisida va Qimmatli qogʻozlar markaziy depozitariysida qimmatli qogʻozlarni saqlash hamda qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish boʻyicha depozitar operatsiyalar standartlari bilan belgilangan yozuvlar tizimi.
+2-bob. Qimmatli qogʻozlarni chiqarish
+       4-modda. Qimmatli qogʻozlarning chiqarilish shakli 
+       Qimmatli qogʻozlar chiqarilish shakliga koʻra blankalar tarzida hujjatli va elektron shakldagi hisobga olish registrlaridagi yozuvlar tarzida hujjatsiz boʻlishi mumkin.
+       Qimmatli qogʻozlarning chiqarilish shakli qonunchilikka muvofiq qimmatli qogʻozlar chiqarish toʻgʻrisidagi qarorda belgilanadi.
+       Aksiyalar, korporativ va infratuzilma obligatsiyalari, shuningdek depozitar tilxatlar hujjatsiz shaklda chiqariladi. 
+       5-modda. Emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qaror
+       Emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorda quyidagilar koʻrsatilishi kerak:
+       emitentning toʻliq nomi, joylashgan yeri (pochta manzili) va elektron pochta manzili;
+       emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qaror tasdiqlangan sana;
+       emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorni tasdiqlagan emitent boshqaruv organining nomi;
+       emissiyaviy qimmatli qogʻozlarning turi va xili hamda ularning chiqarilish shakli;
+       emissiyaviy qimmatli qogʻozlar egasining huquqlari;
+       emissiyaviy qimmatli qogʻozlarni joylashtirish shartlari;
+       chiqarilishdagi emissiyaviy qimmatli qogʻozlarning soni;
+       ilgari joylashtirilgan emissiyaviy qimmatli qogʻozlarning soni;
+       emissiyaviy qimmatli qogʻozlarning nominal qiymati.
+       Emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorda qonunchilikka muvofiq boshqa qoidalar ham koʻrsatilishi mumkin.
+       Emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qaror qonunchilikka va emitentning ustaviga muvofiq emitent boshqaruv organi tomonidan tasdiqlanadi.
+       Agar obligatsiyalar chiqarish toʻgʻrisidagi qarorda garov, bank kafolati yoki qonunda nazarda tutilgan boshqa usullar bilan taʼminlash nazarda tutilsa, bunday qarorda taʼminot bergan shaxs toʻgʻrisidagi va taʼminot shartlari haqidagi maʼlumotlar ham koʻrsatilishi kerak. Bunda obligatsiyalar chiqarish toʻgʻrisidagi bunday qaror taʼminot beruvchi shaxs tomonidan ham imzolanishi kerak.
+       Davlat tashkiloti aksiyadorlik jamiyati etib oʻzgartirilayotganda Oʻzbekiston Respublikasi Davlat aktivlarini boshqarish agentligi tomonidan tasdiqlangan aksiyalarning emissiya risolasi aksiyalarni chiqarish toʻgʻrisidagi qarordir.
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishi davlat roʻyxatidan oʻtkazilganidan keyin emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorning bir nusxasi qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organida qoladi, bir nusxasi emitentga beriladi va bir nusxasi emissiyaviy qimmatli qogʻozlar chiqarilishini tasdiqlovchi hujjatlar ilova qilingan holda Qimmatli qogʻozlar markaziy depozitariysiga topshiriladi.
+       Emissiyaviy qimmatli qogʻozlar chiqarish toʻgʻrisidagi roʻyxatdan oʻtkazilgan qarorga oʻzgartish va qoʻshimchalar kiritish, shuningdek mazkur qarorni oʻz kuchini yoʻqotgan deb topish qonunchilikda belgilangan tartibda amalga oshiriladi.
+       6-modda. Korporativ va infratuzilma obligatsiyalarini chiqarish shartlari
+       Korporativ obligatsiyalar quyidagi shartlarga rioya etgan holda: 
+       emitentning bunday obligatsiyalar chiqarish toʻgʻrisida qaror qabul qilingan sanadagi oʻz kapitali miqdori doirasida. Agar korporativ obligatsiyalar summasi emitentning oʻz kapitali miqdoridan oshsa, emitent oshgan summa uchun taʼminot berishi shart; 
+       soʻnggi bir yilda rentabellik, toʻlovga qobiliyatlilik, moliyaviy barqarorlik va likvidlilikning ijobiy koʻrsatkichlariga ega boʻlgan emitentlar tomonidan; 
+       obligatsiyalar chiqarilishidan oldingi bir yil uchun moliyaviy hisobot boʻyicha auditorlik xulosasi mavjud boʻlganda; 
+       investorlarga tegishli mablagʻlarning emitentlar tomonidan toʻlanishi boʻyicha toʻlov agentlari vazifasini bajaruvchi tijorat banklari ishtirokida chiqariladi. 
+       Ushbu modda birinchi qismining ikkinchi xatboshisida nazarda tutilgan shartlar ipotekani qayta moliyalashtirish tashkilotlariga nisbatan tatbiq etilmaydi.
+       Infratuzilma obligatsiyalari quyidagi shartlarga rioya etgan holda: 
+       emitentning bunday obligatsiyalar chiqarish toʻgʻrisida qaror qabul qilgan sanadagi oʻz kapitali miqdori doirasida. Agar infratuzilma obligatsiyalari summasi emitentning oʻz kapitali miqdoridan oshsa, emitent oshgan summa uchun taʼminot berishi shart; 
+       obligatsiyalar chiqarilishidan oldingi bir yil uchun moliyaviy hisobot boʻyicha auditorlik xulosasi mavjud boʻlganda; 
+       infratuzilma obligatsiyalarini joylashtirishdan tushgan mablagʻlardan Oʻzbekiston Respublikasi Prezidentining yoki Oʻzbekiston Respublikasi Vazirlar Mahkamasining qarorida nazarda tutilgan loyihani moliyalashtirish uchun foydalanilsa, chiqariladi. 
+       Davlat ulushi 50 foiz va undan ortiq boʻlgan xoʻjalik jamiyatlari tomonidan infratuzilma obligatsiyalari Oʻzbekiston Respublikasi Moliya vazirligi bilan kelishilgan holda chiqariladi.
+       Korporativ va infratuzilma obligatsiyalarini chiqarishning qoʻshimcha shartlari qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilanadi.
+       61-modda. Birja obligatsiyalarining emissiyasi, joylashtirilishi va muomalasi 
+       Birja obligatsiyalarining emissiyasi davlat roʻyxatidan oʻtkazilmasdan va qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan kelishilgan holda fond birjasi tomonidan belgilangan tartibda amalga oshiriladi. 
+       Toʻlash muddati bir yildan koʻp boʻlmagan birja obligatsiyalarini joylashtirish va ularning muomalasi fond birjalarida amalga oshiriladi. 
+       Birja obligatsiyalarini joylashtirish faqat birja obligatsiyalarining chiqarilishini roʻyxatga olgan fond birjasi orqali amalga oshiriladi.
+       7-modda. Aksiyalarga doir opsionni chiqarish shartlari
+       Aksiyalarga doir opsionni chiqarish shartlari ularning muomalasiga cheklovlarni nazarda tutishi mumkin.
+       Agar aksiyadorlik jamiyatining eʼlon qilingan aksiyalari soni olish huquqini opsionlar beradigan aksiyalar sonidan kam boʻlsa, mazkur jamiyat aksiyalarga doir bunday opsionlarni joylashtirishga haqli emas.
+       Aksiyadorlik jamiyatining mehnat jamoasi va kuzatuv kengashi aʼzolariga mukofotni yoki ragʻbatlantirish toʻlovini aksiyalarga doir opsionlar tarzida berish toʻgʻrisidagi qaror aksiyadorlarning umumiy yigʻilishi tomonidan qabul qilinadi.
+       Olish huquqini opsionlar beradigan muayyan turdagi aksiyalarning soni aksiyalarga doir opsionlar chiqarilishini davlat roʻyxatidan oʻtkazish uchun hujjatlarni taqdim etish sanasidagi holatga koʻra joylashtirilgan ushbu turdagi aksiyalarning 5 foizidan ortiq boʻlishi mumkin emas.
+       Aksiyalarga doir opsionlar aksiyadorlik jamiyatining ustav kapitali uni taʼsis etish chogʻida toʻliq toʻlanganidan keyin joylashtirilishi mumkin boʻladi.
+       8-modda. Emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazish
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazish qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan emitentning arizasi asosida amalga oshiriladi. Emitentning arizasiga quyidagilar ilova qilinadi:
+       emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qaror;
+       qimmatli qogʻozlar emissiya risolasi (qimmatli qogʻozlar ommaviy joylashtirilgan taqdirda);
+       blanka namunasi (hujjatli shakldagi emissiyaviy qimmatli qogʻozlar chiqarilgan taqdirda);
+       roʻyxati qonunchilikda belgilanadigan boshqa hujjatlar.
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi emissiyaviy qimmatli qogʻozlarning chiqarilishini roʻyxatdan oʻtkazish uchun taqdim etilgan hujjatlar olingan sanadan eʼtiboran oʻttiz kun ichida davlat roʻyxatidan oʻtkazishi yoki emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazishni rad etish toʻgʻrisida asoslantirilgan qaror qabul qilishi shart.
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishi davlat roʻyxatidan oʻtkazilayotganida emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorning har bir nusxasida emissiyaviy qimmatli qogʻozlarning chiqarilishi davlat roʻyxatidan oʻtkazilganligi toʻgʻrisida belgi qoʻyiladi va emissiyaviy qimmatli qogʻozlarning chiqarilishiga berilgan roʻyxatdan oʻtkazilganlik raqami koʻrsatiladi.
+       Emissiyaviy qimmatli qogʻozlar chiqarilishini davlat roʻyxatidan oʻtkazish uchun taqdim etiladigan hujjatlarning toʻgʻriligi uchun javobgarlik emitent zimmasida boʻladi.
+       9-modda. Emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazishni rad etish 
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazishni rad etish uchun quyidagilar asos boʻladi:
+       emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazish uchun taqdim etilgan hujjatlarning hamda ulardagi maʼlumotlarning qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik talablariga nomuvofiqligi;
+       emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisida qaror qabul qilish tartibiga emitent tomonidan rioya etilmaganligi;
+       qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilikda nazarda tutilgan yigʻimlarning toʻlanmaganligi;
+       emissiyaviy qimmatli qogʻozlar chiqarishni amalga oshirayotgan yuridik shaxsda ularni chiqarish huquqining yoʻqligi.
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining qarorida koʻrsatilgan muddat ichida qayta murojaat etilgan taqdirda, yangitdan taqdim etilgan hujjatlarda aniqlangan nomuvofiqliklardan tashqari yangi asoslarga koʻra emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazishni rad etishga yoʻl qoʻyilmaydi.
+       Emissiyaviy qimmatli qogʻozlar chiqarilishini davlat roʻyxatidan oʻtkazishni rad etish toʻgʻrisidagi qaror ustidan sudga shikoyat qilinishi mumkin.
+       10-modda. Emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazganlik uchun yigʻim
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishini davlat roʻyxatidan oʻtkazishda emitent mazkur chiqarilishdagi emissiyaviy qimmatli qogʻozlar nominal qiymatining 0,01 foizi miqdorida Oʻzbekiston Respublikasi Istiqbolli loyihalar milliy agentligiga yigʻim toʻlaydi.
+       Ilgari roʻyxatdan oʻtkazilgan chiqarilishdagi emissiyaviy qimmatli qogʻozlarning nominal qiymati oshirilgan taqdirda, emitent mazkur chiqarilishdagi emissiyaviy qimmatli qogʻozlar nominal qiymati oshgan summasining 0,01 foizi miqdorida Oʻzbekiston Respublikasi Istiqbolli loyihalar milliy agentligiga yigʻim toʻlaydi.
+       Emissiyaviy qimmatli qogʻozlarni davlat roʻyxatidan oʻtkazganlik uchun yigʻim quyidagi hollarda undirilmaydi:
+       infratuzilma obligatsiyalari va opsion chiqarilgan taqdirda;
+       Oʻzbekiston Respublikasi Prezidentining yoki Oʻzbekiston Respublikasi Vazirlar Mahkamasining qarorlarida nazarda tutilgan hollarda.
+       11-modda. Emissiyaviy qimmatli qogʻozlar chiqarilishlarining yagona davlat reyestri
+       Emissiyaviy qimmatli qogʻozlar chiqarilishlarining yagona davlat reyestrida emitentning nomi, qimmatli qogʻozlarning soni, nominal qiymati, turi va xili toʻgʻrisidagi maʼlumotlar, shuningdek qonunchilikka muvofiq boshqa axborot boʻlishi lozim.
+       Emissiyaviy qimmatli qogʻozlar chiqarilishlarining yagona davlat reyestrini yuritish tartibi Oʻzbekiston Respublikasi Vazirlar Mahkamasi tomonidan belgilanadi.
+       12-modda. Emissiyaviy qimmatli qogʻozlar chiqarilishini toʻxtatib turish, emissiyaviy qimmatli qogʻozlar chiqarilishini amalga oshmagan yoki haqiqiy emas deb topish
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishi:
+       emissiya jarayonida qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik talablari emitent tomonidan buzilganligi aniqlanganda, shuningdek emissiyaviy qimmatli qogʻozlar chiqarilishi haqida eʼlon qilingan axborotda notoʻgʻri maʼlumotlar aniqlangan taqdirda ular bartaraf etilguniga qadar toʻxtatib turiladi;
+       qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilikda nazarda tutilgan axborot va hisobotlar bir yil ichida ikki va undan ortiq marotaba oʻz vaqtida oshkor etilmagan taqdirda, bartaraf etilguniga qadar toʻxtatib turiladi;
+       ularning chiqarilishini toʻxtatib turishga olib kelgan qoidabuzarliklar emitent tomonidan bartaraf etilmagan, shuningdek mazkur chiqarilishdagi qimmatli qogʻozlarning 60 foizdan kam qismi chiqarish toʻgʻrisidagi qarorda belgilangan muddatda xususiy joylashtirilgan taqdirda amalga oshmagan deb topiladi;
+       sudning tegishli qarori mavjud boʻlgan taqdirda haqiqiy emas deb topiladi.
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishi amalga oshmagan yoki haqiqiy emas deb topilgan taqdirda, mazkur chiqarilishning barcha qimmatli qogʻozlari muomaladan olinishi lozim, amalga oshmagan yoki haqiqiy emas deb topilgan emissiyaviy qimmatli qogʻozlarning chiqarilishini joylashtirishdan emitent olgan mablagʻlar esa qonunchilikda belgilangan tartibda egalariga qaytarilishi kerak.
+       Emissiyaviy qimmatli qogʻozlarning chiqarilishini amalga oshmagan yoki haqiqiy emas deb topish va mablagʻlarni egalariga qaytarish bilan bogʻliq chiqimlarning oʻrni emitent hisobidan qoplanadi.
+       13-modda. Davlat qimmatli qogʻozlarini chiqarish
+       Davlat qimmatli qogʻozlarini chiqarish emissiya risolasisiz va davlat qimmatli qogʻozlarining chiqarilishi davlat roʻyxatidan oʻtkazilmagan holda qonunchilikda belgilangan tartibda amalga oshiriladi.
+       Davlat qimmatli qogʻozlari qisqa muddatli (bir yilgacha muddatga), oʻrtacha muddatli (bir yildan besh yilgacha muddatga) va uzoq muddatli (besh yil va undan ortiq muddatga) etib chiqarilishi mumkin.
+       14-modda. Depozit sertifikatlarini va veksellarni chiqarish
+       Depozit sertifikatlarini chiqarish qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan kelishilgan holda Oʻzbekiston Respublikasi Markaziy banki tomonidan belgilangan tartibda amalga oshiriladi. 
+       Veksellarni chiqarish qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan kelishilgan holda Oʻzbekiston Respublikasi Moliya vazirligi va Oʻzbekiston Respublikasi Markaziy banki tomonidan belgilangan tartibda amalga oshiriladi.
+3-bob. Qimmatli qogʻozlarni joylashtirish va ularning muomalasi
+       15-modda. Qimmatli qogʻozlarni joylashtirish va ularning muomalasi shartlari
+       Qimmatli qogʻozlarni Oʻzbekiston Respublikasi hududida joylashtirishga va ularning muomalasiga, agar qonunda boshqacha tartib belgilanmagan boʻlsa, ular davlat roʻyxatidan oʻtkazilganidan keyin yoʻl qoʻyiladi.
+       Oʻzbekiston Respublikasi Vazirlar Mahkamasi:
+       Oʻzbekiston Respublikasining norezidentlari tomonidan chiqarilgan qimmatli qogʻozlarni Oʻzbekiston Respublikasi hududida;
+       Oʻzbekiston Respublikasining rezidentlari tomonidan chiqarilgan qimmatli qogʻozlarni, bundan xalqaro obligatsiyalar mustasno Oʻzbekiston Respublikasi hududidan tashqarida joylashtirish hamda muomalaga kiritish kvotalari va tartibini belgilaydi.
+       Qimmatli qogʻozlarning qiymati Oʻzbekiston Respublikasi milliy valyutasida ifodalanadi, bundan xalqaro obligatsiyalarni joylashtirish hamda davlat aksiya paketlarini xorijiy investorlarga fond birjasi orqali sotish hollari mustasno.
+       16-modda. Qimmatli qogʻozlarga doir bitimlarni tuzish va roʻyxatdan oʻtkazish
+       Qimmatli qogʻozlarning uyushgan savdosida qimmatli qogʻozlarga doir bitimlarni tuzish va roʻyxatdan oʻtkazish ularni yozma ravishda (qogʻozda) rasmiylashtirish zaruratisiz elektron shaklda amalga oshiriladi. Qimmatli qogʻozlarga doir boshqa bitimlar yozma shaklda tuziladi va qonunchilikda belgilangan tartibda roʻyxatdan oʻtkazilishi lozim.
+       Uyushgan bozorlarda oldi-sotdi bitimlari tuzilganda ular yuzasidan hisob-kitob qilish muddatlari qimmatli qogʻozlar savdosini tashkil qilish qoidalari bilan, boshqa hollarda esa oldi-sotdi shartnomalari bilan belgilanadi. Belgilangan muddatlar buzilgan taqdirda bitim haqiqiy emas deb hisoblanadi.
+       Fond birjasida emissiyaviy qimmatli qogʻozlarga doir bitimlar tuzilganda sotuvchi (bundan emitent mustasno) Oʻzbekiston Respublikasi Istiqbolli loyihalar milliy agentligiga bitim summasining 0,01 foizi miqdorida yigʻim toʻlaydi. Bunda sotuvchining, shu jumladan Oʻzbekiston Respublikasi norezidentining tuzilgan bitim boʻyicha daromadlariga yuridik shaxslardan olinadigan foyda soligʻi va jismoniy shaxslardan olinadigan daromad soligʻi solinmaydi.
+       Qimmatli qogʻozlarga doir narxlarning, talab va taklifning darajasini saqlab turish uchun birja bitimlari tuzilganda market-meyker birjaga, Qimmatli qogʻozlar markaziy depozitariysiga, shuningdek Oʻzbekiston Respublikasi Markaziy bankiga yigʻimlar va boshqa toʻlovlar toʻlashdan ozod qilinadi.
+       17-modda. Qimmatli qogʻozlarni joylashtirish
+       Emitentlar qimmatli qogʻozlarni mustaqil ravishda, shuningdek banklar va investitsiya vositachilari orqali joylashtirish huquqiga ega.
+       Qimmatli qogʻozlarni joylashtirish quyidagi turlarda amalga oshirilishi mumkin:
+       qimmatli qogʻozlarni xususiy joylashtirish (oldindan maʼlum boʻlgan, soni cheklangan investorlar orasida ommaviy eʼlon bermagan va reklama kampaniyasi oʻtkazmagan holda yopiq obuna qilish);
+       qimmatli qogʻozlarni ommaviy joylashtirish (soni cheklanmagan investorlar orasida reklama kampaniyasini oʻtkazgan holda ochiq obuna qilish).
+       Ushbu moddaning ikkinchi qismida sanab oʻtilgan hollarning har biri uchun qimmatli qogʻozlar chiqarilishining eng kam yoki eng koʻp hajmi qonunchilikda belgilanishi mumkin.
+       Aksiyalarning ochiq obunasi qimmatli qogʻozlarning uyushgan savdosidagina oʻtkaziladi.
+       Banklar va investitsiya vositachilari emitentlar tomonidan chiqarilgan emissiyaviy qimmatli qogʻozlar chiqarilishining joylashtirilmagan qismini sotib olish majburiyatini olib yoki olmagan holda emissiyaviy qimmatli qogʻozlarni emitent nomidan sotish toʻgʻrisida emitentlar bilan shartnomalar tuzishi mumkin.
+       Joylashtirilayotgan qimmatli qogʻozlarning soni emissiyaviy qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorda koʻrsatilgan qimmatli qogʻozlar sonidan ortiq boʻlmasligi kerak.
+       Emitent emissiyaviy qimmatli qogʻozlarning haqiqatda joylashtirilgan sonini ularning chiqarilishi yakunlari toʻgʻrisidagi bildirishnomada koʻrsatadi. Emissiyaviy qimmatli qogʻozlarning chiqarilishi yakunlari toʻgʻrisidagi bildirishnomani taqdim etish tartibi qonunchilikda belgilanadi.
+       Emitent chiqarilayotgan emissiyaviy qimmatli qogʻozlarni joylashtirishni ularni chiqarish toʻgʻrisidagi qarorda nazarda tutilgan muddatda tugallashi shart, bu muddat qimmatli qogʻozlarning chiqarilishi davlat roʻyxatidan oʻtkazilgan kundan eʼtiboran bir yildan oshmasligi kerak.
+       Emissiyaviy qimmatli qogʻozlarni ommaviy joylashtirish emissiyaviy qimmatli qogʻozlarning chiqarilishi davlat roʻyxatidan oʻtkazilganligi toʻgʻrisidagi axborot belgilangan tartibda oshkor qilinganidan keyin kamida ikki hafta oʻtgach amalga oshiriladi.
+       Emitent, shuningdek u bilan shartnomaga koʻra emissiyaviy qimmatli qogʻozlar joylashtirilishini amalga oshiruvchi banklar va investitsiya vositachilari mazkur qimmatli qogʻozlar olinguniga qadar investorga qimmatli qogʻozlar emissiya risolasi va emissiyaviy qimmatli qogʻozlarni joylashtirish shartlari bilan tanishib chiqish imkoniyatini taʼminlashi shart.
+       Hujjatsiz shakldagi emissiyaviy qimmatli qogʻozlar ushbu qimmatli qogʻozlar joylashtirilishi muddati ichida ularning haqi toʻliq toʻlanganidan va ular oluvchilarning depo hisobvaraqlariga oʻtkazilganidan keyin joylashtirilgan hisoblanadi. 
+       18-modda. Qimmatli qogʻozlar muomalasi
+       Qimmatli qogʻozlar muomalasi qimmatli qogʻozlar bozorida yuridik va jismoniy shaxslar tomonidan bitimlar tuzish orqali amalga oshiriladi. Bunda aksiyalarning oldi-sotdi bitimlari qimmatli qogʻozlarning uyushgan savdosida amalga oshiriladi, bundan aksiyalarning aksiyadorlar tomonidan imtiyozli huquq asosida sotib olinishi yoki aksiyadorlarning talabiga koʻra aksiyadorlik jamiyati tomonidan qaytarib sotib olinishi, shuningdek Oʻzbekiston Respublikasi Prezidentining qarorlarida belgilangan hollar mustasno.
+       19-modda. Davlat qimmatli qogʻozlarini joylashtirish va ularning muomalasi
+       Davlat qimmatli qogʻozlarini joylashtirish va ularning muomalasi qonunchilikda belgilangan tartibda amalga oshiriladi.
+       20-modda. Depozit sertifikatlarini va veksellarni joylashtirish hamda ularning muomalasi
+       Depozit sertifikatlarini joylashtirish va ularning muomalasi qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan kelishilgan holda Oʻzbekiston Respublikasi Markaziy banki tomonidan belgilangan tartibda amalga oshiriladi.
+       Veksellarni joylashtirish va ularning muomalasi qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan kelishilgan holda Oʻzbekiston Respublikasi Moliya vazirligi va Oʻzbekiston Respublikasi Markaziy banki tomonidan belgilangan tartibda amalga oshiriladi.
+       21-modda. Qimmatli qogʻozlar savdosining tashkilotchilari
+       Qimmatli qogʻozlar savdosining tashkilotchilari quyidagilardir:
+       fond birjasi;
+       fond boʻlimini tashkil etgan valyuta birjasi;
+       Qimmatli qogʻozlar savdosining tashkilotchilari rioya etilishi shart boʻlgan qimmatli qogʻozlar savdosini tashkil qilish qoidalarini tasdiqlaydi.
+       Qimmatli qogʻozlar savdosining tashkilotchilari oʻz faoliyatini tegishli litsenziya asosida amalga oshiradi.
+       Qimmatli qogʻozlar savdosining tashkilotchilari sotuvchidan sotuvga qoʻyilayotgan qimmatli qogʻozlarni oldindan baholash oʻtkazilishini talab qilishga, agar bunday talab qonunchilikda belgilanmagan boʻlsa, shuningdek qimmatli qogʻozlarni ularning nominal qiymatidan past narxda realizatsiya qilishga taqiq belgilashga haqli emas.
+       22-modda. Kliringni amalga oshirish
+       Kliring qimmatli qogʻozlar savdosining tashkilotchisi tomonidan amalga oshiriladi. Bunda bitimlar natijalari boʻyicha qimmatli qogʻozlardagi va pul mablagʻlaridagi hisob-kitoblar qimmatli qogʻozlar savdosi tashkilotchisining kliring topshirigʻi asosida amalga oshiriladi.
+       Kliringni amalga oshirish tartibi qonunchilik va qimmatli qogʻozlar savdosini tashkil qilish qoidalari bilan belgilanadi.
+       23-modda. Kafolat fondi
+       Investitsiya vositachisi tomonidan investorga yetkazilgan zararning oʻrnini qoplash uchun qimmatli qogʻozlar savdosining tashkilotchisi har bir investitsiya vositachisiga tegadigan vositachilik haqining chegirib qolinadigan qismi hisobidan kafolat fondini shakllantiradi. Kafolat fondining mablagʻlari investitsiya vositachilariga tegishli boʻlib, har bir investitsiya vositachisi boʻyicha alohida shakllantiriladi va hisobga olinadi.
+       Kafolat fondining mablagʻlaridan boshqa maqsadlarda foydalanilishi mumkin emas va ushbu mablagʻlar investitsiya vositachisiga u investitsiya vositachisi sifatidagi faoliyatini tugatgan taqdirda qaytarilishi kerak.
+       Kafolat fondini shakllantirish va undan foydalanish tartibi qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilanadi. 
+4-bob. Qimmatli qogʻozlar bozorida professional faoliyat
+       24-modda. Qimmatli qogʻozlar bozorida professional faoliyatni amalga oshirish
+       Qimmatli qogʻozlar bozorida professional faoliyat qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan beriladigan litsenziya asosida amalga oshiriladi, ushbu Qonunning 28, 29 va 31-moddalarida belgilangan hollar bundan mustasno.
+       Qimmatli qogʻozlar bozorida professional faoliyat quyidagilar sifatida amalga oshiriladi:
+       investitsiya vositachisi;
+       investitsiya maslahatchisi;
+       investitsiya fondi;
+       investitsiya aktivlarini ishonchli boshqaruvchi;
+       qimmatli qogʻozlarning birjadan tashqari savdosi tashkilotchisi.
+       Litsenziya talabgoriga uning arizasiga binoan qimmatli qogʻozlar bozorida professional faoliyatni yoki mazkur faoliyat turining bir qismini amalga oshirish uchun litsenziya berilishi mumkin. Litsenziya talabgori boʻlgan chet el investitsiyalari ishtirokidagi korxona qimmatli qogʻozlar bozorida professional faoliyatni amalga oshirishga litsenziya berilganligi uchun davlat boji va litsenziya talabgorining litsenziya berish toʻgʻrisidagi arizasini koʻrib chiqqanlik uchun yigʻim toʻlashdan ozod qilinadi. Qimmatli qogʻozlar bozorida professional faoliyatni amalga oshirish uchun litsenziya qimmatli qogʻozlar bozorida professional faoliyatni birga qoʻshib olib borish uchun belgilangan cheklovlar hisobga olingan holda beriladi.
+       Qimmatli qogʻozlar bozori mutaxassisining malaka sertifikati boʻlgan kamida ikki xodimga ega yuridik shaxslargina (bundan investitsiya fondi mustasno) qimmatli qogʻozlar bozorining professional ishtirokchilari boʻlishi mumkin. Qimmatli qogʻozlar bozori mutaxassisining malaka sertifikati besh yil muddatga beriladi.
+       Qimmatli qogʻozlar bozorida professional faoliyatni amalga oshiruvchi yuridik shaxslarning tashkil etilishi, faoliyati, qayta tashkil etilishi va tugatilishi tartibi qonunchilikda belgilanadi.
+        
+       Chet el tashkiloti tomonidan qimmatli qogʻozlar bozorida professional faoliyat yangi yuridik shaxsni — qimmatli qogʻozlar bozorining professional ishtirokchisini tashkil etish yoxud faoliyat koʻrsatayotgan yuridik shaxsning — qimmatli qogʻozlar bozori professional ishtirokchisining ustav kapitalida ishtirok etish yoʻli bilan amalga oshiriladi.
+       25-modda. Qimmatli qogʻozlar bozorida professional faoliyatni birga qoʻshib olib borishga doir cheklovlar 
+       Investitsiya fondining faoliyati boshqa turdagi faoliyat bilan birga qoʻshib olib borilishi mumkin emas.
+       Investitsiya maslahatchisi, agar u emitentlarga qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish tizimiga taalluqli hujjatlarni qabul qilish, ularga ishlov berish va ularni topshirish xizmatlarini (transfer-agent xizmatlarini) koʻrsatayotgan boʻlsa, investitsiya vositachisi professional faoliyatini amalga oshirishga haqli emas.
+       Professional faoliyatni birga qoʻshib olib borish va qimmatli qogʻozlar boʻyicha operatsiyalarni oʻtkazishga doir qoʻshimcha cheklovlar qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilanadi.
+       26-modda. Investitsiya vositachisining faoliyati
+       Mijozning topshirigʻiga binoan, mijoz nomidan va uning hisobidan qimmatli qogʻozlarga doir bitimlar hamda operatsiyalarni amalga oshiruvchi qimmatli qogʻozlar bozorining professional ishtirokchisi investitsiya vositachisidir.
+       Investitsiya vositachisi mijozlarining qimmatli qogʻozlari va pul mablagʻlari, agar qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan boshqacha qoida belgilanmagan boʻlsa, investitsiya vositachisining oʻz hisobvaraqlaridan alohida hisobvaraqlarda turishi kerak.
+       Investitsiya vositachisi har bir mijozning qimmatli qogʻozlari va pul mablagʻlari hisobini yuritishi, qimmatli qogʻozlarga doir bitimlar va operatsiyalarni mijoz bilan tuzilgan shartnomaga muvofiq amalga oshirishi, tuzilgan bitimlar va amalga oshirilgan operatsiyalar toʻgʻrisida unga hisobot berishi shart.
+       Investitsiya vositachisi mijozlarning qimmatli qogʻozlarni sotib olish va sotishga buyurtma berish, oʻtkazish borasidagi topshiriqlarini vijdonan hamda ularning kelib tushishi tartibida bajarishi kerak. Mijozlarning topshirigʻiga binoan amalga oshiriladigan bitimlar investitsiya vositachisining oʻz dilerlik operatsiyalariga nisbatan ustun ravishda bajarilishi kerak.
+       Agar investitsiya vositachisi tomonidan tegishli topshiriq olinguniga qadar investitsiya vositachisi va uning mijozi oʻrtasidagi mijoz xabardor qilinmagan manfaatlar toʻqnashuvi mijozga zarar yetkazilishiga olib kelsa, investitsiya vositachisi zararning oʻrnini qonunchilikda belgilangan tartibda qoplashi shart.
+       Investitsiya vositachisi tomonidan investitsiya vositachisi sifatidagi faoliyatni toʻxtatib turish, tugatish toʻgʻrisida qaror qabul qilingan yoki u tugatilgan taqdirda, tegishli axborot qaror qabul qilingan paytdan eʼtiboran ikki ish kuni ichida ommaviy axborot vositalarida va fond birjasining rasmiy veb-saytida eʼlon qilinadi. Investitsiya vositachisi sifatida oʻz faoliyatini toʻxtatib turayotgan, tugatayotgan yoki tugatilayotgan investitsiya vositachisida hisobi yuritilayotgan qimmatli qogʻozlar mijozning qaroriga koʻra bir haftalik muddatda boshqa investitsiya vositachisiga oʻtkaziladi, bunday qaror mavjud boʻlmagan taqdirda esa, qimmatli qogʻozlarning egasi tanlagan investitsiya vositachisiga qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilangan muddatlarda keyinchalik oʻtkazish uchun Qimmatli qogʻozlar markaziy depozitariysiga (faoliyatni toʻxtatib turish hollari bundan mustasno) oʻtkaziladi.
+       Yuridik shaxsni — investitsiya vositachisini tugatish qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi ushbu moddaning oltinchi qismida koʻrsatilgan harakatlar yakunlanganligini yozma ravishda tasdiqlaganidan keyingina amalga oshirilishi mumkin.
+       27-modda. Investitsiya vositachisining depozitar operatsiyalarni amalga oshirish chogʻidagi faoliyati
+       Investitsiya vositachisi depozitar operatsiyalarni amalga oshirayotganda:
+       manfaatdor shaxslarning qimmatli qogʻozlarni va pul mablagʻlarini hisobga olish qoidalari bilan tanishib chiqish imkoniyatini taʼminlashi;
+       deponentlarning har biriga tegishli qimmatli qogʻozlarning soni va nominal qiymati hisobini yuritishi;
+       qimmatli qogʻozlarga majburiyatlar yuklatilganligi, shuningdek ularning tugatilganligi faktlari hisobini yuritishi;
+       qimmatli qogʻozlarga doir bitimlar tuzish va mijozlarning hisobvaraqlari boʻyicha operatsiyalar bajarish uchun asos boʻlgan birlamchi hujjatlarni idoraviy arxivda saqlashi;
+       depo hisobvaraqlari boʻyicha operatsiyalarni deponentlarning yoki ular vakil qilgan shaxslarning yozma topshiriqlari asosida amalga oshirishi, qonunchilikda nazarda tutilgan hollar bundan mustasno;
+       deponentning qimmatli qogʻozlarga boʻlgan mulk huquqi va boshqa ashyoviy huquqlarini uning depo hisobvaragʻidan tegishli koʻchirma bergan holda tasdiqlashi;
+       mijozlarning hisobvaraqlaridagi qimmatli qogʻozlar va pul mablagʻlarining mavjudligi va harakati, ularning holati toʻgʻrisidagi axborotning maxfiyligini taʼminlashi, qonunchilikda nazarda tutilgan hollar bundan mustasno;
+       depo hisobvaragʻi boʻyicha operatsiyalarni qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining, monopoliyaga qarshi davlat organining, shuningdek sudning, surishtiruv va tergov organlarining qarorlari asosida qonunchilikda belgilangan tartibda toʻxtatib turishi;
+       oʻz faoliyatiga taalluqli maʼlumotlarni qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining, davlat soliq xizmati organining, monopoliyaga qarshi davlat organining, shuningdek sudning, surishtiruv va tergov organlarining yozma talablariga koʻra qonunchilikda belgilangan doirada va tartibda taqdim etishi;
+       oʻzi yetkazgan zararning oʻrnini ushbu Qonunning 23-moddasiga muvofiq kafolat fondini shakllantirishda ishtirok etish, shuningdek qonunchilikka muvofiq javobgarlikni sugʻurta qilish yoʻli bilan qoplash imkoniyatini nazarda tutishi;
+       qimmatli qogʻozlar egalarining reyestrini shakllantirish uchun zarur boʻlgan qimmatli qogʻozlarning egalari toʻgʻrisidagi maʼlumotlarni Qimmatli qogʻozlar markaziy depozitariysining talabiga koʻra taqdim etishi;
+       oʻzida hisobga olinadigan qimmatli qogʻozlar va ularning emitentlari rekvizitlariga Qimmatli qogʻozlar markaziy depozitariysidan olingan maʼlumotlar asosida oʻzgartirishlar kiritishi shart.
+       Investitsiya vositachisining zimmasida qonunchilikka muvofiq boshqa majburiyatlar ham boʻlishi mumkin.
+       Investitsiya vositachisi tomonidan mijozlarning pul mablagʻlarini hisobga olish va ularning but saqlanishini taʼminlash tartibi qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilanadi.
+       28-modda. Investitsiya maslahatchisining faoliyati
+       Qimmatli qogʻozlarni chiqarish, joylashtirish va ularning muomalasi, qimmatli qogʻozlar bozori va uning ishtirokchilari holatini tahlil qilish hamda prognoz qilish masalalariga doir maslahat xizmatlari, transfer-agent xizmatlarini koʻrsatuvchi, shuningdek qimmatli qogʻozlar bozori mutaxassislarini qayta tayyorlashni va ularning malakasini oshirishni amalga oshiruvchi yuridik shaxs investitsiya maslahatchisidir.
+       29-modda. Investitsiya fondining faoliyati
+       Investorlarning pul mablagʻlarini va qoʻyilmalarini investitsiya aktivlariga jalb qilish maqsadida aksiyalar chiqaradigan yuridik shaxs — aksiyadorlik jamiyati investitsiya fondidir.
+       Investitsiya fondi yuridik shaxsning boshqa tashkiliy-huquqiy shakllariga oʻzgartirilishga haqli emas. Investitsiya fondini qoʻshib yuborish, qoʻshib olish, boʻlish, ajratib chiqarish qonunchilikda belgilangan tartibda amalga oshiriladi.
+       Investitsiya fondi faoliyatini amalga oshirish uchun litsenziya talab etilmaydi va investitsiya fondining faoliyati qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan oʻz vakolatlari doirasida tartibga solinadi.
+       Investitsiya fondi quyidagi huquqlarga ega emas:
+       korporativ va infratuzilma obligatsiyalarini, shuningdek imtiyozli aksiyalarni chiqarish;
+       fond sof aktivlarining 10 foizidan ortigʻini bir emitentning qimmatli qogʻozlariga yoki masʼuliyati cheklangan jamiyatning ulushiga investitsiyalash;
+       toʻlanishi lozim boʻlgan qarzning jami hajmi kredit va (yoki) qarz bitimi imzolanadigan sanadagi holatga koʻra investitsiya fondi sof aktivlari qiymatining 15 foizidan oshib ketgan taqdirda kredit va (yoki) qarz mablagʻlarini jalb etish. Kredit va (yoki) qarz muddati uch oydan oshib ketmasligi kerak; 
+       kafil boʻlish, mol-mulkni yoki mulkiy huquqlarni garovga qoʻyish;
+       tashkiliy-huquqiy shakli oʻz ishtirokchilarining qoʻshimcha javobgarligini nazarda tutadigan yuridik shaxslarning qimmatli qogʻozlariga investitsiyalarni amalga oshirish;
+       investitsiya aktivlarining ishonchli boshqaruvchisi, auditorlik tashkilotlari tomonidan chiqarilgan qimmatli qogʻozlarga investitsiyalarni amalga oshirish;
+       boshqa investitsiya fondlarining aksiyalarini olish va ularga ega boʻlish;
+       umumiy summasi fond sof aktivlarining 10 foizidan ortiq investitsiyalarni amalga oshirish, bundan qimmatli qogʻozlarga qoʻyish mustasno.
+       30-modda. Investitsiya aktivlarini ishonchli boshqaruvchining faoliyati
+       Yuridik shaxsning — ishonchli boshqaruvchining oʻziga egalik qilish uchun topshirilgan va boshqa shaxsga tegishli boʻlgan:
+       qimmatli qogʻozlarni, shu jumladan investitsiya aktivlarini boshqarish jarayonida olinadigan qimmatli qogʻozlarni;
+       qimmatli qogʻozlarga investitsiya qilish uchun moʻljallangan va investitsiya aktivlarini boshqarish jarayonida olinadigan pul mablagʻlarini shu shaxsning yoki u koʻrsatgan shaxsning manfaatlarini koʻzlab, oʻz nomidan ishonchli boshqaruvni belgilangan muddat mobaynida amalga oshirishi investitsiya aktivlarini boshqarish boʻyicha faoliyatdir.
+       31-modda. Transfer-agent faoliyati
+       Qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish tizimiga taalluqli hujjatlarning qabul qilinishi, ularga ishlov berilishi va ularning oʻtkazilishi boʻyicha xizmatlar koʻrsatuvchi yuridik shaxs transfer-agentdir.
+       Emitent, shuningdek qimmatli qogʻozlarga doir bitimlar tuzuvchi shaxslar transfer-agentning mijozlaridir. 
+       Transfer-agent emitentga aksiyadorlarning umumiy yigʻilishini tashkil etish va oʻtkazish yuzasidan xizmatlar koʻrsatishga haqlidir.
+       32-modda. Qimmatli qogʻozlarning birjadan tashqari savdosi tashkilotchisi faoliyati
+       Investorlarga vositachilarni jalb etmay turib savdoda ishtirok etish imkoniyatini beruvchi, qimmatli qogʻozlar savdosini tashkil etish boʻyicha faoliyatni buyurtmalar qabul qilish punktlaridan, maxsus kompyuter savdo tizimlaridan foydalangan holda amalga oshiruvchi yuridik shaxs qimmatli qogʻozlarning birjadan tashqari savdosi tashkilotchisidir.
+       Qimmatli qogʻozlarning birjadan tashqari savdosi tashkilotchisi faoliyatini amalga oshirish tartibi qonunchilikda belgilanadi.
+       33-modda. Qimmatli qogʻozlarga doir operatsiyalar boʻyicha hisob-kitoblar
+       Qimmatli qogʻozlarning uyushgan savdosida qimmatli qogʻozlarga doir bitimlar natijalari boʻyicha pul mablagʻlarining hisob-kitoblari Oʻzbekiston Respublikasi Markaziy banki, tijorat banklari va (yoki) Qimmatli qogʻozlar markaziy depozitariysi tomonidan amalga oshiriladi.
+       Qimmatli qogʻozlarning uyushgan savdosida qimmatli qogʻozlarga doir bitimlar natijalari boʻyicha qimmatli qogʻozlardagi hisob-kitoblar Qimmatli qogʻozlar markaziy depozitariysi va (yoki) investitsiya vositachisi tomonidan amalga oshiriladi.
+       34-modda. Qimmatli qogʻozlar bozoridagi operatsiyalar va bitimlarni hisobga olish 
+       Qimmatli qogʻozlar savdosi tashkilotchilari, Qimmatli qogʻozlar markaziy depozitariysi va qimmatli qogʻozlar bozorining professional ishtirokchisi qimmatli qogʻozlar bozorida oʻzlari amalga oshirayotgan barcha operatsiyalar va bitimlarning hisobini yuritadi, ularni hisobga olishga doir hujjatlarning qonunchilikda belgilangan tartibda saqlanishini taʼminlaydi.
+       35-modda. Qimmatli qogʻozlar bozori professional ishtirokchisi va uning mijozi munosabatlari
+       Qimmatli qogʻozlar bozori professional ishtirokchisi va uning mijozi munosabatlari qonunchilik hamda shartnoma bilan tartibga solinadi.
+       Mijozlar hisobidan bitimlar tuzish mijozlar bilan tuzilgan shartnomalar asosida faqat investitsiya vositachisi va investitsiya aktivlarini ishonchli boshqaruvchi tomonidan amalga oshirilishi mumkin.
+       Investitsiya vositachisi uzaytirish imkoniyati bilan bir yil uchun tuziladigan shartnoma asosida mijozlarga:
+       mijozning nomidan va hisobidan brokerlik xizmatlari;
+       oʻz nomidan, lekin mijozning hisobidan brokerlik xizmatlari;
+       depozitar xizmatlar koʻrsatadi. 
+       Investitsiya vositachisi mijozlarga depo hisobvaraqlari ochishga, qimmatli qogʻozlarni sotib olish va sotish uchun ularning topshiriqlarini qabul qilishga, shuningdek qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi hamda axborot texnologiyalari va kommunikatsiyalar sohasidagi maxsus vakolatli organ tomonidan belgilangan tartibda mijozlarga elektron shaklda va oʻzga aloqa vositalari orqali boshqa xizmatlarni koʻrsatishga haqli.
+5-bob. Qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish
+       36-modda. Qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olishni tashkil etish
+       Qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish qimmatli qogʻozlar egalarining Qimmatli qogʻozlar markaziy depozitariysida, investitsiya vositachisida va (yoki) chet ellik nominal saqlovchida ochiladigan depo hisobvaraqlarida amalga oshiriladi, bundan qonunchilikda nazarda tutilgan hollar mustasno. 
+       Investitsiya vositachisi va chet ellik nominal saqlovchi oʻz mijozlarining hisobvaraqlarida ularning Qimmatli qogʻozlar markaziy depozitariysidagi hisobvaraqlarida jamlab hisobga olib boriladigan hujjatsiz qimmatli qogʻozlarga boʻlgan huquqlari hisobini yuritadi.
+       37-modda. Qimmatli qogʻozlarga boʻlgan huquqlarning oʻtishi
+       Hujjatsiz qimmatli qogʻozga boʻlgan huquqlar oluvchiga uning depo hisobvaragʻi boʻyicha tegishli kirim yozuvi kiritilgan paytdan eʼtiboran oʻtadi va depo hisobvaragʻidan koʻchirma bilan tasdiqlanadi. 
+       Nettingdan foydalanilganda qimmatli qogʻozlarga boʻlgan huquqlar oʻtishining oʻziga xos xususiyatlari qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilanadi.
+       Egasining nomi yozilgan hujjatli qimmatli qogʻozga boʻlgan mulk huquqi oluvchiga qimmatli qogʻoz blankasiga belgilangan tartibda tegishli yozuv kiritilgan paytdan eʼtiboran oʻtadi.
+       Qimmatli qogʻoz bilan tasdiqlanadigan huquqlar ushbu qimmatli qogʻozga boʻlgan huquqlar oʻtgan paytdan eʼtiboran oluvchiga oʻtadi.
+       38-modda. Qimmatli qogʻozlar markaziy depozitariysi
+       Qimmatli qogʻozlar markaziy depozitariysi aksiyadorlik jamiyati shaklida tashkil etiladi hamda oʻz faoliyatini xizmatlar koʻrsatishdan olingan daromadlar va boshqa tushumlar hisobidan amalga oshiradi.
+       Qimmatli qogʻozlar markaziy depozitariysi xizmatlari uchun tariflarning miqdorlari jamiyat ustavida belgilangan uning vakolatli boshqaruv organi tomonidan qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan kelishilgan holda tasdiqlanadi.
+       Qimmatli qogʻozlar markaziy depozitariysining qimmatli qogʻozlarni hisobga qoʻyish, ularni hisobga olish va saqlash, shuningdek qimmatli qogʻozlar boʻyicha hisob-kitoblarni amalga oshirish borasidagi faoliyati qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan, qimmatli qogʻozlarga doir bitimlar natijalari boʻyicha pul mablagʻlari hisob-kitoblariga oid faoliyati esa Oʻzbekiston Respublikasi Markaziy banki tomonidan tartibga solinadi.
+       39-modda. Qimmatli qogʻozlar markaziy depozitariysining mutlaq vazifalari
+       Qimmatli qogʻozlar markaziy depozitariysining mutlaq vazifalari quyidagilardan iborat:
+       qimmatli qogʻozlarni hisobga qoʻyish;
+       hujjatli qimmatli qogʻozlarni saqlash;
+       qimmatli qogʻozlar chiqarilganligini tasdiqlovchi hujjatlarni saqlash;
+       qimmatli qogʻozlar egalarining reyestrlarini yuritish;
+       davlatning qimmatli qogʻozlarga boʻlgan huquqlarini, shuningdek qimmatli qogʻozlarni boshqarish boʻyicha davlat vakolat bergan shaxslarning qimmatli qogʻozlarga boʻlgan huquqlarini hisobga olish;
+       investitsiya vositachilari va chet ellik nominal saqlovchilarning depo hisobvaraqlarini yuritish;
+       qimmatli qogʻozlardagi hisob-kitoblarni va qimmatli qogʻozlarning uyushgan savdosida qimmatli qogʻozlarga doir bitimlar natijalari boʻyicha pul mablagʻlaridagi hisob-kitoblarni belgilangan tartibda amalga oshirish;
+       Oʻzbekiston Respublikasining norezidentlari tomonidan chiqarilgan, Oʻzbekiston Respublikasi hududida muomalaga kiritilgan qimmatli qogʻozlarni hisobga olish;
+       Oʻzbekiston Respublikasining rezidentlari tomonidan chiqarilgan, Oʻzbekiston Respublikasi hududidan tashqarida muomalaga kiritilgan qimmatli qogʻozlarni hisobga olish;
+       agar qonunchilikda boshqacha qoida belgilanmagan boʻlsa, investitsiya fondlari tomonidan chiqarilgan va ularga tegishli qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish;
+       Deponentlarning yagona bazasini yuritish;
+       Oʻzbekiston Respublikasining rezidentlari tomonidan chiqarilgan emissiyaviy qimmatli qogʻozlarga xalqaro kodlarni berish;
+       depo hisobvaraqlari boʻyicha qimmatli qogʻozlar harakati toʻgʻrisidagi axborotni toʻplash va tizimlashtirish.
+       Qimmatli qogʻozlar markaziy depozitariysining mutlaq vazifalari, shu jumladan Oʻzbekiston Respublikasining rezidentlari tomonidan chiqarilgan, Oʻzbekiston Respublikasi hududidan tashqarida muomalaga kiritilgan qimmatli qogʻozlarni hisobga olish boʻyicha vazifalari xalqaro obligatsiyalarga nisbatan tatbiq etilmaydi.
+       40-modda. Qimmatli qogʻozlar markaziy depozitariysining huquq va majburiyatlari
+       Qimmatli qogʻozlar markaziy depozitariysi: 
+       Oʻzbekiston Respublikasi rezidentlari tomonidan chiqarilgan va Oʻzbekiston Respublikasi hududidan tashqarida muomalada boʻlgan qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olish uchun chet ellik nominal saqlovchiga hisobvaraqlar ochishga; 
+       emitent bilan tuziladigan shartnomaga koʻra daromadlarni (dividendlarni) va qimmatli qogʻozlarning qiymatlarini toʻlash uchun moʻljallangan pul mablagʻlarini olishga, shuningdek tegishli toʻlovlarni amalga oshirishga; 
+       jismoniy va yuridik shaxslarning milliy hamda xorijiy valyutada bank hisobvaraqlarini, shu jumladan vakillik hisobvaraqlarini ochishga va yuritishga;
+       xorijiy banklar va markaziy depozitariylarda vakillik hisobvaraqlarini ochishga;
+       qimmatli qogʻozlar egalarining reyestrlarini yuritishga doir vazifalarni bajarishda investitsiya vositachilaridan va chet ellik nominal saqlovchilardan mazkur reyestrlarni shakllantirish uchun zarur boʻlgan maʼlumotlarni olishga haqli.
+       Qimmatli qogʻozlar markaziy depozitariysi qonunchilikka muvofiq boshqa huquqlarga ham ega boʻlishi mumkin.
+       Qimmatli qogʻozlar markaziy depozitariysi:
+       manfaatdor shaxslarning qimmatli qogʻozlarni Qimmatli qogʻozlar markaziy depozitariysida saqlash va hisobga olish qoidalari bilan tanishib chiqish imkoniyatini taʼminlashi;
+       saqlash uchun qabul qilib olingan hujjatli qimmatli qogʻozlarning but saqlanishini taʼminlashi;
+       oʻzining har bir deponentiga tegishli qimmatli qogʻozlar sonining va nominal qiymatining hisobini yuritishi;
+       qimmatli qogʻozlarga majburiyatlar yuklatilganligi, shuningdek ularning tugatilganligi faktlari hisobini yuritishi;
+       oʻz deponentlarining depo hisobvaraqlari boʻyicha operatsiyalarni amalga oshirishga asos boʻlgan birlamchi hujjatlarni idoraviy arxivda saqlashi;
+       oʻz deponentlarining depo hisobvaraqlari boʻyicha operatsiyalarni deponentlarning yoki ular vakil qilgan shaxslarning yozma topshiriqlari asosida amalga oshirishi, qonunchilikda nazarda tutilgan hollar bundan mustasno;
+       oʻz deponentining qimmatli qogʻozlarga boʻlgan mulk huquqi va boshqa ashyoviy huquqlarini uning depo hisobvaragʻidan tegishli koʻchirma bergan holda tasdiqlashi;
+       depo hisobvaraqlari boʻyicha qimmatli qogʻozlarning mavjudligi va harakati, holati toʻgʻrisidagi axborotning maxfiyligini taʼminlashi, qonunchilikda nazarda tutilgan hollar bundan mustasno;
+       oʻz deponentining depo hisobvaragʻi boʻyicha operatsiyalarni qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining, monopoliyaga qarshi davlat organining, shuningdek sudning, surishtiruv va tergov organlarining qarorlari asosida qonunchilikda belgilangan tartibda toʻxtatib turishi;
+       oʻz faoliyatiga taalluqli maʼlumotlarni qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining, davlat soliq xizmati organining, monopoliyaga qarshi davlat organining, shuningdek sudning, surishtiruv va tergov organlarining yozma talablariga koʻra qonunchilikda belgilangan doirada hamda tartibda taqdim etishi shart.
+       Qimmatli qogʻozlar markaziy depozitariysining zimmasida qonunchilikka muvofiq boshqa majburiyatlar ham boʻlishi mumkin.
+       Qimmatli qogʻozlar markaziy depozitariysi qimmatli qogʻozlar egalarining reyestrlarini yuritish vazifasini bajarayotganda:
+       qimmatli qogʻozlar egalarining belgilangan sanadagi holatga koʻra shakllantirilgan reyestrlarini saqlashi;
+       qimmatli qogʻozlar egalarining reyestrlaridagi mavjud axborotni ushbu Qonunga muvofiq taqdim etishi;
+       qimmatli qogʻozlar egalarining reyestrlaridagi mavjud axborotning maxfiyligini taʼminlashi; 
+       bank faoliyati toʻgʻrisidagi qonunchilik buzilganligi faktlari koʻrib chiqilgan taqdirda, tijorat banklari tomonidan chiqarilgan qimmatli qogʻozlar egalarining shakllantirilgan reyestridagi mavjud axborotni Oʻzbekiston Respublikasi Markaziy bankining yozma soʻroviga koʻra taqdim etishi shart;
+       Qimmatli qogʻozlar markaziy depozitariysining zimmasida qimmatli qogʻozlar egalarining reyestrlarini yuritish vazifasini bajarayotganda qonunchilikka muvofiq boshqa majburiyatlar ham boʻlishi mumkin.
+       Qimmatli qogʻozlar markaziy depozitariysi:
+       oʻziga saqlash uchun topshirilgan qimmatli qogʻozlardan foydalanishga;
+       boshqa yuridik va jismoniy shaxslarga moliyaviy yordam koʻrsatishga;
+       boshqa yuridik shaxslarning ustav fondida ishtirok etishga haqli emas.
+       41-modda. Deponentning huquq va majburiyatlari
+       Deponent quyidagi huquqlarga ega:
+       oʻz depo hisobvaragʻidagi qimmatli qogʻozlarni qonunchilikda belgilangan doirada va tartibda tasarruf etish;
+       investitsiya vositachisiga va (yoki) Qimmatli qogʻozlar markaziy depozitariysiga oʻz depo hisobvaragʻi boʻyicha operatsiyalarni bajarish yuzasidan topshiriqlar berish (uchinchi shaxslar oldida majburiyatlar yuklatilgan qimmatli qogʻozlarni qimmatli qogʻozlarga majburiyatlar yuklatish tugallanganligini tasdiqlovchi hujjatlarni taqdim etmasdan oʻtkazishga doir farmoyish bundan mustasno), soʻrovlar kiritish, topshiriqlar bajarilganligi toʻgʻrisida hisobot talab qilish;
+       hujjatsiz va harakatsizlantirilgan hujjatli qimmatli qogʻozlarga boʻlgan mulk huquqini hamda boshqa ashyoviy huquqlarni hisobga olishni investitsiya vositachisiga va (yoki) Qimmatli qogʻozlar markaziy depozitariysiga topshirish;
+       shartnoma shartlariga muvofiq oʻz depo hisobvaragʻining holati haqida koʻchirma va oʻz depo hisobvaragʻi boʻyicha oʻtkazilgan operatsiyalar toʻgʻrisida hisobot olish.
+       Deponent qonunchilikka muvofiq boshqa huquqlarga ham ega boʻlishi mumkin.
+       Deponent:
+       oʻz vakolatli shaxsining vakolatlari tugatilganligi yoki oʻzgartirilganligi toʻgʻrisida investitsiya vositachisini va (yoki) Qimmatli qogʻozlar markaziy depozitariysini xabardor qilishi;
+       oʻz rekvizitlaridagi barcha oʻzgarishlar haqida investitsiya vositachisiga va (yoki) Qimmatli qogʻozlar markaziy depozitariysiga xabar berishi;
+       investitsiya vositachisi va (yoki) Qimmatli qogʻozlar markaziy depozitariysi yozma xabarlarining toʻgʻriligi va toʻliqligini tekshirishi hamda aniqlangan noaniqliklar haqida ularga oʻz vaqtida xabar berishi shart.
+       Deponentning zimmasida qonunchilikka muvofiq boshqa majburiyatlar ham boʻlishi mumkin.
+       42-modda. Qimmatli qogʻozlarning va hisobga olish registrlaridagi yozuvlarning but saqlanishi kafolatlari 
+       Hujjatli qimmatli qogʻozlarning but saqlanishi ularning egalari tomonidan, ular Qimmatli qogʻozlar markaziy depozitariysiga topshirilgan taqdirda esa, mazkur depozitariy tomonidan qimmatli qogʻozlarni saqlash joylarida depozitar operatsiyalar standartlariga muvofiq taʼminlanadi. 
+       Qimmatli qogʻozlar markaziy depozitariysining va investitsiya vositachilarining hisobga olish registrlaridagi qimmatli qogʻozlar hamda elektron yozuvlarning but saqlanishi, shu jumladan texnik tizimda nosozliklar va kutilmagan holatlar yuzaga kelgan taqdirda ularni tezkor qayta tiklash qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi bilan birgalikda axborot texnologiyalari va kommunikatsiyalari sohasidagi maxsus vakolatli organ tomonidan belgilanadigan tartibda taʼminlanadi.
+6-bob. Qimmatli qogʻozlar bozorida axborotni oshkor qilish
+       43-modda. Qimmatli qogʻozlar bozorida axborotni oshkor qilish toʻgʻrisidagi umumiy qoidalar
+       Qimmatli qogʻozlar bozorida axborot ochiq va oshkoradir, qonunda belgilangan hollarda oshkor qilinadigan maxfiy axborot bundan mustasno.
+       Qonunchilikda nazarda tutilgan hollarda, qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi, qimmatli qogʻozlar bozori ishtirokchilari, shu jumladan mikrofirmalar va kichik korxonalar axborotni:
+       ommaviy axborot vositalarida eʼlon qilish;
+       hisobotlar, maʼlumotlar va boshqa axborot taqdim etish orqali oshkor qiladi.
+       Qimmatli qogʻozlar bozorining professional ishtirokchisi, emitent, fond birjasi ushbu Qonunda nazarda tutilgan axborotni investorlarga va qimmatli qogʻozlarning egalariga qogʻozda taqdim etganlik uchun axborotdan nusxa koʻchirishga sarflanadigan xarajatlardan oshmaydigan miqdorda haq olishi mumkin.
+       44-modda. Axborotning emitent tomonidan oshkor qilinishi
+       Emitent (davlat qimmatli qogʻozlari emitenti bundan mustasno) axborotni:
+       qimmatli qogʻozlar emissiya risolasida;
+       emitentning yilning har choragidagi va yillik hisobotida; 
+       emitentning faoliyatidagi muhim faktlar toʻgʻrisidagi xabarlarda oshkor qiladi.
+       Qimmatli qogʻozlar emissiya risolasida quyidagilar koʻrsatilishi kerak:
+       emitentning toʻliq va qisqartirilgan nomi, uning joylashgan yeri (pochta manzili), bank rekvizitlari, yuridik shaxslarni davlat roʻyxatidan oʻtkazuvchi organlar (bundan buyon matnda roʻyxatdan oʻtkazuvchi organ deb yuritiladi), davlat statistikasi va soliq xizmati organlari tomonidan berilgan roʻyxatdan oʻtkazish va identifikatsiya raqamlari;
+       oxirgi uch yildagi yoki, agar emitent faoliyatni uch yildan kamroq muddat mobaynida amalga oshirayotgan boʻlsa, har bir tugallangan yil uchun buxgalteriya balanslari va moliyaviy natijalar toʻgʻrisidagi hisobotlar;
+       faoliyatning asosiy yoʻnalishlari va ishlab chiqarilayotgan mahsulot (xizmat) turlari;
+       mustaqil reyting bahosi, agar uning shunday bahosi boʻlsa, tegishli izohlari bilan; 
+       emitentning kuzatuv kengashi va ijroiya organi tarkibiga kiruvchi shaxslar roʻyxati, emitent aksiyalarining ularga tegishli miqdori (ustav fondidagi ulushlari miqdori) toʻgʻrisidagi maʼlumotlar;
+       emitent filiallari va vakolatxonalarining, shuʼba va tobe jamiyatlarining joylashgan yeri (pochta manzili) koʻrsatilgan roʻyxati;
+       emitent affillangan shaxslarining ularga tegishli aksiyalar miqdori va xillari koʻrsatilgan roʻyxati;
+       xodimlarning oxirgi uch yildagi oʻrtacha yillik soni;
+       oxirgi uch yilda muomalaga chiqarilgan qimmatli qogʻozlar, ularning chiqarilish hajmi va maqsadi, ular boʻyicha hisoblangan va emitent tomonidan toʻlangan dividendlar (foizlar) toʻgʻrisidagi maʼlumotlar;
+       oxirgi uch yilda emitentga nisbatan qoʻllanilgan sanksiyalar va emitent sudda javobgar yoki daʼvogar sifatida ishtirok etayotgan ishlar toʻgʻrisidagi maʼlumotlar;
+       qimmatli qogʻozlarni chiqarish toʻgʻrisidagi qarorga muvofiq qimmatli qogʻozlarni chiqarish va joylashtirish shartlari.
+       Emitentning har choraklik hisobotida quyidagilar koʻrsatilishi kerak:
+       emitentning toʻliq va qisqartirilgan nomi, uning joylashgan yeri (pochta manzili), bank rekvizitlari, roʻyxatdan oʻtkazuvchi organ, davlat statistikasi va soliq xizmati organlari tomonidan berilgan roʻyxatdan oʻtkazish va identifikatsiya raqamlari;
+       tegishli chorak yuzasidan buxgalteriya balansi va moliyaviy natijalar toʻgʻrisidagi hisobot.
+       Emitentning yillik hisobotida quyidagilar koʻrsatilishi kerak:
+       emitentning toʻliq va qisqartirilgan nomi, uning joylashgan yeri (pochta manzili), bank rekvizitlari, roʻyxatdan oʻtkazuvchi organ, davlat statistikasi va soliq xizmati organlari tomonidan berilgan roʻyxatdan oʻtkazish va identifikatsiya raqamlari;
+       oʻtgan yildagi xoʻjalik faoliyati natijalari haqidagi axborot;
+       kuzatuv kengashining, taftish komissiyasining yoki ijroiya organining tarkibidagi oʻzgarishlarning asoslari;
+       tegishli yil yuzasidan buxgalteriya balansi va moliyaviy natijalar toʻgʻrisidagi hisobot;
+       auditorlik tashkiloti xulosasining koʻchirma nusxasi;
+       qoʻshimcha chiqarilgan qimmatli qogʻozlar haqidagi asosiy maʼlumotlar;
+       hisobot yilida emitentning faoliyatidagi muhim faktlar.
+       boshqa yuridik shaxslarning 5 va undan ortiq foiz aksiyalariga (ulushlariga, paylariga) egaligi toʻgʻrisidagi axborot, agar emitentning aksiyalari fond birjasining birja kotirovkalash varagʻiga kiritilgan boʻlsa.
+       Emitentning faoliyatidagi muhim faktlar quyidagilardir:
+       emitentning nomi yoki joylashgan yeri (pochta manzili), elektron pochta manzili yoki veb-sayti oʻzgarganligi;
+       emitentning qayta tashkil etilganligi, faoliyati toʻxtatib turilganligi yoki tugatilganligi;
+       emitentning yuqori boshqaruv organi tomonidan qabul qilingan qarorlar;
+       qimmatli qogʻozlarga boʻlgan huquqlarning oʻzgarganligi;
+       kuzatuv kengashining, taftish komissiyasining yoki ijroiya organining tarkibidagi oʻzgarishlar;
+       emitentning filiallari va vakolatxonalari, shuʼba va tobe jamiyatlari roʻyxatidagi oʻzgarishlar;
+       emitentning mol-mulki, bank hisobvaraqlari xatlanganligi, emitentga nisbatan uning aktivlari qiymatining 10 foizidan ortiq miqdorda daʼvo qoʻzgʻatilganligi;
+       emitent ustav fondining yoki aktivlarining 50 foizidan ortiq miqdorda kredit olinganligi;
+       aktivlarning qiymati bir marta 10 foizdan ortiqroq miqdorda koʻpaytirilganligi yoki kamaytirilganligi;
+       miqdori yoki mol-mulkining qiymati bitim tuzilgan sanadagi holatga koʻra emitent aktivlarining 10 foizidan ortigʻini tashkil etadigan emitentning bir martalik bitimlari;
+       emitent tomonidan yirik bitimlar va manfaatdor shaxslar va (yoki) affilangan shaxslar bilan bitimlar tuzilganligi;
+       emitent faoliyatning ayrim turlarini amalga oshirish uchun litsenziya olganligi yoki litsenziya bekor qilinganligi, litsenziyaning amal qilishi toʻxtatib turilganligi yoki tugatilganligi;
+       qimmatli qogʻozlar chiqarilganligi, ularning chiqarilishi toʻxtatib turilganligi va qayta tiklanganligi, qimmatli qogʻozlarning chiqarilishi amalga oshmagan yoki haqiqiy emas deb topilganligi;
+       emitent qaysi yuridik shaxslar aksiyalarining (ulushlarining, paylarining) 10 foiziga va undan ortiq foiziga egalik qilayotgan boʻlsa, har bir shunday yuridik shaxsning roʻyxatidagi oʻzgarishlar;
+       emitentning oʻz qimmatli qogʻozlari egalari oldidagi qimmatli qogʻozlarni qaytarib sotib olishga (muomaladan chiqarishga) doir majburiyatlarini bajarish muddatlari kelganligi;
+       qimmatli qogʻozlar boʻyicha daromadlarni hisoblash, emitentning qimmatli qogʻozlari boʻyicha daromadlarni toʻlashning boshlanganligi va tugallanganligi;
+       emitentga nisbatan toʻlovga qobiliyatsizlik tartib-taomili joriy etilganligi;
+       hisobot yilida kuzatuv kengashi va ijroiya organi aʼzolarining emitent aksiyalariga (ulushlariga, paylariga) egalik qilishidagi oʻzgarishlar;
+       jamiyat affillangan shaxslarining roʻyxatidagi oʻzgarishlar ushbu shaxslarga tegishli qimmatli qogʻozlarning soni, turi va xili koʻrsatilgan holda;
+       Kuzatuv kengashining aksiyalar, korporativ obligatsiyalar va boshqa qimmatli qogʻozlarni chiqarish boʻyicha qarorlari;
+       qimmatli qogʻozlar egalarida ularga tegishli boʻlgan qimmatli qogʻozlarning emitent tomonidan qaytarib sotib olinishini talab qilish huquqining yuzaga kelganligi. 
+       Emitent:
+       a) qimmatli qogʻozlar emissiya risolasini va emitentning yillik hisobotini barcha manfaatdor shaxslar tanishib chiqishi uchun taqdim etishi;
+       b) Korporativ axborotning yagona portaliga:
+       qimmatli qogʻozlar emissiya risolasining matni bilan tanishib chiqish joyi va tartibi toʻgʻrisidagi maʼlumotlarni, shuningdek ushbu modda ikkinchi qismining ikkinchi, toʻrtinchi, beshinchi va oʻn ikkinchi xatboshilarida koʻrsatilgan axborotni qimmatli qogʻozlarni joylashtirish boshlanishiga kamida ikki hafta qolganida, bundan qimmatli qogʻozlarni xususiy joylashtirish mustasno;
+       emitentning yillik hisobotini aksiyadorlarning yoki emitentning boshqa yuqori boshqaruv organining yillik umumiy yigʻilishi oʻtkazilganidan keyin ikki hafta ichida;
+       emitentning birinchi chorak, birinchi yarim yil va toʻqqiz oy yakunlariga doir hisobotini hisobot oyidan keyingi bir oy ichida;
+       emintent va affillangan shaxs oʻrtasida tuzilgan bitimlar toʻgʻrisidagi axborotni bitim tuzilgan paytdan eʼtiboran 72 soat ichida joylashtirish yoʻli bilan;
+       emitentning faoliyatidagi muhim fakt haqidagi xabarni u yuz bergan sanadan eʼtiboran ikki ish kuni ichida joylashtirish yoʻli bilan oshkor qilishi shart bundan, affillangan shaxslar bilan bitim tuzish toʻgʻrisidagi xabar mustasno.
+       Emitent qonunchilikka muvofiq boshqa axborotni ham oshkor qilishi mumkin. Bunda emitent oshkor etilishi majburiy boʻlgan axborotni va (yoki) boshqa axborotni oʻzining rasmiy veb-saytida oʻz xohishiga koʻra oshkor etishga haqli.
+       Rasmiy veb-sayt mavjud boʻlishi haqidagi talab qimmatli qogʻozlari fond birjasining listingiga kiritilmagan aksiyadorlik jamiyatlariga nisbatan tatbiq etilmaydi, bundan davlat ulushi 50 foiz va undan ortiq boʻlgan aksiyadorlik jamiyatlari mustasno.
+       Agar emitentning qimmatli qogʻozlari fond birjasining listingiga kiritilgan boʻlsa, ushbu moddada nazarda tutilgan axborotni majburiy ravishda oshkor etish Korporativ axborotning yagona portali axborot tizimidan olingan maʼlumotlarga asosan fond birjasining rasmiy veb-saytida amalga oshiriladi.
+       Fond birjasi va qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi ushbu moddada nazarda tutilgan axborot eʼlon qilinganligi uchun haq undirishga haqli emas.
+       45-modda. Axborotning qimmatli qogʻozlar bozori professional ishtirokchisi tomonidan oshkor qilinishi
+       Qimmatli qogʻozlar bozorining professional ishtirokchisi investorning talabiga koʻra:
+       davlat roʻyxatidan oʻtkazilganligi toʻgʻrisidagi hujjatning koʻchirma nusxasini;
+       qimmatli qogʻozlar bozorida professional faoliyatni amalga oshirish uchun litsenziyaning koʻchirma nusxasini yoki vakolatli davlat organini xabardor qilganligi toʻgʻrisidagi maʼlumotlarni;
+       qimmatli qogʻozlar bozori professional ishtirokchisining ustav fondi, oʻz mablagʻlarining miqdori va zaxira fondi toʻgʻrisidagi maʼlumotlarni;
+       investor oladigan qimmatli qogʻozlar chiqarilishining davlat roʻyxatidan oʻtkazilganligi toʻgʻrisidagi maʼlumotlarni;
+       investor oladigan qimmatli qogʻozlarning emissiya risolasidagi maʼlumotlarni, shuningdek ushbu qimmatli qogʻozlarning investor tomonidan axborot taqdim etish toʻgʻrisida talab qoʻyilgan sanadan oldingi olti hafta davomidagi narxlari haqidagi maʼlumotlarni;
+       qimmatli qogʻozlarga doir bitimlarning natijalari boʻyicha hisobotni shartnomada kelishilgan muddatlarda taqdim etadi.
+       Qimmatli qogʻozlar bozorining professional ishtirokchisi investorlarni ushbu moddada nazarda tutilgan axborotni olish huquqlari haqida xabardor qilishi shart.
+       Qimmatli qogʻozlar bozorining professional ishtirokchisi:
+       yilning bir choragi davomida faqat bir emitentning qimmatli qogʻozlari bilan operatsiyalar;
+       bir emitentning qimmatli qogʻozlari bilan bir martalik operatsiya, agar bu operatsiya boʻyicha qimmatli qogʻozlarning soni mazkur qimmatli qogʻozlar umumiy sonining kamida 15 foizini tashkil etgan boʻlsa, ularning amalga oshirilganligi haqida qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organini ikki ish kuni ichida yozma shaklda xabardor qiladi.
+       Investitsiya fondlari axborotni ushbu Qonunning 44-moddasida nazarda tutilgan tartibda oshkor qiladi.
+       46-modda. Qimmatli qogʻozlar savdosi tashkilotchilarining axborotni oshkor qilishi
+       Qimmatli qogʻozlar savdosi tashkilotchilari:
+       savdoda bitimlar tuzish qoidalarini; 
+       savdoga qoʻyilgan qimmatli qogʻozlar roʻyxatini;
+       qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining talabiga koʻra investorlarning yoki qimmatli qogʻozlar egalarining arizalarini, takliflarini va shikoyatlarini koʻrib chiqish yakunlari haqidagi axborotni oshkor qiladi.
+       Qimmatli qogʻozlar savdosi tashkilotchilari qonunchilikka muvofiq boshqa axborotni ham oshkor qilishi mumkin.
+       47-modda. Axborotning qimmatli qogʻozlar egasi tomonidan oshkor qilinishi
+       Qimmatli qogʻozlar egasi emitent qimmatli qogʻozlari har qanday turining 35 va undan ortiq foizini olganligi haqidagi axborotni oshkor etishi shart.
+       Aksiyalar egasi mustaqil ravishda yoki affillangan shaxslar bilan birgalikda bir yoki bir nechta bitim tuzish natijasida aksiyadorlik jamiyati aksiyalarining mazkur aksiyadorlik jamiyati ustav kapitalining jami 20 va undan ortiq foizini tashkil etuvchi aksiyalar paketini olganligi haqidagi axborotni oshkor etishi shart. 
+       Qimmatli qogʻozlar egalarining axborotni oshkor etishi tartibi va muddatlari qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan belgilanadi. 
+       48-modda. Axborotning qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan oshkor qilinishi
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi ommaviy axborot vositalari va (yoki) oʻzining rasmiy veb-sayti orqali quyidagi axborotni oshkor etishi shart: 
+       qimmatli qogʻozlarning roʻyxatdan oʻtkazilgan chiqarilishlari haqidagi hamda chiqarilishi, joylashtirilishi va muomalasi toʻxtatib qoʻyilgan hamda tiklangan, amalga oshmagan yoki haqiqiy emas deb topilgan qimmatli qogʻozlar chiqarilishi toʻgʻrisidagi;
+       qimmatli qogʻozlar bozorida professional faoliyatni amalga oshirish uchun litsenziya berilganligi, uning amal qilishi toʻxtatib turilganligi yoki tugatilganligi, litsenziya bekor qilinganligi toʻgʻrisidagi;
+       qimmatli qogʻozlar bozorida huquqbuzarliklarga yoʻl qoʻyganligi uchun mazkur organ tomonidan javobgarlik choralari qoʻllanilgan emitentlar, qimmatli qogʻozlar bozorining professional ishtirokchilari, mansabdor shaxslar hamda ularga nisbatan qoʻllanilgan javobgarlik choralarining turlari toʻgʻrisidagi;
+       oʻz daʼvolari boʻyicha chiqarilgan sud qarorlari toʻgʻrisidagi;
+       investitsiya maslahatchilarining xabarnomalari reyestri, ularning faoliyati toʻxtatib turilganligi yoki tugatilganligi toʻgʻrisidagi; 
+       qimmatli qogʻozlar bozorida qimmatli qogʻozlar bilan operatsiyalarni amalga oshirish, xizmatlar koʻrsatish va (yoki) ishlarni bajarish huquqiga doir malaka guvohnomasi berilganligi toʻgʻrisidagi.
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi investorlarga va qimmatli qogʻozlar egalariga ushbu Qonunga muvofiq axborot taqdim etganlik uchun undan nusxa koʻchirishga sarflanadigan xarajatlar doirasida haq olishi mumkin.
+       49-modda. Qimmatli qogʻozlar bozorida axborotning maxfiyligi
+       Qimmatli qogʻozlar bozori professional ishtirokchilarining mijozlari, ular hisobvaraqlarining holati va oʻtkazilgan operatsiyalar toʻgʻrisidagi maʼlumotlar, shuningdek qimmatli qogʻozlarga doir bitimlarning mazmuni (emitent, qimmatli qogʻozlarning turi va xili, soni, bahosi, bitim tuzilgan sana, vaqt, birja savdosi oʻtkazilgan hollarda esa savdoda ishtirok etgan shaxslar ham bundan mustasno) maxfiy axborotdir.
+       Maxfiy axborotga ega shaxslar bu axborotdan bitimlar tuzish uchun foydalanishga, shuningdek uni bitimlar tuzish uchun boshqa shaxslarga berishga haqli emas.
+       Maxfiy axborotdan foydalanish imkoniyatiga ega boʻlgan shaxslar bunday axborotni oshkor etganlik uchun belgilangan tartibda javobgar boʻladi.
+       50-modda. Qimmatli qogʻozlar bozorida maxfiy axborotni oshkor qilish
+       Qimmatli qogʻozlar bozorida maxfiy axborotni oshkor qilish qonunda nazarda tutilgan hollarda va tartibda amalga oshiriladi.
+       Mijozlarning hisobvaraqlari boʻyicha maʼlumotlar — ularning oʻzlariga yoki vakillariga, oʻz vakolatlariga taalluqli masalalar yuzasidan — monopoliyaga qarshi davlat organiga, davlat soliq xizmati organlariga, Oʻzbekiston Respublikasi Prezidenti huzuridagi Ijtimoiy himoya milliy agentligiga va “Inson” ijtimoiy xizmatlar markazlariga, Oʻzbekiston Respublikasi Bosh prokuraturasi huzuridagi Majburiy ijro byurosiga, sudlarga, qoʻzgʻatilgan jinoyat ishi boʻlgan taqdirda esa, tergov va surishtiruv organlariga beriladi.
+       Mijozlarning — jismoniy shaxslarning hisobvaraqlari boʻyicha maʼlumotlar ularning egalari vafot etgan taqdirda, merosxoʻrlarga yoki hisobvaraqning egasi koʻrsatgan shaxslarga, oʻz ish yurituvidagi meros ishlari yuzasidan notarial idoralarga beriladi, chet el fuqarolariga nisbatan esa chet davlatning konsullik muassasalariga beriladi.
+       Birja bitimining mazmuni haqidagi axborot sudlarga taqdim etiladi, tergov va surishtiruv organlariga esa qoʻzgʻatilgan jinoyat ishi mavjud boʻlgan taqdirda taqdim etiladi.
+       Maxfiy axborot qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organiga quyidagi hollarda:
+       u qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik buzilganligi faktlarini koʻrib chiqayotganda;
+       u Qimmatli qogʻozlar komissiyalari xalqaro tashkiloti aʼzolari boʻlgan boshqa davlatlarning qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli organlariga ularning yozma soʻroviga koʻra axborot berganda oshkor qilinadi.
+       Jinoiy faoliyatdan olingan daromadlarni legallashtirishga, terrorizmni moliyalashtirishga va ommaviy qirgʻin qurolini tarqatishni moliyalashtirishga qarshi kurashish bilan bogʻliq maxfiy axborot qonunchilikda nazarda tutilgan hollarda va tartibda maxsus vakolatli davlat organiga taqdim etiladi.
+       51-modda. Davlat qimmatli qogʻozlari toʻgʻrisidagi axborotni oshkor qilish
+       Davlat qimmatli qogʻozlari toʻgʻrisidagi axborotni oshkor qilish qonunchilikda belgilangan tartibda amalga oshiriladi.
+7-bob. Qimmatli qogʻozlar bozorini tartibga solish
+       52-modda. Qimmatli qogʻozlar bozorini davlat tomonidan tartibga solish asoslari
+       Qimmatli qogʻozlar bozorini davlat tomonidan tartibga solish:
+       qimmatli qogʻozlar bozoridagi professional faoliyatni hamda birja faoliyatini litsenziyalash va (yoki) bunday faoliyatga nisbatan majburiy talablar belgilash;
+       qimmatli qogʻozlar chiqarilishlarini roʻyxatdan oʻtkazish hamda chiqarish toʻgʻrisidagi qarorlarda nazarda tutilgan shartlar va majburiyatlarga emitentlarning rioya etishi ustidan nazorat qilish;
+       qimmatli qogʻozlar toʻgʻrisidagi axborot qonunchilikka muvofiq oshkor qilinishini taʼminlash;
+       qimmatli qogʻozlar bozori mutaxassislarini attestatsiyadan oʻtkazish; 
+       qimmatli qogʻozlar bozori ishtirokchilarining faoliyati ustidan qonunchilikda belgilangan tartibda nazorat qilish orqali amalga oshiriladi.
+       53-modda. Qimmatli qogʻozlar bozoridagi cheklovlar
+       Qimmatli qogʻozlar bozorida quyidagilar taqiqlanadi:
+       emitentga yoki qimmatli qogʻozlarga taalluqli axborotni oshkor qilmasdan qimmatli qogʻozlar emissiyasini amalga oshirish;
+       chiqarilishi ushbu Qonunda nazarda tutilgan hollarda davlat roʻyxatidan oʻtkazilmagan yoxud toʻxtatib qoʻyilgan emissiyaviy qimmatli qogʻozlarni joylashtirish va ularning muomalasi;
+       qimmatli qogʻozlar egasining oʻz depo hisobvaragʻida boʻlgan qimmatli qogʻozlarning qiymati toʻliq toʻlanguniga qadar ularga doir bitimlar tuzishi, bundan nettingdan foydalanish mustasno;
+       hiyla-nayrang ishlatish va insayder axborotdan foydalanish;
+       emitentning ustav fondi shakllantirilguniga qadar (tijorat banklarining ustav fondini shakllantirish hollari bundan mustasno), shuningdek emitentning ustav fondini toʻldirish yoki emitentning moliya-xoʻjalik faoliyati bilan bogʻliq zararlarning oʻrnini qoplash uchun korporativ obligatsiyalar chiqarish;
+       obligatsiyalarning chiqarilishi roʻyxatdan oʻtkazilganidan keyin obligatsiyalar chiqarish toʻgʻrisidagi qarorning shu qaror bilan belgilangan obligatsiyalarga doir huquqlar hajmiga taalluqli qismiga emitent tomonidan oʻzgartishlar kiritish;
+       qimmatli qogʻozlar bozori professional ishtirokchisining va Qimmatli qogʻozlar markaziy depozitariysining majburiyatlari boʻyicha mijozning qimmatli qogʻozlari va pul mablagʻlarini undirish;
+       emissiyaviy qimmatli qogʻozlarni ommaviy joylashtirishda va (yoki) ularning muomalasida bir investorga boshqasiga nisbatan afzallik belgilash, quyidagi hollar bundan mustasno:
+       a) davlat qimmatli qogʻozlarini emissiya qilish;
+       b) aksiyadorlik jamiyatining aksiyadorlariga oʻzlariga tegishli aksiyalar soniga mutanosib ravishda qimmatli qogʻozlarni olishda belgilangan tartibda imtiyozli huquq berish;
+       v) Oʻzbekiston Respublikasining norezidentlari tomonidan qimmatli qogʻozlarni olishga qonunchilikda va (yoki) emitent ustavida cheklovlar mavjud boʻlishi.
+       Korporativ va infratuzilma obligatsiyalari ularning egalariga emitentni boshqarishda ishtirok etish huquqini bermaydi.
+       Yuridik yoki jismoniy shaxs yoxud oʻzaro kelishuv bilan bogʻlangan yoki bir-birining mol-mulkini nazorat qiluvchi yuridik va jismoniy shaxslar guruhi tomonidan bir yoki bir necha bitim natijasida bank aksiyalarining 5 foizidan ortigʻini olish Oʻzbekiston Respublikasi Markaziy banki xabardor qilinishini, 20 foizidan ortigʻini olish esa, oldindan uning roziligini olishni talab qiladi. Oʻzbekiston Respublikasi Markaziy bankining oldindan roziligini olish tartibi Oʻzbekiston Respublikasi Vazirlar Mahkamasi tomonidan belgilanadi.
+       Emitent, agar qonunda boshqacha qoida belgilanmagan boʻlsa, oʻzi chiqargan aksiyalar boʻyicha ularni qayta sotib olish sharti bilan bitimlar tuzishga, shuningdek oʻzi chiqargan aksiyalarni ishonchli boshqaruvga topshirishga haqli emas.
+       54-modda. Qimmatli qogʻozlar bozorida hiyla-nayrang ishlatish va insayder axborotdan foydalanish
+       Bila turib yolgʻon maʼlumotlarni qasddan tarqatish, taraflarning majburiyatlari bir shaxs hisobidan yoki uning manfaatlarini koʻzlab bajariladigan qimmatli qogʻozlarga doir bitimlar tuzish, shuningdek qimmatli qogʻozning narxi xususida chalgʻitish maqsadida boshqa harakat sodir etish va bularning natijasida qimmatli qogʻozlar narxining, ularga boʻlgan talabning, taklifning yoki qimmatli qogʻozlar savdosi hajmining bunday harakatlarsiz shakllanadigan darajadan oʻzgarishi yoki bunday harakatlarsiz shakllanadigan darajadan farq qiladigan darajada ushlab turilishi qimmatli qogʻozlar bozorida hiyla-nayrang ishlatish jumlasiga kiradi.
+       Market-meyker tomonidan muayyan qimmatli qogʻozlarga boʻlgan narxlar, talab va taklif darajasini ushlab turish uchun qimmatli qogʻozlarga doir bitimlar tuzish qimmatli qogʻozlar bozorida hiyla-nayrang ishlatish hisoblanmaydi.
+       Qimmatli qogʻozlarning ushbu modda birinchi qismida nazarda tutilgan harakatlar inobatga olinmagan holda shakllanishi mumkin boʻlgan narxi, ularga boʻlgan talab, taklif yoki ularning savdosi hajmiga nisbatan qimmatli qogʻozlar narxining, ularga boʻlgan talab, taklifning yoki qimmatli qogʻozlar savdosi hajmining jiddiy ravishda oʻzgarishi mezonlari qimmatli qogʻozlar savdosining tashkilotchisi tomonidan qimmatli qogʻozlarning turi, likvidliligi va (yoki) bozor qiymatiga qarab belgilanadi.
+       Qimmatli qogʻozlarni olish yoki realizatsiya qilish uchun oshkor qilinmagan (tarqatilmagan) va oshkor qilinishi (tarqatilishi) qimmatli qogʻozlar qiymatining oʻzgarishiga jiddiy taʼsir koʻrsatishi mumkin boʻlganligi tufayli qimmatli qogʻozlar bozorining bir ishtirokchisiga boshqasiga nisbatan ustunlik berishi mumkin boʻlgan axborotdan foydalanish qimmatli qogʻozlar bozorida insayder axborotdan foydalanish jumlasiga kiradi.
+       Qimmatli qogʻozlar bozorida hiyla-nayrang ishlatish va insayder axborotdan foydalanish alomatlari qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan aniqlanadi.
+       Qimmatli qogʻozlar bozorida hiyla-nayrang ishlatish va insayder axborotdan foydalanish fakti, shuningdek mazkur gʻayrihuquqiy harakatlarga aloqador shaxslarni javobgarlikka tortish chorasi sud tomonidan belgilanadi.
+       55-modda. Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi Oʻzbekiston Respublikasi Prezidenti tomonidan belgilanadi.
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi:
+       qimmatli qogʻozlar bozorini shakllantirish, rivojlantirish, nazorat qilish va tartibga solish sohasida davlat siyosatini amalga oshiradi;
+       qimmatli qogʻozlar bozoridagi professional faoliyatni litsenziyalaydi, mazkur sohada ruxsat berish va xabardor qilish tartib-taomillarini amalga oshiradi;
+       investitsiya maslahatchilarining xabarnomalarini qabul qiladi, ularning reyestrini yuritadi;
+       investorlarning hamda qimmatli qogʻozlar egalarining huquqlari va qonuniy manfaatlari himoya qilinishini taʼminlaydi;
+       qimmatli qogʻozlar bozorini shakllantirish va tartibga solish hamda uning ishtirokchilari faoliyati sohasida normativ-huquqiy hujjatlar ishlab chiqadi;
+       qimmatli qogʻozlar bozorida professional faoliyatni amalga oshirishga doir talablarni, qimmatli qogʻozlar bozori professional ishtirokchilarining mutaxassislariga qoʻyiladigan malaka talablarini belgilaydi, ularni attestatsiyadan oʻtkazadi va malaka sertifikatlari beradi;
+       emissiyaviy qimmatli qogʻozlarni (davlat qimmatli qogʻozlari bundan mustasno) chiqarish qoidalarini, qimmatli qogʻozlarga doir bitimlarni roʻyxatdan oʻtkazish qoidalarini, qimmatli qogʻozlarga doir operatsiyalar oʻtkazilishini hisobga olish va ular yuzasidan hisobot berish standartlarini, qimmatli qogʻozlar egalarining reyestrlarini va qimmatli qogʻozlarga doir bitimlarni hisobga olish registrini yuritish tartibini tasdiqlaydi;
+       emissiyaviy qimmatli qogʻozlar chiqarilishining Yagona davlat reyestrini yuritish tartibini belgilaydi;
+       Qimmatli qogʻozlar markaziy depozitariysi xizmatlari uchun tariflarning miqdorlarini kelishadi;
+       qimmatli qogʻozlar bozori toʻgʻrisidagi hamda aksiyadorlik jamiyatlari va aksiyadorlarning huquqlarini himoya qilish toʻgʻrisidagi qonunchilikning davlat boshqaruvi organlari, qimmatli qogʻozlar bozorining ishtirokchilari tomonidan bajarilishi ustidan nazoratni amalga oshiradi hamda qonunchilikning buzilganligi aniqlangan hollarda ular yuzasidan bajarilishi majburiy boʻlgan xulosalar va koʻrsatmalar chiqaradi, qoidabuzarlarga nisbatan qonunchilikka muvofiq sanksiyalar qoʻllaydi;
+       oʻz mablagʻlari yetarli darajada boʻlishiga doir majburiy normativlarni va qimmatli qogʻozlarga doir operatsiyalar boʻyicha tavakkalchiliklarni cheklovchi boshqa koʻrsatkichlarni, shuningdek qimmatli qogʻozlarga doir (davlat qimmatli qogʻozlari bundan mustasno) operatsiyalar yuzasidan hujjatlarni saqlash muddatlarini belgilaydi.
+       56-modda. Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining huquqlari
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi:
+       investorlarning, qimmatli qogʻozlar egalarining hamda davlatning huquqlari va manfaatlarini himoya qilish maqsadida davlat boji toʻlamasdan sudda daʼvo qoʻzgʻatishga;
+       qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik buzilganligi aniqlangan taqdirda qimmatli qogʻozlar bozori ishtirokchisining faoliyati toʻxtab qolishiga sabab boʻlmaydigan ayrim operatsiyalarini oʻz vakolatlari doirasida toʻxtatib turishga;
+       davlat boshqaruvi organlaridan, qimmatli qogʻozlar bozori ishtirokchilaridan axborot va hujjatlarni oʻz vakolatlari doirasida soʻrash hamda olishga;
+       qimmatli qogʻozlar bozorida professional faoliyatni qoʻshib olib borish tartibini belgilashga;
+       qimmatli qogʻozlarga boʻlgan huquqlarni hisobga olishning, qimmatli qogʻozlar savdolari va qimmatli qogʻozlarga doir bitimlarga hisob-kitob-kliring xizmati koʻrsatishning yagona tizimini yaratish boʻyicha davlat tomonidan tashkil etiladigan korxona faoliyatining tartibini belgilashga;
+       Qimmatli qogʻozlar komissiyalari xalqaro tashkiloti aʼzolari boʻlgan boshqa davlatlarning qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli organlari bilan maxfiy va boshqa turdagi axborotni belgilangan tartibda ayirboshlashga haqli.
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi qonunchilikka muvofiq boshqa huquqlarga ham ega boʻlishi mumkin.
+       57-modda. Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining majburiyatlari
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi:
+       qimmatli qogʻozlar bozori ishtirokchilarining murojaatlarini koʻrib chiqishi hamda investorlarning yoki qimmatli qogʻozlar egalarining huquqlari buzilganligi faktlari aniqlangan taqdirda tekshiruvlar oʻtkazishi va qonunchilikda nazarda tutilgan chora-tadbirlarni koʻrishi;
+       davlat boshqaruvi organlaridan hamda qimmatli qogʻozlar bozori ishtirokchilaridan investorlarning va qimmatli qogʻozlar egalarining huquqlarini himoya qilish masalalari yuzasidan olingan axborotning maxfiyligiga rioya etishi, bundan axborotning uchinchi shaxslarga oshkor etilishi qonunchilikda nazarda tutilgan hollar mustasno;
+       Emissiyaviy qimmatli qogʻozlar chiqarilishlarining yagona davlat reyestrini va qimmatli qogʻozlar bozori professional ishtirokchilarining reyestrini yuritishi;
+       oʻz vakolatiga taalluqli masalalar yuzasidan yuridik va jismoniy shaxslarning yozma soʻrovlariga qonunchilikka muvofiq asoslantirilgan javob berishi;
+       qimmatli qogʻozlar bozorining holati va uning ishtirokchilari haqida jamoatchilikni xabardor qilishi shart.
+       Qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining zimmasida qonunchilikka muvofiq boshqa majburiyatlar ham boʻlishi mumkin.
+8-bob. Qimmatli qogʻozlar bozori ishtirokchilarining huquqlari, majburiyatlari va javobgarligi
+       58-modda. Qimmatli qogʻozlar bozori ishtirokchilarining huquqlari va majburiyatlari 
+       Qimmatli qogʻozlar bozori ishtirokchilari quyidagi huquqlarga ega:
+       qimmatli qogʻozlar bozoridagi oʻz tavakkalchiliklarini sugʻurta qilish;
+       qimmatli qogʻozlar bozorining professional ishtirokchilari toʻgʻrisida, qimmatli qogʻozlarning emissiyasini toʻxtatib qoʻyishga, qimmatli qogʻozlar bozoridagi professional faoliyatni amalga oshirishga doir litsenziyalarning amal qilishini toʻxtatib turish, tugatish va ularni bekor qilishga doir barcha hollar haqida, investitsiya maslahatchilarining xabarnomalari reyestri haqida, ularning faoliyatini toʻxtatib turish yoki tugatish bilan bogʻliq holatlar toʻgʻrisida, qimmatli qogʻozlar bozorining professional ishtirokchilari va emitentlar tomonidan sodir etilgan huquqbuzarliklar toʻgʻrisida, shuningdek qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organining daʼvo arizalari boʻyicha emitentlarga yoki qimmatli qogʻozlar bozorining professional ishtirokchilariga nisbatan chiqarilgan sud qarorlari haqida qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organidan axborot olish;
+       davlat organlariga arizalar, takliflar va shikoyatlar bilan murojaat qilish;
+       qimmatli qogʻozlar bozorida oʻz huquqlari buzilganligi toʻgʻrisidagi va yetkazilgan zararlarning oʻrnini qoplash haqidagi daʼvo arizasi bilan sudga murojaat qilish.
+       Investorlar va qimmatli qogʻozlar egalari ushbu moddaning birinchi qismida nazarda tutilgan huquqlardan tashqari:
+       qimmatli qogʻozlarning chiqarilishi roʻyxatdan oʻtkazilganligi toʻgʻrisida, emitentning joriy moliyaviy holati va emitentni rivojlantirish istiqbollari haqida axborot taqdim etishni emitentdan talab qilishga;
+       pul va boshqa toʻlov vositalari, mol-mulk bilan, shuningdek pul bahosiga ega boʻlgan huquqlar (shu jumladan, mulkiy huquqlar) asosida qimmatli qogʻozlarga qonunchilikda va emitentning taʼsis hujjatlarida belgilangan tartibda investitsiyalarni amalga oshirishga;
+       qimmatli qogʻozlar bozorida oʻz xizmatlarini taklif etayotgan qimmatli qogʻozlar bozorining professional ishtirokchilaridan oʻzlari toʻgʻrisidagi axborotni ushbu Qonunga muvofiq talab qilishga ham haqli.
+       Qimmatli qogʻozlar bozori ishtirokchilari qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilik talablariga va qimmatli qogʻozlar bozorida oʻzlari tuzgan shartnomalar shartlariga rioya etishi shart.
+       Qimmatli qogʻozlar bozorining ishtirokchilari qonunchilikka muvofiq boshqa huquqlarga ega boʻlishi va ularning zimmasida oʻzga majburiyatlar boʻlishi mumkin.
+       59-modda. Qimmatli qogʻozlar bozori ishtirokchilarining mulkiy javobgarligi
+       Qimmatli qogʻozlar bozorining professional ishtirokchilari va emitentlar investor yoki qimmatli qogʻozlar egasining oldida yetkazilgan zararlar doirasida qonunchilikka muvofiq quyidagilar uchun mulkiy javobgar boʻladi:
+       qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilikda nazarda tutilgan axborotni investorning talabiga koʻra taqdim etmaganlik yoki notoʻgʻri axborot taqdim etganlik uchun;
+       qimmatli qogʻozlar emissiyasining belgilangan tartibini buzganlik uchun;
+       qimmatli qogʻozlarning insofsiz reklamasini amalga oshirganlik, qimmatli qogʻozlarning qonunchilikda belgilangan tartibda roʻyxatdan oʻtkazilmagan chiqarilishining reklamasi, shuningdek muomalasi qonun bilan taqiqlangan qimmatli qogʻozlarning reklamasi uchun;
+       ular tomonidan investorlar bilan qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilikda belgilangan investorlar huquqlarini hamda emitentlar va qimmatli qogʻozlar bozori professional ishtirokchilari javobgarligini cheklovchi shartnomalar tuzilganligi uchun;
+       qimmatli qogʻozlar bozorida hiyla-nayrang ishlatganlik va insayder axborotdan foydalanganlikning sud tomonidan aniqlangan faktlari uchun, shuningdek qimmatli qogʻozlar, qimmatli qogʻozlarning emitentlari, qimmatli qogʻozlarga doir narxlar toʻgʻrisida qasddan buzib koʻrsatilgan axborot taqdim etish, shu jumladan reklamada shunday axborot taqdim etish orqali investorni yoki qimmatli qogʻozlar egasini qimmatli qogʻozlarni sotib olishga yoki sotishga undaganlik uchun;
+       investorlar yoki qimmatli qogʻozlarning egalari bilan tuzilgan shartnomalar shartlarini bajarmaganlik yoki lozim darajada bajarmaganlik, shuningdek investor yoki qimmatli qogʻozlarning egasi bilan tuzilgan shartnomada kelishilganidan farq qiladigan shartlar asosida bitim tuzganlik uchun.
+       Investitsiya vositachisi va Qimmatli qogʻozlar markaziy depozitariysi quyidagi hollarda ham oʻz deponentlari oldida javobgar boʻladi:
+       qimmatli qogʻozlarning egalari va ularga tegishli qimmatli qogʻozlar toʻgʻrisidagi yozuvlar buzib koʻrsatilganda, qimmatli qogʻozlar chiqarilganligini tasdiqlovchi hujjatlar, shuningdek depo hisobvaraqlari boʻyicha operatsiyalarni amalga oshirish uchun asos boʻlgan hujjatlar yoʻqotilganda yoki ularga shikast yetkazilganda;
+       deponent oʻziga tegishli qimmatli qogʻozlar bilan bogʻliq huquqlarini amalga oshira olmasligiga olib kelgan harakat (harakatsizlik) sodir etilganda.
+       Investitsiya vositachisi va Qimmatli qogʻozlar markaziy depozitariysi deponentga yetkazilgan zararlarning oʻrnini qoplaydi, yoʻqotilgan yozuvlarni, qimmatli qogʻozlar chiqarilganligini tasdiqlovchi hujjatlarni va hisobga olish registrlaridagi yozuvlarni tiklaydi.
+       Qimmatli qogʻozlar markaziy depozitariysi saqlash uchun oʻzi qabul qilgan hujjatli qimmatli qogʻozlarni yoʻqotganlik yoki ularga shikast yetkazganlik uchun javobgar boʻladi. Bunda Qimmatli qogʻozlar markaziy depozitariysi yoʻqotilgan hujjatli qimmatli qogʻozlarni tayyorlashga ketadigan xarajatlarning oʻrnini qoplaydi yoki ushbu qimmatli qogʻozlarni oʻz hisobidan tayyorlaydi.
+       Qimmatli qogʻozlar emitentlarining majburiyatlari boʻyicha javobgarlik emitentlarning oʻz zimmasida boʻladi.
+       60-modda. Davlat organlarining qarorlari, ular mansabdor shaxslarining harakatlari (harakatsizligi) ustidan shikoyat qilish
+       Davlat organlarining qarorlari, ular mansabdor shaxslarining harakatlari (harakatsizligi) ustidan sud tartibida shikoyat qilinishi mumkin.
+9-bob. Yakunlovchi qoidalar
+       61-modda. Investorning tavakkalchiligi
+       Investitsiyalash obyekti sifatida qimmatli qogʻozlarni tanlash va bu tanlovning tegishli oqibatlari investorning tavakkalchiligidir.
+       62-modda. Qimmatli qogʻozlar boʻyicha daʼvo muddatlari 
+       Emitent va qimmatli qogʻozlar bozorini tartibga solish boʻyicha vakolatli davlat organi tomonidan qabul qilingan, emissiyaviy qimmatli qogʻozlarni chiqarish bilan bogʻliq boʻlgan qarorlarni haqiqiy emas deb topish, emissiyaviy qimmatli qogʻozlarning chiqarilishini, emissiyaviy qimmatli qogʻozlarni joylashtirish jarayonida tuzilgan bitimlarni haqiqiy emas deb topish uchun daʼvo muddati emissiyaviy qimmatli qogʻozlarning chiqarilishini joylashtirish muddati tugagan sanadan eʼtiboran bir yilni tashkil etadi.
+       Veksel saqlovchining indossantlarga qarshi va veksel beruvchiga qarshi talablari boʻyicha daʼvo muddati belgilangan muddatda bildirilgan protest kunidan eʼtiboran yoki chiqimlarsiz oborot toʻgʻrisida shartlashilgan taqdirda, toʻlov muddati kunidan eʼtiboran bir yilni tashkil etadi.
+       Indossantlarning bir-biriga va veksel beruvchiga nisbatan talablari boʻyicha daʼvo muddati indossant vekselni toʻlagan kundan eʼtiboran yoki unga nisbatan daʼvo taqdim etilgan kundan eʼtiboran olti oyni tashkil etadi.
+       Ushbu moddaning birinchi — uchinchi qismlarida nazarda tutilmagan oʻzga hollarda, shuningdek boshqa qimmatli qogʻozlar boʻyicha daʼvo muddatlari qonunga muvofiq belgilanadi.
+       63-modda. Nizolarni hal etish
+       Qimmatli qogʻozlar bozori sohasidagi nizolar qonunchilikda belgilangan tartibda hal etiladi.
+       64-modda. Qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilikni buzganlik uchun javobgarlik
+       Qimmatli qogʻozlar bozori toʻgʻrisidagi qonunchilikni buzganlikda aybdor shaxslar belgilangan tartibda javobgar boʻladi.
+
