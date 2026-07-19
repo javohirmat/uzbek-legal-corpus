@@ -76,7 +76,7 @@ Source texts: Qonunchilik maʼlumotlari milliy bazasi (lex.uz).
 
 ```python
 from datasets import load_dataset
-ds = load_dataset("tomaris/uzbek-legal-corpus", data_files="data/articles/*.jsonl", split="train")
+ds = load_dataset("javohirmat/uzbek-legal-corpus", data_files="data/articles/*.jsonl", split="train")
 ```
 
 ## Stats
@@ -124,6 +124,6 @@ Snapshot releases only (this is `2026-07`); no continuous sync with lex.uz. Laws
   author = {{Tomaris AI}},
   year   = {2026},
   note   = {Source texts: Qonunchilik ma'lumotlari milliy bazasi (lex.uz)},
-  url    = {https://huggingface.co/datasets/tomaris/uzbek-legal-corpus}
+  url    = {https://huggingface.co/datasets/javohirmat/uzbek-legal-corpus}
 }
 ```
