@@ -14,13 +14,21 @@ from corpus_index import CorpusIndex
 from answer_rules import Overrides
 from retriever import Retriever
 
+_lm_kwargs = {}
+if C.THINKING_MODE in ("true", "false"):
+    # only override the template when explicitly forced; "auto" leaves the
+    # decision to the model, which is what we want in production
+    _lm_kwargs["extra_body"] = {
+        "chat_template_kwargs": {"enable_thinking": C.THINKING_MODE == "true"}
+    }
+
 lm = dspy.LM(
     f"openai/{C.VLLM_MODEL}",
     api_base=C.VLLM_BASE,
     api_key=C.VLLM_KEY,
     temperature=C.TEMPERATURE,
     max_tokens=C.MAX_TOKENS,
-    extra_body={"chat_template_kwargs": {"enable_thinking": C.ENABLE_THINKING}},
+    **_lm_kwargs,
 )
 dspy.configure(lm=lm)
 
