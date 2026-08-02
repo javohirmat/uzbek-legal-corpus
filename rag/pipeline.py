@@ -20,6 +20,7 @@ lm = dspy.LM(
     api_key=C.VLLM_KEY,
     temperature=C.TEMPERATURE,
     max_tokens=C.MAX_TOKENS,
+    extra_body={"chat_template_kwargs": {"enable_thinking": C.ENABLE_THINKING}},
 )
 dspy.configure(lm=lm)
 

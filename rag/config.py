@@ -32,6 +32,12 @@ VLLM_KEY = "EMPTY"
 TEMPERATURE = 0.1
 MAX_TOKENS = 1200
 
+# The base model is a reasoning model: left alone it emits a long hidden <think>
+# trace before every answer. On the RAG path the article text is already supplied
+# verbatim, so that reasoning mostly re-derives what it was handed -- it is the
+# dominant cost per request. The chat template exposes `enable_thinking`.
+ENABLE_THINKING = os.getenv("ENABLE_THINKING", "false").lower() == "true"
+
 # ---- retrieval ---------------------------------------------------------
 # Customer-configured "ask X -> answer Y" rules. Checked before everything else.
 OVERRIDES_JSON = os.getenv("OVERRIDES_JSON", os.path.join(HERE, "overrides.json"))
