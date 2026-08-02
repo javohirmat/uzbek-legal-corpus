@@ -64,13 +64,23 @@ _VENDOR = re.compile(
     r"deepseek|grok|yandex|sberbank|gigachat)", re.IGNORECASE)
 
 
+# "model", "ai" and "chatgpt" are identical in both languages, so English is
+# never inferred from them -- "qaysi AI model ustiga qurilgansan" is Uzbek.
+_UZ_MARKER = re.compile(
+    r"(\b(qaysi|qanday|qancha|nima|nimaga|kim|kimsan|seni|sening|sen|sizni|"
+    r"men|meni|uchun|haqida|bilan|yoki|emas|boladi|qilish|yaratgan|yasagan|"
+    r"qurilgan|ishlaysan|gapir|ayt|bermaysan)\b|san\b|siz\b|ing\b)",
+    re.IGNORECASE)
+_EN_MARKER = re.compile(
+    r"\b(you|your|yourself|who|what|which|tell|reveal|ignore|previous|"
+    r"instructions|are|is|the|created|made|built)\b", re.IGNORECASE)
+
+
 def _is_english(text):
-    letters = [c for c in text if c.isalpha()]
-    if not letters:
+    t = norm(text)
+    if _UZ_MARKER.search(t):
         return False
-    ascii_share = sum(c.isascii() for c in letters) / len(letters)
-    return ascii_share > 0.95 and re.search(
-        r"\b(you|your|what|which|who|tell|model|the|are|is)\b", text, re.I) is not None
+    return bool(_EN_MARKER.search(t))
 
 
 def match(question):
