@@ -6,6 +6,7 @@ answers cannot be hallucinated. Only open questions go to generation, and what
 comes back is audited against the articles that were actually supplied.
 """
 import json
+from datetime import datetime, timedelta, timezone
 import re
 
 import dspy
@@ -54,10 +55,22 @@ class GroundedAnswer(dspy.Signature):
     answer = dspy.OutputField(desc="iqtiboslangan javob (oʻzbek tilida)")
 
 
-CHAT_SYSTEM = (
-    "Sen Tomaris — oʻzbek tili va madaniyati uchun yaratilgan sunʼiy intellekt "
-    "yordamchisisan. Foydalanuvchiga oʻzbek tilida tabiiy, aniq va foydali javob ber."
-)
+_MONTHS_UZ = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul",
+              "avgust", "sentabr", "oktabr", "noyabr", "dekabr"]
+
+
+def chat_system():
+    """Built per request so the date is never stale. A model with no clock
+    answers "men bugungi sanani bilmayman", which reads as a broken assistant."""
+    now = datetime.now(timezone.utc) + timedelta(hours=5)   # Asia/Tashkent
+    today = f"{now.day}-{_MONTHS_UZ[now.month - 1]} {now.year}"
+    return (
+        "Sen Tomaris — oʻzbek tili va madaniyati uchun yaratilgan sunʼiy intellekt "
+        "yordamchisisan. Foydalanuvchiga oʻzbek tilida tabiiy, aniq va foydali "
+        f"javob ber. Bugungi sana: {today} (Toshkent vaqti). "
+        "Foydalanuvchi salomlashsa, samimiy salomlash bilan javob ber — "
+        "uning soʻzini takrorlama."
+    )
 
 # Does this message belong to the legal corpus at all? tomaris.ai is a general
 # assistant: greetings, history questions and small talk must NOT be forced
@@ -236,7 +249,7 @@ class LegalRAG(dspy.Module):
     def _chat(self, question, history):
         """General assistant turn: no retrieval, no citation audit, full
         conversation history so follow-ups make sense."""
-        messages = [{"role": "system", "content": CHAT_SYSTEM}]
+        messages = [{"role": "system", "content": chat_system()}]
         messages += [m for m in history if m.get("content")][-8:]
         messages.append({"role": "user", "content": question})
         try:
