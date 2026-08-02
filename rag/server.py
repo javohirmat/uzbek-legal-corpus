@@ -4,12 +4,13 @@ Same contract the old rag_server exposed (POST /v1/chat/completions), so nothing
 on the frontend changes except VAST_API_URL. `citations` is an extra top-level
 field -- clients that ignore it are unaffected.
 """
+import json
 import time
 import uuid
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 
 import config as C
 from pipeline import UpstreamUnavailable, get_rag
@@ -71,15 +72,16 @@ async def chat(req: Request):
     body = await req.json()
     messages = body.get("messages", [])
     question = messages[-1]["content"] if messages else ""
-    # earlier turns are used only to recover a code name for follow-ups
-    # like "va 12-moddasi-chi?"
+    history = [m for m in messages[:-1] if m.get("role") in ("user", "assistant")]
+    # earlier turns also let a follow-up like "va 12-moddasi-chi?" inherit its code
     context = "\n".join(
         m.get("content", "") for m in messages[-C.HISTORY_TURNS : -1]
     )
+    want_stream = bool(body.get("stream"))
 
-    print(f"\n[USER] {question}")
+    print(f"\n[USER] {question}{'  (stream)' if want_stream else ''}")
     try:
-        result = get_rag()(question=question, context=context)
+        result = get_rag()(question=question, context=context, history=history)
     except UpstreamUnavailable as e:
         # vLLM restarting or down. Deterministic answers still work (they never
         # call it), so only generation-backed queries land here.
@@ -100,6 +102,34 @@ async def chat(req: Request):
             },
         )
     print(f"[{result.mode}] {result.answer[:160]}...")
+
+    if want_stream:
+        # The citation audit needs the finished answer, so generation cannot be
+        # streamed through. Emit the completed answer as OpenAI-style chunks so
+        # streaming clients render it instead of waiting for an event that
+        # never arrives.
+        def sse():
+            cid = f"chatcmpl-{uuid.uuid4().hex[:12]}"
+            base = {"id": cid, "object": "chat.completion.chunk",
+                    "created": int(time.time()), "model": C.VLLM_MODEL}
+            first = {**base, "choices": [{"index": 0, "delta": {"role": "assistant"},
+                                          "finish_reason": None}]}
+            yield f"data: {json.dumps(first, ensure_ascii=False)}\n\n"
+            text = result.answer
+            for i in range(0, len(text), 48):
+                chunk = {**base, "choices": [{"index": 0,
+                                              "delta": {"content": text[i:i + 48]},
+                                              "finish_reason": None}]}
+                yield f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
+            last = {**base, "citations": result.citations,
+                    "retrieval_mode": result.mode,
+                    "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}
+            yield f"data: {json.dumps(last, ensure_ascii=False)}\n\n"
+            yield "data: [DONE]\n\n"
+
+        return StreamingResponse(sse(), media_type="text/event-stream",
+                                 headers={"Cache-Control": "no-cache",
+                                          "X-Accel-Buffering": "no"})
 
     return JSONResponse(
         {

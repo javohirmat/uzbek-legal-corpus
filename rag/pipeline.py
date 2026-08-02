@@ -6,11 +6,12 @@ answers cannot be hallucinated. Only open questions go to generation, and what
 comes back is audited against the articles that were actually supplied.
 """
 import json
+import re
 
 import dspy
 
 import config as C
-from corpus_index import CorpusIndex
+from corpus_index import CorpusIndex, norm
 from answer_rules import Overrides
 from retriever import Retriever
 
@@ -51,6 +52,24 @@ class GroundedAnswer(dspy.Signature):
     question = dspy.InputField(desc="foydalanuvchi savoli")
     articles = dspy.InputField(desc="tegishli qonun moddalari (toʻliq matn)")
     answer = dspy.OutputField(desc="iqtiboslangan javob (oʻzbek tilida)")
+
+
+CHAT_SYSTEM = (
+    "Sen Tomaris — oʻzbek tili va madaniyati uchun yaratilgan sunʼiy intellekt "
+    "yordamchisisan. Foydalanuvchiga oʻzbek tilida tabiiy, aniq va foydali javob ber."
+)
+
+# Does this message belong to the legal corpus at all? tomaris.ai is a general
+# assistant: greetings, history questions and small talk must NOT be forced
+# through statute retrieval, or they come back as
+# "Berilgan moddalarda bunga javob yoʻq".
+_LEGAL_HINT = re.compile(
+    r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
+    r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
+    r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
+    r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius)",
+    re.IGNORECASE,
+)
 
 
 def _format(articles):
@@ -199,8 +218,28 @@ class LegalRAG(dspy.Module):
                 )
         return answer, True, _last_reasoning()
 
+    def _is_legal(self, question, refs):
+        """Route to the corpus only when the message is actually about law."""
+        if refs:                                        # "JK 173-modda"
+            return True
+        if self.index.find_codes(question):             # "Mehnat kodeksi ..."
+            return True
+        return bool(_LEGAL_HINT.search(norm(question)))
+
+    def _chat(self, question, history):
+        """General assistant turn: no retrieval, no citation audit, full
+        conversation history so follow-ups make sense."""
+        messages = [{"role": "system", "content": CHAT_SYSTEM}]
+        messages += [m for m in history if m.get("content")][-8:]
+        messages.append({"role": "user", "content": question})
+        try:
+            out = lm(messages=messages)
+        except Exception as e:
+            raise UpstreamUnavailable(str(e)) from e
+        return _as_text(out[0] if isinstance(out, list) else out), _last_reasoning()
+
     # ---------------- entry point ----------------
-    def forward(self, question, context=""):
+    def forward(self, question, context="", history=()):
         # Customer-configured answers outrank everything, including the corpus:
         # if a bank has specified the reply to a question, that reply is the
         # answer -- verbatim, no model, no paraphrase.
@@ -214,6 +253,13 @@ class LegalRAG(dspy.Module):
                                                "article": rule["id"], "lex_uz": ""}])
 
         refs = self.index.parse_references(question, context=context)
+
+        # Not a legal question -> answer as a normal assistant.
+        if not self._is_legal(question, refs):
+            answer, reasoning = self._chat(question, list(history))
+            return dspy.Prediction(answer=answer, reasoning=reasoning,
+                                   mode="chat", citations=[])
+
         resolved = [self.index.resolve(r) for r in refs]
 
         found = [rec for st, _, rec in resolved if st == "EXISTS"]
