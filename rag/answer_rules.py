@@ -24,8 +24,24 @@ Matching is okina/apostrophe-insensitive, so "isteʼmol", "iste'mol" and
 """
 import json
 import os
+import re
 
 from corpus_index import norm
+
+
+def _phrase(p):
+    """Word-boundary matcher for a trigger phrase.
+
+    Plain substring matching silently crosses word boundaries: the phrase
+    "ish tartibi" occurs inside "berish tartibi", so a land-lease question
+    ("yer uchastkasini berish tartibi") matched an office-hours rule. Anchor
+    both ends, and allow any whitespace between words.
+    """
+    words = norm(p).split()
+    if not words:
+        return None
+    body = r"\s+".join(re.escape(w) for w in words)
+    return re.compile(r"(?<!\w)" + body + r"(?!\w)")
 
 
 class Overrides:
@@ -34,9 +50,9 @@ class Overrides:
         for r in rules:
             self.rules.append({
                 "id": r.get("id", ""),
-                "any": [norm(x) for x in r.get("any", [])],
-                "all": [norm(x) for x in r.get("all", [])],
-                "not": [norm(x) for x in r.get("not", [])],
+                "any": [p for p in map(_phrase, r.get("any", [])) if p],
+                "all": [p for p in map(_phrase, r.get("all", [])) if p],
+                "not": [p for p in map(_phrase, r.get("not", [])) if p],
                 "answer": r["answer"],
                 "source": r.get("source", ""),
             })
@@ -52,11 +68,11 @@ class Overrides:
         """First matching rule wins; rule order is the priority order."""
         q = norm(question)
         for r in self.rules:
-            if r["any"] and not any(p in q for p in r["any"]):
+            if r["any"] and not any(p.search(q) for p in r["any"]):
                 continue
-            if r["all"] and not all(p in q for p in r["all"]):
+            if r["all"] and not all(p.search(q) for p in r["all"]):
                 continue
-            if r["not"] and any(p in q for p in r["not"]):
+            if r["not"] and any(p.search(q) for p in r["not"]):
                 continue
             return r
         return None

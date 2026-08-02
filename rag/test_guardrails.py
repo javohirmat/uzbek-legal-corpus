@@ -145,6 +145,25 @@ for r in idx.articles:
 print(f"  resolved {len(idx.articles) - bad}/{len(idx.articles)} articles from their own title")
 check("unresolvable articles", bad == 0, True)
 
+print("\n11. customer override rules match on word boundaries, not substrings")
+from answer_rules import Overrides  # noqa: E402
+
+rules = Overrides.load(C.OVERRIDES_JSON)
+print(f"  ({len(rules)} rules loaded from {os.path.basename(C.OVERRIDES_JSON)})")
+for q, want in [
+    # "ish tartibi" occurs inside "berish tartibi" -- a land question must not
+    # be answered with a bank's office hours
+    ("Yer uchastkasini ijaraga berish tartibi qanday?", None),
+    ("Kadrlar boʻlimiga borish tartibi", None),
+    ("Bank ish tartibi qanday?", "ish-vaqti"),
+    ("Kredit foizi qancha?", "kredit-foizi"),
+    # `not` conditions keep a rule from swallowing neighbouring questions
+    ("Ipoteka kredit foizi qancha?", None),
+    ("Mehnat kodeksi boʻyicha ish vaqti qancha?", None),
+]:
+    hit = rules.match(q)
+    check(q, hit["id"] if hit else None, want)
+
 print()
 if fails:
     print(f"{len(fails)} FAILURES:")

@@ -4,6 +4,39 @@ Retrieval + anti-hallucination layer in front of `tomaris/Tomaris.ai` + the DPO
 LoRA, served by vLLM. Answers questions about the 25 audited Uzbek legal codes
 in this repo (7,368 citable articles).
 
+## Answer paths
+
+Every request takes exactly one of four paths, reported back as `retrieval_mode`:
+
+| mode | what it means | model involved | typical latency |
+|---|---|---|---|
+| `override` | a customer-configured answer in `overrides.json` | no | milliseconds |
+| `deterministic` | the article does not exist (repealed / out of range / ambiguous) | no | milliseconds |
+| `article-lookup` | a specific article was named and found; answered from its verbatim text | yes | seconds |
+| `semantic` | open question; hybrid retrieval then grounded generation | yes | seconds |
+
+The first two never reach the model, so they keep working even while vLLM is
+restarting, and they cannot be hallucinated by construction.
+
+## Customer-configured answers
+
+`overrides.json` lets a customer fix the reply to questions they care about —
+what a bank needs before putting this in front of its own users:
+
+```json
+[{ "any":    ["kredit foizi", "foiz stavkasi"],
+   "not":    ["ipoteka"],
+   "answer": "Isteʼmol krediti boʻyicha yillik stavka — 24%.",
+   "source": "Bank tariflari (2026-08)" }]
+```
+
+Matched before retrieval and before generation, so the configured answer is
+returned verbatim and cannot be reworded. Matching ignores okina/apostrophe
+variants, so `isteʼmol`, `iste'mol` and `istemol` all hit the same rule. The
+`not` conditions keep rules from swallowing neighbouring questions: with the
+rule above, *"Ipoteka kredit foizi"* falls through to normal RAG. Edit the file
+and `supervisorctl restart tomaris-rag` to apply.
+
 ## Why it cannot invent articles
 
 Three layers, only one of which involves the model:
