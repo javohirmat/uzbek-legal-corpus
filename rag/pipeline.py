@@ -11,6 +11,7 @@ import dspy
 
 import config as C
 from corpus_index import CorpusIndex
+from overrides import Overrides
 from retriever import Retriever
 
 lm = dspy.LM(
@@ -71,6 +72,7 @@ class LegalRAG(dspy.Module):
         super().__init__()
         self.index = CorpusIndex.load(index_path)
         self.retriever = Retriever(self.index.articles)
+        self.overrides = Overrides.load(C.OVERRIDES_JSON)
         self.generate = dspy.Predict(GroundedAnswer)
 
     # ---------------- deterministic messages (no LLM) ----------------
@@ -144,6 +146,18 @@ class LegalRAG(dspy.Module):
 
     # ---------------- entry point ----------------
     def forward(self, question, context=""):
+        # Customer-configured answers outrank everything, including the corpus:
+        # if a bank has specified the reply to a question, that reply is the
+        # answer -- verbatim, no model, no paraphrase.
+        rule = self.overrides.match(question)
+        if rule:
+            answer = rule["answer"]
+            if rule["source"]:
+                answer += f'\n\nManba: {rule["source"]}'
+            return dspy.Prediction(answer=answer, mode="override",
+                                   citations=[{"code": "override", "code_title": rule["source"],
+                                               "article": rule["id"], "lex_uz": ""}])
+
         refs = self.index.parse_references(question, context=context)
         resolved = [self.index.resolve(r) for r in refs]
 

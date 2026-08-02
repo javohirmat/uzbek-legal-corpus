@@ -33,6 +33,9 @@ TEMPERATURE = 0.1
 MAX_TOKENS = 1200
 
 # ---- retrieval ---------------------------------------------------------
+# Customer-configured "ask X -> answer Y" rules. Checked before everything else.
+OVERRIDES_JSON = os.getenv("OVERRIDES_JSON", os.path.join(HERE, "overrides.json"))
+
 TOP_K = 6                 # articles handed to the model on the semantic path
 CANDIDATES = 20           # per-retriever candidates before rank fusion
 RRF_K = 60                # reciprocal-rank-fusion constant
