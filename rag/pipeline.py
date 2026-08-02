@@ -11,7 +11,7 @@ import dspy
 
 import config as C
 from corpus_index import CorpusIndex
-from overrides import Overrides
+from answer_rules import Overrides
 from retriever import Retriever
 
 lm = dspy.LM(
