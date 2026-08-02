@@ -20,6 +20,21 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def tolerate_doubled_base(request: Request, call_next):
+    """Accept a base URL that already includes the endpoint path.
+
+    Clients configured with VAST_API_URL=".../v1/chat/completions" append their
+    own "/v1/..." and arrive as "/v1/chat/completions/v1/models". Rather than
+    404 and look like an outage, strip the duplicated prefix.
+    """
+    path = request.url.path
+    marker = "/v1/chat/completions/v1/"
+    if marker in path:
+        request.scope["path"] = path[path.index(marker) + len("/v1/chat/completions"):]
+    return await call_next(request)
+
+
 @app.on_event("startup")
 def warm():
     idx = get_rag().index
