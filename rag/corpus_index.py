@@ -159,6 +159,30 @@ class CorpusIndex:
         for alias in sorted(self.ambiguous, key=len, reverse=True):
             self._matchers.append((self._pattern(alias), self.ambiguous[alias], True))
 
+        # Typo-tolerant matching: users type "fuqoro kodeqs" for "fuqarolik
+        # kodeksi", and refusing to recognise the code means refusing to answer
+        # about a real article. Each word is reduced to a 3-letter prefix.
+        #
+        # Hyphens split words like spaces, otherwise "jinoyat-protsessual
+        # kodeksi" reduces to the same two-token pattern as "jinoyat kodeksi"
+        # and a Criminal Code question resolves to the Criminal Procedure Code.
+        # Any prefix pattern that still spans more than one logical code is
+        # dropped rather than guessed.
+        loose = {}
+        for alias, members in self.aliases.items():
+            words = [w for w in re.split(r"[\s\-]+", alias) if w]
+            if len(words) < 2:
+                continue
+            loose.setdefault(tuple(w[:3] for w in words), set()).update(members)
+
+        self._loose = []
+        for key, members in sorted(loose.items(), key=lambda kv: -len(kv[0])):
+            logical = {re.sub(r"[_\-]\d+qism$", "", m) for m in members}
+            if len(logical) > 1:
+                continue
+            body = r"[\s\-]+".join(re.escape(k) + r"\w*" for k in key)
+            self._loose.append((re.compile(r"(?<!\w)" + body), sorted(members), False))
+
     @staticmethod
     def _pattern(alias):
         words = alias.split(" ")
@@ -174,6 +198,15 @@ class CorpusIndex:
         """[(position, slugs, is_ambiguous)] with longest-alias-wins overlap suppression."""
         hits, taken = [], []
         for rx, members, amb in self._matchers:
+            for m in rx.finditer(text_norm):
+                if any(not (m.end() <= s or m.start() >= e) for s, e in taken):
+                    continue
+                taken.append((m.start(), m.end()))
+                hits.append((m.start(), members, amb))
+        # Misspelled codes are matched too, but only over text no exact alias
+        # claimed -- "konstitutsiya 108 ... fuqoro kodeqs 674" must resolve
+        # both, not just the correctly spelled one.
+        for rx, members, amb in self._loose:
             for m in rx.finditer(text_norm):
                 if any(not (m.end() <= s or m.start() >= e) for s, e in taken):
                     continue
@@ -220,8 +253,31 @@ class CorpusIndex:
                     "cands": candidates(m.group(1), m.group(2)),
                     "digits": m.group(1),
                     "raw": m.group(0),
+                    "span": m.span(),
                 }
             )
+
+        # People also write the number bare: "fuqarolik kodeksi 674 kerak".
+        # Only accept a number that directly follows a code mention, so stray
+        # figures elsewhere in a sentence are never mistaken for articles.
+        covered = [r["span"] for r in refs]
+        for pos, slugs, amb in mentions:
+            tail = t[pos:pos + 120]
+            for m in re.finditer(r"(?<!\w)(\d{1,4})\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?(?!\s*-?\s*modda)", tail):
+                start = pos + m.start()
+                if any(s <= start < e for s, e in covered):
+                    continue
+                between = t[pos:start]
+                if len(between) > 40 or re.search(r"\d", between):
+                    continue
+                refs.append({
+                    "slugs": slugs, "ambiguous": amb,
+                    "cands": candidates(m.group(1), m.group(2)),
+                    "digits": m.group(1), "raw": m.group(0),
+                    "span": (start, pos + m.end()),
+                })
+                covered.append((start, pos + m.end()))
+                break
         return refs
 
     def resolve(self, ref):

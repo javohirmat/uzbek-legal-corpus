@@ -210,9 +210,16 @@ class LegalRAG(dspy.Module):
                 except Exception as second:
                     raise UpstreamUnavailable(str(second)) from first
             if self.index.bad_citations(answer, allowed):
+                # We hold the verbatim articles the user asked about. Returning
+                # "not enough information" while sitting on them is worse than
+                # useless -- show the law itself instead of the model's take.
+                verbatim = "\n\n".join(
+                    f'{a["code_title"]}, {a["article_display"]}:\n{a["text"]}'
+                    for a in articles
+                )
                 return (
-                    "Ishonchli javob berish uchun bazadagi maʼlumot yetarli emas. "
-                    "Savolni aniqroq yozing yoki modda raqamini koʻrsating.",
+                    "Quyida soʻralgan moddaning toʻliq matni keltirilgan:\n\n"
+                    + verbatim,
                     False,
                     _last_reasoning(),
                 )

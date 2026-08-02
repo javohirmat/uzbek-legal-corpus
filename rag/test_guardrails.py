@@ -145,6 +145,21 @@ for r in idx.articles:
 print(f"  resolved {len(idx.articles) - bad}/{len(idx.articles)} articles from their own title")
 check("unresolvable articles", bad == 0, True)
 
+print("\n10b. real-world typos and bare article numbers")
+for q, want in [
+    ("konstitutsiya 108 modda fuqoro kodeqs 674 kerak",
+     ["konstitutsiya", "fuqarolik_kodeksi_2qism"]),
+    ("jinoyat kodeqsi 97 modda", ["jinoyat_kodeksi"]),          # not JPK
+    ("jinoyat-protsessual kodeqsi 97 modda", ["jinoyat_protsessual_kodeksi"]),
+    ("fuqarolik kodeksi 674", ["fuqarolik_kodeksi_2qism"]),     # bare number
+    ("Menga 5000 som kerak, 2026 yilda", []),                   # no false refs
+]:
+    got = []
+    for r in idx.parse_references(q):
+        st, key, _ = idx.resolve(r)
+        got.append(key[0] if isinstance(key, tuple) else st)
+    check(q, got, want)
+
 print("\n11. customer override rules match on word boundaries, not substrings")
 from answer_rules import Overrides  # noqa: E402
 
