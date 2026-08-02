@@ -32,6 +32,25 @@ def health():
     return {"ok": True, "articles": len(idx.articles), "codes": len(idx.slugs)}
 
 
+@app.get("/v1/models")
+def models():
+    """OpenAI-compatible model list.
+
+    Clients probe this to decide whether a backend is reachable -- without it
+    the frontend reports "not connected" and falls back to demo responses even
+    though chat completions work.
+    """
+    return {
+        "object": "list",
+        "data": [{
+            "id": C.VLLM_MODEL,
+            "object": "model",
+            "created": int(time.time()),
+            "owned_by": "tomaris",
+        }],
+    }
+
+
 @app.post("/v1/chat/completions")
 async def chat(req: Request):
     body = await req.json()
