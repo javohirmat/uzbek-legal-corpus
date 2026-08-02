@@ -152,8 +152,10 @@ class LegalRAG(dspy.Module):
                 answer, used, mode, ok = "\n".join(notes), [], "deterministic", True
         else:
             keys = self.retriever.search(question)
-            used = [self.index.by_key[k] for k in keys if k in self.index.by_key]
-            answer, ok = self._grounded(question, used)
+            retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
+            answer, ok = self._grounded(question, retrieved)
+            # report only what the answer actually leans on, not every candidate
+            used = self.index.cited_subset(answer, retrieved) if ok else []
             mode = "semantic"
 
         if used and ok:

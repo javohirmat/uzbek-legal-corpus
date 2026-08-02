@@ -283,5 +283,23 @@ class CorpusIndex:
                 bad.append(m.group(0))
         return bad
 
+    def cited_subset(self, answer, articles):
+        """Keep only the articles the answer actually cites.
+
+        Retrieval hands the model more candidates than it needs; listing all of
+        them as "Manbalar" shows the user irrelevant sources (a Family Code
+        article under a labour answer) and reads as sloppy grounding.
+        """
+        seen = set()
+        for m in _ART_RE.finditer(norm(answer)):
+            seen.update(candidates(m.group(1), m.group(2)))
+            seen.add(m.group(1))
+        used = [
+            a for a in articles
+            if a["article_id"] in seen
+            or (re.sub(r"\D", "", a.get("article_raw") or "") in seen)
+        ]
+        return used or articles
+
     def name_of(self, slugs):
         return ", ".join(sorted({self.group_name.get(s, s) for s in slugs}))
