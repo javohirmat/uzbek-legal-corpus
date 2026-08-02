@@ -52,6 +52,10 @@ def _format(articles):
     )
 
 
+class UpstreamUnavailable(RuntimeError):
+    """vLLM is down, restarting, or otherwise unreachable."""
+
+
 def _sources(articles):
     seen, out = set(), []
     for a in articles:
@@ -109,8 +113,13 @@ class LegalRAG(dspy.Module):
         allowed = self.index.allowed_ids(articles)
         try:
             answer = self.generate(question=question, articles=ctx).answer
-        except Exception:
-            answer = self._raw_call(question, ctx)
+        except Exception as first:
+            # A structured-output parse failure is recoverable via a plain call;
+            # an unreachable vLLM is not, and must not surface as a raw traceback.
+            try:
+                answer = self._raw_call(question, ctx)
+            except Exception as second:
+                raise UpstreamUnavailable(str(second)) from first
 
         bad = self.index.bad_citations(answer, allowed)
         if bad:
@@ -120,8 +129,11 @@ class LegalRAG(dspy.Module):
             )
             try:
                 answer = self.generate(question=retry, articles=ctx).answer
-            except Exception:
-                answer = self._raw_call(retry, ctx)
+            except Exception as first:
+                try:
+                    answer = self._raw_call(retry, ctx)
+                except Exception as second:
+                    raise UpstreamUnavailable(str(second)) from first
             if self.index.bad_citations(answer, allowed):
                 return (
                     "Ishonchli javob berish uchun bazadagi maʼlumot yetarli emas. "

@@ -82,24 +82,31 @@ to pull from the Hub instead.
 
 ## Run
 
+Both processes run as **supervisor services**, not `tmux` or `nohup` — they then
+restart on crash and their logs reach the Vast portal. The two wrapper scripts
+and configs are created by `install_services.sh`:
+
 ```bash
-tmux new -s vllm
-/workspace/venv-vllm/bin/vllm serve /workspace/model \
-  --enable-lora --lora-modules tomaris=/workspace/dpo_adapter --max-lora-rank 64 \
-  --dtype bfloat16 --max-model-len 8192 --port 8001 --host 0.0.0.0 \
-  --served-model-name tomaris-base --gpu-memory-utilization 0.90 \
-  --enforce-eager --language-model-only --reasoning-parser deepseek_r1
-# ctrl-b d
+bash /workspace/repo/rag/install_services.sh
+supervisorctl status | grep tomaris
 ```
 
-`--language-model-only` is required: the base is a Qwen3-VL checkpoint and
-without it vLLM tries to load an image processor and dies with
+`--language-model-only` is required in the vLLM service: the base is a Qwen3-VL
+checkpoint and without it vLLM tries to load an image processor and dies with
 `Can't load image processor`.
 
+**vLLM binds `127.0.0.1` and deliberately gets no `portal.yaml` entry.** It has
+no authentication of its own, so exposing it would let anyone with the URL spend
+your GPU. Only the RAG server is public, and only behind the Caddy token edge.
+
+Restart after a code change:
+
 ```bash
-tmux new -s rag
-cd /workspace/repo/rag && /workspace/venv-rag/bin/uvicorn server:app --host 0.0.0.0 --port 8000
+cd /workspace/repo && git pull && supervisorctl restart tomaris-rag
 ```
+
+Never `pkill -f uvicorn…`: the pattern matches the very shell running it and
+kills your own session mid-command. Use `supervisorctl`, or kill by PID.
 
 ## Verify
 

@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import config as C
-from pipeline import get_rag
+from pipeline import UpstreamUnavailable, get_rag
 
 app = FastAPI(title="Tomaris legal RAG")
 app.add_middleware(
@@ -44,7 +44,27 @@ async def chat(req: Request):
     )
 
     print(f"\n[USER] {question}")
-    result = get_rag()(question=question, context=context)
+    try:
+        result = get_rag()(question=question, context=context)
+    except UpstreamUnavailable as e:
+        # vLLM restarting or down. Deterministic answers still work (they never
+        # call it), so only generation-backed queries land here.
+        print(f"[upstream-unavailable] {e}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "error": {"type": "upstream_unavailable", "message": str(e)},
+                "choices": [{
+                    "index": 0,
+                    "message": {
+                        "role": "assistant",
+                        "content": "Til modeli hozircha ishga tushmoqda. "
+                                   "Bir necha daqiqadan soʻng qayta urinib koʻring.",
+                    },
+                    "finish_reason": "stop",
+                }],
+            },
+        )
     print(f"[{result.mode}] {result.answer[:160]}...")
 
     return JSONResponse(
