@@ -1,0 +1,11 @@
+# RAG server deps ONLY. Install these in a venv that does NOT contain vLLM --
+# vLLM pins torch/transformers hard, and sentence-transformers will happily
+# upgrade them out from under it. The two processes talk over HTTP, so they
+# share nothing but a port number.
+dspy>=3.0
+chromadb>=0.5
+sentence-transformers>=3.0
+rank_bm25>=0.2.2
+fastapi>=0.115
+uvicorn[standard]>=0.30
+datasets>=2.20   # only needed when CORPUS_SOURCE=hf
