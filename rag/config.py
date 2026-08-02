@@ -52,3 +52,8 @@ CANDIDATES = 20           # per-retriever candidates before rank fusion
 RRF_K = 60                # reciprocal-rank-fusion constant
 MAX_ARTICLE_CHARS = 6000  # guard for the few very long articles (e.g. Soliq 483)
 HISTORY_TURNS = 6         # how far back to look for a code name in a chat thread
+
+# Cosine distance below which the corpus is considered to have a real answer.
+# Above it, a question with no explicit legal signal is treated as general chat.
+# Raise -> more questions routed to law; lower -> more to chat.
+LEGAL_DISTANCE = float(os.getenv("LEGAL_DISTANCE", "0.45"))

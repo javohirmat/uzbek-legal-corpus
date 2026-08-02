@@ -254,11 +254,21 @@ class LegalRAG(dspy.Module):
 
         refs = self.index.parse_references(question, context=context)
 
-        # Not a legal question -> answer as a normal assistant.
-        if not self._is_legal(question, refs):
-            answer, reasoning = self._chat(question, list(history))
-            return dspy.Prediction(answer=answer, reasoning=reasoning,
-                                   mode="chat", citations=[])
+        # Route between "answer from the law" and "answer as an assistant".
+        # An explicit signal decides immediately; otherwise let the corpus vote
+        # by how close its nearest article is. Keyword lists silently miss
+        # everyday phrasings ("ish haqi" is a Labour Code question that names
+        # no code), and missing one means answering a legal question from the
+        # model's memory -- the failure this system exists to prevent.
+        explicit = self._is_legal(question, refs)
+        retrieved, best = [], 1.0
+        if not explicit:
+            keys, best = self.retriever.search(question)
+            if best > C.LEGAL_DISTANCE:
+                answer, reasoning = self._chat(question, list(history))
+                return dspy.Prediction(answer=answer, reasoning=reasoning,
+                                       mode="chat", citations=[])
+            retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
 
         resolved = [self.index.resolve(r) for r in refs]
 
@@ -279,8 +289,9 @@ class LegalRAG(dspy.Module):
                 answer, used, mode, ok = "\n".join(notes), [], "deterministic", True
                 reasoning = ""
         else:
-            keys = self.retriever.search(question)
-            retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
+            if not retrieved:                       # explicit legal signal path
+                keys, best = self.retriever.search(question)
+                retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
             answer, ok, reasoning = self._grounded(question, retrieved)
             # report only what the answer actually leans on, not every candidate
             used = self.index.cited_subset(answer, retrieved) if ok else []

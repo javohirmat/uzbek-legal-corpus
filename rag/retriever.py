@@ -33,9 +33,15 @@ class Retriever:
         )
 
     def search(self, question, k=C.TOP_K):
+        """Returns (keys, best_distance). The distance lets the caller judge
+        whether the corpus actually has anything to say about this question --
+        keyword lists cannot cover a whole language."""
         n = C.CANDIDATES
-        res = self.col.query(query_texts=[question], n_results=n, include=["metadatas"])
+        res = self.col.query(query_texts=[question], n_results=n,
+                             include=["metadatas", "distances"])
         dense = [(m["code"], m["article_id"]) for m in res["metadatas"][0]]
+        dists = res.get("distances") or [[]]
+        best = min(dists[0]) if dists[0] else 1.0
 
         scores = self.bm25.get_scores(_tok(question))
         top = sorted(range(len(scores)), key=lambda i: -scores[i])[:n]
@@ -45,4 +51,4 @@ class Retriever:
         for ranked in (dense, sparse):
             for rank, key in enumerate(ranked):
                 fused[key] = fused.get(key, 0.0) + 1.0 / (C.RRF_K + rank)
-        return sorted(fused, key=lambda key: -fused[key])[:k]
+        return sorted(fused, key=lambda key: -fused[key])[:k], best
