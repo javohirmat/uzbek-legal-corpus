@@ -58,6 +58,26 @@ class UpstreamUnavailable(RuntimeError):
     """vLLM is down, restarting, or otherwise unreachable."""
 
 
+def _as_text(x):
+    """Coerce a model field to text.
+
+    DSPy does not always hand back a plain string: depending on what the model
+    emits, an output field can arrive as a dict or a list. Everything
+    downstream (citation audit, normalisation) assumes text, so coerce once
+    here rather than defending in each of those places.
+    """
+    if isinstance(x, str):
+        return x
+    if isinstance(x, dict):
+        for key in ("answer", "javob", "text", "content", "value"):
+            if isinstance(x.get(key), str):
+                return x[key]
+        return json.dumps(x, ensure_ascii=False)
+    if isinstance(x, (list, tuple)):
+        return "\n".join(_as_text(i) for i in x)
+    return str(x)
+
+
 def _sources(articles):
     seen, out = set(), []
     for a in articles:
@@ -109,13 +129,13 @@ class LegalRAG(dspy.Module):
             {"role": "system", "content": SYSTEM},
             {"role": "user", "content": f"MODDALAR:\n{ctx}\n\nSAVOL: {question}"},
         ])
-        return out[0] if isinstance(out, list) else str(out)
+        return _as_text(out[0] if isinstance(out, list) else out)
 
     def _grounded(self, question, articles):
         ctx = _format(articles)
         allowed = self.index.allowed_ids(articles)
         try:
-            answer = self.generate(question=question, articles=ctx).answer
+            answer = _as_text(self.generate(question=question, articles=ctx).answer)
         except Exception as first:
             # A structured-output parse failure is recoverable via a plain call;
             # an unreachable vLLM is not, and must not surface as a raw traceback.
@@ -131,7 +151,7 @@ class LegalRAG(dspy.Module):
                 f'Quyidagilar berilmagan: {", ".join(sorted(set(bad)))}]'
             )
             try:
-                answer = self.generate(question=retry, articles=ctx).answer
+                answer = _as_text(self.generate(question=retry, articles=ctx).answer)
             except Exception as first:
                 try:
                     answer = self._raw_call(retry, ctx)
