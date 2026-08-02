@@ -69,8 +69,12 @@ def _as_text(x):
     if isinstance(x, str):
         return x
     if isinstance(x, dict):
-        for key in ("answer", "javob", "text", "content", "value"):
-            if isinstance(x.get(key), str):
+        # `reasoning_content` is included deliberately: with a reasoning parser
+        # active and no closing </think> marker, vLLM files the entire answer
+        # there and leaves content null. Losing that would discard a correct
+        # answer we already paid to generate.
+        for key in ("answer", "javob", "text", "content", "value", "reasoning_content"):
+            if isinstance(x.get(key), str) and x[key].strip():
                 return x[key]
         return json.dumps(x, ensure_ascii=False)
     if isinstance(x, (list, tuple)):
