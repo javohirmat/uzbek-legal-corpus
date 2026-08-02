@@ -6,17 +6,33 @@ in this repo (7,368 citable articles).
 
 ## Answer paths
 
-Every request takes exactly one of four paths, reported back as `retrieval_mode`:
+Every request takes exactly one of five paths, reported back as `retrieval_mode`
+(measured on an RTX PRO 6000 Blackwell, 27B + LoRA, ~23 tok/s):
 
-| mode | what it means | model involved | typical latency |
+| mode | what it means | model | measured |
 |---|---|---|---|
-| `override` | a customer-configured answer in `overrides.json` | no | milliseconds |
-| `deterministic` | the article does not exist (repealed / out of range / ambiguous) | no | milliseconds |
-| `article-lookup` | a specific article was named and found; answered from its verbatim text | yes | seconds |
-| `semantic` | open question; hybrid retrieval then grounded generation | yes | seconds |
+| `override` | a customer-configured answer in `overrides.json` | no | 0.007 s |
+| `deterministic` | the article does not exist (repealed / out of range / ambiguous) | no | 0.005 s |
+| `chat` | not a legal question — answered as a normal assistant | yes | 4–18 s |
+| `article-lookup` | a specific article was named and found; answered from its verbatim text | yes | ~16 s |
+| `semantic` | open legal question; hybrid retrieval then grounded generation | yes | 25–34 s |
 
 The first two never reach the model, so they keep working even while vLLM is
 restarting, and they cannot be hallucinated by construction.
+
+### Legal or not?
+
+This serves a general assistant, so most messages are not about law. Routing:
+
+1. an article reference, a code name, or legal vocabulary → the corpus;
+2. otherwise retrieval runs first and the nearest article's cosine distance
+   decides (`LEGAL_DISTANCE`, default 0.45).
+
+Step 2 exists because a keyword list cannot cover a language: *"Ish haqi qancha
+muddatda toʻlanishi kerak?"* is a Labour Code question naming neither a code nor
+any legal term, and routing it to chat would answer a legal question from the
+model's memory — the exact failure this system exists to prevent. Retrieval
+catches it; cooking and history questions stay in chat.
 
 ## Customer-configured answers
 
