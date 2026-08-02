@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ish-vaqti",
+    "any": ["ish vaqti", "necha soatda ochiladi", "qachon ochiladi", "ish tartibi"],
+    "not": ["mehnat kodeksi"],
+    "answer": "Bank filiallari dushanbadan jumagacha 09:00 dan 18:00 gacha ishlaydi. Shanba kuni 09:00–13:00. Yakshanba — dam olish kuni.",
+    "source": "Bank ish tartibi"
+  },
+  {
+    "id": "kredit-foizi",
+    "any": ["kredit foizi", "foiz stavkasi", "kredit stavkasi"],
+    "not": ["ipoteka"],
+    "answer": "Isteʼmol krediti boʻyicha yillik stavka — 24%. Muddat 36 oygacha. Batafsil shartlar uchun 1234 raqamiga qoʻngʻiroq qiling.",
+    "source": "Bank tariflari (2026-08)"
+  }
+]
