@@ -57,3 +57,6 @@ HISTORY_TURNS = 6         # how far back to look for a code name in a chat threa
 # Above it, a question with no explicit legal signal is treated as general chat.
 # Raise -> more questions routed to law; lower -> more to chat.
 LEGAL_DISTANCE = float(os.getenv("LEGAL_DISTANCE", "0.45"))
+
+# Colloquial -> formal legal wording, applied to the retrieval query only.
+SYNONYMS_JSON = os.getenv("SYNONYMS_JSON", os.path.join(HERE, "synonyms.json"))

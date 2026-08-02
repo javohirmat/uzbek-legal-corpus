@@ -1,0 +1,43 @@
+[
+  {"when": ["armiya", "armiyaga", "armiyada", "askarlik", "harbiy xizmat", "chaqiriq"],
+   "add": "harbiy xizmatga chaqiruvdan boʻyin tovlash muddatli harbiy xizmat muqobil xizmat"},
+
+  {"when": ["ishdan haydash", "ishdan boʻshatish", "ishdan boshatish", "ishdan chiqarish"],
+   "add": "mehnat shartnomasini bekor qilish xodimni ishdan boʻshatish asoslari"},
+
+  {"when": ["oylik", "maosh", "ish haqi", "ish haqqi"],
+   "add": "mehnatga haq toʻlash ish haqini toʻlash muddatlari"},
+
+  {"when": ["taʼtil", "tatil", "otpusk"],
+   "add": "mehnat taʼtili yillik asosiy taʼtil"},
+
+  {"when": ["ajrashish", "taloq", "ajralish"],
+   "add": "nikohni bekor qilish er-xotinning ajralishi"},
+
+  {"when": ["aliment", "alimet"],
+   "add": "aliment undirish voyaga yetmagan bolalarni taʼminlash"},
+
+  {"when": ["oʻgʻirlik", "ogirlik", "oʻgʻirlash", "talon"],
+   "add": "oʻgʻirlik talonchilik birovning mol-mulkini talon-toroj qilish"},
+
+  {"when": ["pora", "korrupsiya"],
+   "add": "pora olish pora berish mansabdorlik jinoyatlari"},
+
+  {"when": ["uy sotish", "kvartira sotish", "uy sotib olish"],
+   "add": "koʻchmas mulkni oldi-sotdi shartnomasi"},
+
+  {"when": ["haydovchilik guvohnomasi", "yoʻl harakati", "avtohalokat", "tezlik"],
+   "add": "yoʻl harakati qoidalarini buzish maʼmuriy javobgarlik"},
+
+  {"when": ["meros", "vorislik"],
+   "add": "merosni qabul qilish vasiyatnoma qonun boʻyicha vorislik"},
+
+  {"when": ["kredit", "qarz"],
+   "add": "qarz shartnomasi kredit shartnomasi majburiyatni bajarish"},
+
+  {"when": ["jarima", "shtraf"],
+   "add": "maʼmuriy jarima javobgarlik choralari"},
+
+  {"when": ["biznes ochish", "firma ochish", "yatt", "tadbirkorlik"],
+   "add": "tadbirkorlik faoliyati davlat roʻyxatidan oʻtkazish"}
+]

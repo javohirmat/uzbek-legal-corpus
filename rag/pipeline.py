@@ -14,6 +14,7 @@ import dspy
 import config as C
 from corpus_index import CorpusIndex, norm
 from answer_rules import Overrides
+from query_expand import QueryExpander
 from retriever import Retriever
 
 _lm_kwargs = {}
@@ -159,6 +160,7 @@ class LegalRAG(dspy.Module):
         self.index = CorpusIndex.load(index_path)
         self.retriever = Retriever(self.index.articles)
         self.overrides = Overrides.load(C.OVERRIDES_JSON)
+        self.expander = QueryExpander.load(C.SYNONYMS_JSON)
         self.generate = dspy.Predict(GroundedAnswer)
 
     # ---------------- deterministic messages (no LLM) ----------------
@@ -283,7 +285,7 @@ class LegalRAG(dspy.Module):
         explicit = self._is_legal(question, refs)
         retrieved, best = [], 1.0
         if not explicit:
-            keys, best = self.retriever.search(question)
+            keys, best = self.retriever.search(self.expander.expand(question))
             if best > C.LEGAL_DISTANCE:
                 answer, reasoning = self._chat(question, list(history))
                 return dspy.Prediction(answer=answer, reasoning=reasoning,
@@ -310,7 +312,7 @@ class LegalRAG(dspy.Module):
                 reasoning = ""
         else:
             if not retrieved:                       # explicit legal signal path
-                keys, best = self.retriever.search(question)
+                keys, best = self.retriever.search(self.expander.expand(question))
                 retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
             answer, ok, reasoning = self._grounded(question, retrieved)
             # report only what the answer actually leans on, not every candidate
