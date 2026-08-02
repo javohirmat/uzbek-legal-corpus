@@ -82,6 +82,27 @@ def _as_text(x):
     return str(x)
 
 
+def _last_reasoning():
+    """Pull reasoning_content off the most recent completion.
+
+    DSPy's Prediction only carries the parsed output fields, so the model's
+    thinking trace has to come from the LM's own history. Best-effort: an empty
+    string simply means the UI shows no reasoning panel.
+
+    Caveat: history is per-LM, not per-request, so under genuinely concurrent
+    load this can attribute one request's trace to another. Fine for demo and
+    light traffic; needs a per-call capture before heavy concurrent use.
+    """
+    try:
+        resp = lm.history[-1].get("response")
+        choices = getattr(resp, "choices", None) or resp.get("choices")
+        msg = choices[0].get("message") if isinstance(choices[0], dict) else choices[0].message
+        rc = msg.get("reasoning_content") if isinstance(msg, dict) else getattr(msg, "reasoning_content", None)
+        return rc if isinstance(rc, str) and rc.strip() else ""
+    except Exception:
+        return ""
+
+
 def _sources(articles):
     seen, out = set(), []
     for a in articles:
@@ -166,8 +187,9 @@ class LegalRAG(dspy.Module):
                     "Ishonchli javob berish uchun bazadagi maʼlumot yetarli emas. "
                     "Savolni aniqroq yozing yoki modda raqamini koʻrsating.",
                     False,
+                    _last_reasoning(),
                 )
-        return answer, True
+        return answer, True, _last_reasoning()
 
     # ---------------- entry point ----------------
     def forward(self, question, context=""):
@@ -179,7 +201,7 @@ class LegalRAG(dspy.Module):
             answer = rule["answer"]
             if rule["source"]:
                 answer += f'\n\nManba: {rule["source"]}'
-            return dspy.Prediction(answer=answer, mode="override",
+            return dspy.Prediction(answer=answer, reasoning="", mode="override",
                                    citations=[{"code": "override", "code_title": rule["source"],
                                                "article": rule["id"], "lex_uz": ""}])
 
@@ -195,16 +217,17 @@ class LegalRAG(dspy.Module):
 
         if refs:
             if found:
-                body, ok = self._grounded(question, found)
+                body, ok, reasoning = self._grounded(question, found)
                 answer = ("\n".join(notes) + "\n\n" + body) if notes else body
                 used, mode = found, "article-lookup"
             else:
                 # every referenced article is missing -> answered without any LLM
                 answer, used, mode, ok = "\n".join(notes), [], "deterministic", True
+                reasoning = ""
         else:
             keys = self.retriever.search(question)
             retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
-            answer, ok = self._grounded(question, retrieved)
+            answer, ok, reasoning = self._grounded(question, retrieved)
             # report only what the answer actually leans on, not every candidate
             used = self.index.cited_subset(answer, retrieved) if ok else []
             mode = "semantic"
@@ -214,6 +237,7 @@ class LegalRAG(dspy.Module):
 
         return dspy.Prediction(
             answer=answer,
+            reasoning=reasoning,
             mode=mode,
             citations=[
                 {"code": a["code"], "code_title": a["code_title"],

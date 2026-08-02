@@ -76,7 +76,14 @@ async def chat(req: Request):
             "choices": [
                 {
                     "index": 0,
-                    "message": {"role": "assistant", "content": result.answer},
+                    "message": {
+                        "role": "assistant",
+                        "content": result.answer,
+                        # the frontend's collapsible "Reasoning" panel reads this;
+                        # empty on the override/deterministic paths, which never
+                        # invoke the model
+                        "reasoning_content": result.reasoning,
+                    },
                     "finish_reason": "stop",
                 }
             ],
