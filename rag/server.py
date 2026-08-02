@@ -133,12 +133,20 @@ async def chat(req: Request):
             first = {**base, "choices": [{"index": 0, "delta": {"role": "assistant"},
                                           "finish_reason": None}]}
             yield f"data: {json.dumps(first, ensure_ascii=False)}\n\n"
-            text = result.answer
-            for i in range(0, len(text), 48):
-                chunk = {**base, "choices": [{"index": 0,
-                                              "delta": {"content": text[i:i + 48]},
-                                              "finish_reason": None}]}
-                yield f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
+
+            def deltas(text, field):
+                for i in range(0, len(text), 48):
+                    chunk = {**base, "choices": [{"index": 0,
+                                                  "delta": {field: text[i:i + 48]},
+                                                  "finish_reason": None}]}
+                    yield f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
+
+            # Reasoning first, then the answer -- the same order and field names
+            # vLLM uses, so a client written against vLLM's stream works here
+            # unchanged. Without this the UI's reasoning panel stays empty in
+            # streaming mode no matter what the client does.
+            yield from deltas(result.reasoning or "", "reasoning_content")
+            yield from deltas(result.answer, "content")
             last = {**base, "citations": result.citations,
                     "retrieval_mode": result.mode,
                     "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}
