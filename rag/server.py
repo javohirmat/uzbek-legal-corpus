@@ -7,6 +7,7 @@ field -- clients that ignore it are unaffected.
 import json
 import time
 import uuid
+from datetime import datetime, timezone
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -79,6 +80,7 @@ async def chat(req: Request):
     )
     want_stream = bool(body.get("stream"))
 
+    t0 = time.time()
     print(f"\n[USER] {question}{'  (stream)' if want_stream else ''}")
     try:
         result = get_rag()(question=question, context=context, history=history)
@@ -102,6 +104,22 @@ async def chat(req: Request):
             },
         )
     print(f"[{result.mode}] {result.answer[:160]}...")
+
+    # Durable transcript. The supervisor log restarts with the process, so the
+    # only record of what users actually asked was being lost on every deploy.
+    # This file also becomes training data: real questions, real phrasings.
+    try:
+        with open(C.CHAT_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps({
+                "t": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "question": question,
+                "mode": result.mode,
+                "answer": result.answer,
+                "citations": result.citations,
+                "seconds": round(time.time() - t0, 1),
+            }, ensure_ascii=False) + "\n")
+    except Exception as e:                      # logging must never break a reply
+        print(f"[chat-log failed] {e}")
 
     if want_stream:
         # The citation audit needs the finished answer, so generation cannot be

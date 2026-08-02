@@ -15,6 +15,7 @@ import config as C
 from corpus_index import CorpusIndex, norm
 from answer_rules import Overrides
 from query_expand import QueryExpander
+import identity
 from retriever import Retriever
 
 _lm_kwargs = {}
@@ -267,6 +268,14 @@ class LegalRAG(dspy.Module):
         # Customer-configured answers outrank everything, including the corpus:
         # if a bank has specified the reply to a question, that reply is the
         # answer -- verbatim, no model, no paraphrase.
+        # Who/what am I, and prompt-injection attempts. Answered from a fixed
+        # string without invoking the model, so there is nothing to talk out of
+        # its instructions.
+        fixed = identity.match(question)
+        if fixed:
+            return dspy.Prediction(answer=fixed, reasoning="", mode="identity",
+                                   citations=[])
+
         rule = self.overrides.match(question)
         if rule:
             answer = rule["answer"]

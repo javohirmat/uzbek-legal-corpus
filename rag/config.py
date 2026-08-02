@@ -60,3 +60,6 @@ LEGAL_DISTANCE = float(os.getenv("LEGAL_DISTANCE", "0.45"))
 
 # Colloquial -> formal legal wording, applied to the retrieval query only.
 SYNONYMS_JSON = os.getenv("SYNONYMS_JSON", os.path.join(HERE, "synonyms.json"))
+
+# Durable transcript of every question and answer (survives service restarts).
+CHAT_LOG = os.getenv("CHAT_LOG", "/workspace/chat-history.jsonl")
