@@ -177,8 +177,14 @@ for q, blocked in [
 print("\n11. customer override rules match on word boundaries, not substrings")
 from answer_rules import Overrides  # noqa: E402
 
-rules = Overrides.load(C.OVERRIDES_JSON)
-print(f"  ({len(rules)} rules loaded from {os.path.basename(C.OVERRIDES_JSON)})")
+# Fixtures, not the live overrides.json -- tests must not depend on whatever a
+# customer happens to have configured, and overrides.json ships empty.
+rules = Overrides([
+    {"id": "ish-vaqti", "any": ["ish vaqti", "ish tartibi"], "not": ["mehnat kodeksi"],
+     "answer": "...", "source": ""},
+    {"id": "kredit-foizi", "any": ["kredit foizi", "foiz stavkasi"], "not": ["ipoteka"],
+     "answer": "...", "source": ""},
+])
 for q, want in [
     # "ish tartibi" occurs inside "berish tartibi" -- a land question must not
     # be answered with a bank's office hours
@@ -192,6 +198,10 @@ for q, want in [
 ]:
     hit = rules.match(q)
     check(q, hit["id"] if hit else None, want)
+
+print("\n12. shipped overrides.json contains no invented customer data")
+live = Overrides.load(C.OVERRIDES_JSON)
+check("live override rules", len(live), 0)
 
 print()
 if fails:

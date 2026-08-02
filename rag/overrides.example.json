@@ -1,0 +1,10 @@
+[
+  {
+    "_comment": "EXAMPLE ONLY - invented values, never real tariffs. Copy this file to overrides.json and replace with a customer's actual answers, or leave overrides.json as [] to disable the feature.",
+    "id": "kredit-foizi",
+    "any": ["kredit foizi", "foiz stavkasi", "kredit stavkasi"],
+    "not": ["ipoteka"],
+    "answer": "NAMUNA: isteʼmol krediti boʻyicha yillik stavka — XX%. Muddat XX oygacha. Bu koʻrsatkichlar namuna uchun, haqiqiy tariflar emas.",
+    "source": "NAMUNA maʼlumot"
+  }
+]
