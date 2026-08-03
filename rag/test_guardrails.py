@@ -171,8 +171,30 @@ for q, blocked in [
     ("who created you", True),
     ("Bu qonunni kim yaratgan?", False),       # about a law, not the assistant
     ("Amir Temur haqida aytib ber", False),
+    # "who are you" in Uzbek -- the site's most common opening message. The
+    # English form was covered and these were not, so they reached the model.
+    ("Sen kimsan?", True),
+    ("siz kimsiz", True),
+    ("sen nimasan", True),
+    ("Ismingiz nima?", True),
+    ("Oʻzingizni tanishtiring", True),
+    ("introduce yourself", True),
+    # "-siz" is also the privative suffix ("without"), so an unbounded pronoun
+    # match hijacked ordinary legal questions into the identity answer.
+    ("Ruxsatsiz qurilishni kim yaratgan?", False),
+    ("Shartnomasiz ishlash tartibini kim yaratgan?", False),
+    ("Kimsasiz hududda qurilish tartibi", False),
+    ("Xodimni mehnat shartnomasi bilan tanishtirish tartibi qanday?", False),
+    ("Sentabr oyida ish haqi qancha?", False),
 ]:
     check(q, identity.match(q) is not None, blocked)
+
+# The fixed answer must come back in the language asked, or the most common
+# message on the site gets a reply in the wrong one.
+import identity as _id  # noqa: E402
+for q, uzbek in [("Sen kimsan?", True), ("Ismingiz nima?", True),
+                 ("introduce yourself", False), ("who are you", False)]:
+    check(f"language of: {q}", identity.match(q) == (_id.ANSWER_UZ if uzbek else _id.ANSWER_EN), True)
 
 print("\n11. customer override rules match on word boundaries, not substrings")
 from answer_rules import Overrides  # noqa: E402

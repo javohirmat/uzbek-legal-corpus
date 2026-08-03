@@ -35,17 +35,34 @@ ANSWER_EN = (
 # Asking who built it / what it runs on. Some phrasings are self-directed by
 # construction ("ustiga qurilgansan"); the generic ones need a self-reference,
 # so "bu qonunni kim yaratgan" stays a normal question.
+#
+# Every pronoun here is word-bounded, because "-siz" is also Uzbek's privative
+# suffix: unbounded, "siz" matches inside ruxsatsiz / shartnomasiz / cheksiz,
+# and "Ruxsatsiz qurilishni kim yaratgan?" -- a Town-planning Code question --
+# gets answered with the identity string instead of the law. For the same
+# reason "sen" is enumerated rather than left as a prefix: it would swallow
+# "sentabr".
 _SELF = re.compile(
-    r"(sen|seni|sening|senga|siz|sizni|sizning|ozingni|ozing|tomaris|"
-    r"\byou\b|\byour\b|yourself)", re.IGNORECASE)
+    r"(\bsen\b|\bseni\b|\bsening\b|\bsenga\b|\bsiz\b|\bsizni\b|\bsizning\b|"
+    r"\bsizga\b|\bozing|\btomaris\b|\byou\b|\byour\b|\byourself\b)",
+    re.IGNORECASE)
 _ASK_GENERIC = re.compile(
     r"(kim yaratgan|kim yasagan|kim qurgan|kim ishlab chiqqan|yaratuvchi|"
     r"who (made|created|built|trained)|who are you|what are you)", re.IGNORECASE)
+# Self-directed by morphology alone -- the -san/-siz person suffix and the
+# -ing possessive already point at the assistant, so these need no separate
+# self-reference. "Sen kimsan?" is the single most common opening message on
+# the site and used to fall through to chat, where the model answers the one
+# question this module exists to take away from it.
 _ASK_SELF_EVIDENT = re.compile(
     r"(qaysi model|qanday model|qaysi ai|qanday ai|qaysi sunperiy|"
     r"ustiga qurilgan|asosida qurilgan|asosida ishlaysan|nima asosida|"
     r"model name|which model|what model|base model|model ismi|"
-    r"qaysi kompaniya|qaysi neyron)", re.IGNORECASE)
+    r"qaysi kompaniya|qaysi neyron|"
+    r"\bkimsan\b|\bkimsiz\b|\bnimasan\b|\bkim edingiz\b|"
+    r"\bisming nima|\bismingiz nima|\bisming\b|\bismingiz\b|"
+    r"ozing(ni|izni)? tanishtir|ozing(iz)? haqi|"
+    r"introduce yourself|about yourself)", re.IGNORECASE)
 
 # Instruction-override and extraction attempts.
 _INJECTION = re.compile(
