@@ -32,8 +32,9 @@ cd /workspace
 pty ${VLLM_VENV}/bin/vllm serve ${MODEL} \\
   --enable-lora --lora-modules tomaris=${ADAPTER} --max-lora-rank 64 \\
   --dtype bfloat16 --max-model-len 8192 --port 8001 --host 127.0.0.1 \\
-  --served-model-name tomaris-base --gpu-memory-utilization 0.90 \\
-  --enforce-eager --language-model-only --reasoning-parser deepseek_r1 2>&1
+  --served-model-name tomaris-base --gpu-memory-utilization 0.88 \\
+  --language-model-only --reasoning-parser deepseek_r1 \\
+  --compilation-config '{"cudagraph_mode":"PIECEWISE","cudagraph_capture_sizes":[1,2,4,8]}' 2>&1
 SH
 
 # --- RAG API: internal 8000, published on EXT_PORT behind Caddy auth --------
