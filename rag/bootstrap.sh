@@ -24,8 +24,13 @@ if ! /venv/main/bin/hf auth whoami >/dev/null 2>&1; then
 fi
 
 say "1. virtualenvs (separate on purpose: vLLM pins torch, sentence-transformers upgrades it)"
-uv venv $W/venv-vllm --python 3.12 -q
-uv venv $W/venv-rag  --python 3.12 -q
+# Guarded so the script can be re-run. `uv venv` refuses to touch an existing
+# environment, and under `set -e` that aborts the whole run -- so a bootstrap
+# interrupted anywhere after this point (a dropped 54 GB download is the likely
+# one) could not simply be started again. The pip installs below stay
+# unconditional: they are idempotent and near-instant against uv's cache.
+[ -x $W/venv-vllm/bin/python ] || uv venv $W/venv-vllm --python 3.12 -q
+[ -x $W/venv-rag/bin/python ]  || uv venv $W/venv-rag  --python 3.12 -q
 uv pip install --python $W/venv-vllm/bin/python -q vllm huggingface_hub
 uv pip install --python $W/venv-rag/bin/python  -q -r $REPO/rag/requirements.txt
 
