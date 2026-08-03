@@ -187,3 +187,24 @@ Responses carry two extra top-level fields that clients may ignore:
 Query-time embeddings default to CPU so they never contend with vLLM for VRAM
 (~200–400 ms, negligible beside 27B generation). If you drop vLLM to
 `--gpu-memory-utilization 0.85`, set `QUERY_DEVICE=cuda` for ~15 ms instead.
+
+## Performance notes
+
+Measured on an RTX PRO 6000 Blackwell, 27B + LoRA, single request:
+
+- **23.8 tok/s** with the shipped config (CUDA graphs, PIECEWISE, capture sizes
+  1–8). Reproduce with a fixed-length completion, not the `Avg generation
+  throughput` line in vLLM's log — that averages over idle time and reported
+  12.4 tok/s for the same server.
+- `--enforce-eager` costs ~3.4× (7 tok/s). It was in an older config as a
+  workaround for a broken box; never re-add it here.
+- Capturing vLLM's default 51 LoRA-specialised graph sizes crash-loops on this
+  model. Limiting to 1–8 is what makes graphs usable.
+- **n-gram speculative decoding was tried and not adopted**: 21.7 tok/s on
+  general text (worse than baseline), and inconclusive on quote-heavy legal
+  answers (10.4s vs 12.2s on single samples, within noise). Worth revisiting
+  with a proper multi-sample benchmark before drawing a conclusion.
+
+Any config change made on a box must be committed here as well. The fast config
+above was once applied live and not backported, so `bootstrap.sh` rebuilt the
+next box 3.4× slower.
