@@ -82,11 +82,72 @@ async def chat(req: Request):
 
     t0 = time.time()
     print(f"\n[USER] {question}{'  (stream)' if want_stream else ''}")
-    try:
+
+    def run():
         result = get_rag()(question=question, context=context, history=history)
+        print(f"[{result.mode}] {result.answer[:160]}...")
+        try:
+            with open(C.CHAT_LOG, "a", encoding="utf-8") as f:
+                f.write(json.dumps({
+                    "t": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    "question": question,
+                    "mode": result.mode,
+                    "answer": result.answer,
+                    "citations": result.citations,
+                    "seconds": round(time.time() - t0, 1),
+                }, ensure_ascii=False) + "\n")
+        except Exception as e:                  # logging must never break a reply
+            print(f"[chat-log failed] {e}")
+        return result
+
+    if want_stream:
+        # Generation happens INSIDE the generator, and the first chunk goes out
+        # before it starts. Building the answer first made time-to-first-byte
+        # equal to full generation (~30s on the semantic path), so clients hit
+        # their own timeout and showed "couldn't reach the model" while the
+        # server was happily producing a correct answer.
+        def sse():
+            cid = f"chatcmpl-{uuid.uuid4().hex[:12]}"
+            base = {"id": cid, "object": "chat.completion.chunk",
+                    "created": int(time.time()), "model": C.VLLM_MODEL}
+
+            def frame(delta, finish=None, extra=None):
+                d = {**base, "choices": [{"index": 0, "delta": delta,
+                                          "finish_reason": finish}]}
+                if extra:
+                    d.update(extra)
+                return f"data: {json.dumps(d, ensure_ascii=False)}\n\n"
+
+            yield frame({"role": "assistant"})      # flushes immediately
+
+            try:
+                result = run()
+            except UpstreamUnavailable as e:
+                print(f"[upstream-unavailable] {e}")
+                yield frame({"content": "Til modeli hozircha ishga tushmoqda. "
+                                        "Bir necha daqiqadan soʻng qayta urinib koʻring."})
+                yield frame({}, "stop")
+                yield "data: [DONE]\n\n"
+                return
+
+            def deltas(text, field):
+                for i in range(0, len(text), 48):
+                    yield frame({field: text[i:i + 48]})
+
+            yield from deltas(result.reasoning or "", "reasoning_content")
+            yield from deltas(result.answer, "content")
+            yield frame({}, "stop", {"citations": result.citations,
+                                     "retrieval_mode": result.mode})
+            yield "data: [DONE]\n\n"
+
+        return StreamingResponse(sse(), media_type="text/event-stream",
+                                 headers={"Cache-Control": "no-cache",
+                                          "X-Accel-Buffering": "no",
+                                          "Connection": "keep-alive"})
+
+    try:
+        result = run()
     except UpstreamUnavailable as e:
-        # vLLM restarting or down. Deterministic answers still work (they never
-        # call it), so only generation-backed queries land here.
         print(f"[upstream-unavailable] {e}")
         return JSONResponse(
             status_code=503,
@@ -103,59 +164,6 @@ async def chat(req: Request):
                 }],
             },
         )
-    print(f"[{result.mode}] {result.answer[:160]}...")
-
-    # Durable transcript. The supervisor log restarts with the process, so the
-    # only record of what users actually asked was being lost on every deploy.
-    # This file also becomes training data: real questions, real phrasings.
-    try:
-        with open(C.CHAT_LOG, "a", encoding="utf-8") as f:
-            f.write(json.dumps({
-                "t": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-                "question": question,
-                "mode": result.mode,
-                "answer": result.answer,
-                "citations": result.citations,
-                "seconds": round(time.time() - t0, 1),
-            }, ensure_ascii=False) + "\n")
-    except Exception as e:                      # logging must never break a reply
-        print(f"[chat-log failed] {e}")
-
-    if want_stream:
-        # The citation audit needs the finished answer, so generation cannot be
-        # streamed through. Emit the completed answer as OpenAI-style chunks so
-        # streaming clients render it instead of waiting for an event that
-        # never arrives.
-        def sse():
-            cid = f"chatcmpl-{uuid.uuid4().hex[:12]}"
-            base = {"id": cid, "object": "chat.completion.chunk",
-                    "created": int(time.time()), "model": C.VLLM_MODEL}
-            first = {**base, "choices": [{"index": 0, "delta": {"role": "assistant"},
-                                          "finish_reason": None}]}
-            yield f"data: {json.dumps(first, ensure_ascii=False)}\n\n"
-
-            def deltas(text, field):
-                for i in range(0, len(text), 48):
-                    chunk = {**base, "choices": [{"index": 0,
-                                                  "delta": {field: text[i:i + 48]},
-                                                  "finish_reason": None}]}
-                    yield f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n"
-
-            # Reasoning first, then the answer -- the same order and field names
-            # vLLM uses, so a client written against vLLM's stream works here
-            # unchanged. Without this the UI's reasoning panel stays empty in
-            # streaming mode no matter what the client does.
-            yield from deltas(result.reasoning or "", "reasoning_content")
-            yield from deltas(result.answer, "content")
-            last = {**base, "citations": result.citations,
-                    "retrieval_mode": result.mode,
-                    "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}
-            yield f"data: {json.dumps(last, ensure_ascii=False)}\n\n"
-            yield "data: [DONE]\n\n"
-
-        return StreamingResponse(sse(), media_type="text/event-stream",
-                                 headers={"Cache-Control": "no-cache",
-                                          "X-Accel-Buffering": "no"})
 
     return JSONResponse(
         {
