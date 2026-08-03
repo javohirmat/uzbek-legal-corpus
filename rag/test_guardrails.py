@@ -221,9 +221,17 @@ for q, want in [
     hit = rules.match(q)
     check(q, hit["id"] if hit else None, want)
 
-print("\n12. shipped overrides.json contains no invented customer data")
+print("\n12. shipped overrides.json serves no invented data as real")
+# The file may carry demo rules -- the feature is unsellable if it cannot be
+# shown -- but every rule shipped in this repo must announce itself as a
+# sample. The failure being guarded against is the original one: a fabricated
+# 24% tariff returned under a confident "Bank tariflari (2026-08)" source
+# line, indistinguishable from a real answer. A customer's own deployment
+# replaces these rules and drops the label; that file is not in git.
 live = Overrides.load(C.OVERRIDES_JSON)
-check("live override rules", len(live), 0)
+for r in live.rules:
+    labelled = "namuna" in (r["answer"] + " " + r["source"]).lower()
+    check(f"rule '{r['id']}' labelled as sample", labelled, True)
 
 print()
 if fails:
