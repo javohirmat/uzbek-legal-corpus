@@ -357,3 +357,161 @@ def get_rag():
     if _rag is None:
         _rag = LegalRAG()
     return _rag
+
+
+# ---------------------------------------------------------------- streaming
+# The non-streaming path above buffers the whole answer before sending it, so
+# the user stares at nothing for the full generation. Streaming emits tokens as
+# the model writes them -- but the citation audit needs complete text, so it is
+# applied incrementally: text is released only up to the last whitespace before
+# a holdback window, which guarantees no "N-modda" is ever split across the
+# boundary, and every citation is checked before the user can see it.
+from openai import OpenAI  # noqa: E402
+
+_client = OpenAI(base_url=C.VLLM_BASE, api_key=C.VLLM_KEY)
+HOLDBACK = 32          # chars; longest citation form is well under this
+
+
+class BadCitation(RuntimeError):
+    """Model cited an article it was not given; stop the stream."""
+
+
+def _stream_lm(messages):
+    """Yield ("reasoning"|"content", text) as vLLM produces them."""
+    stream = _client.chat.completions.create(
+        model=C.VLLM_MODEL, messages=messages, stream=True,
+        temperature=C.TEMPERATURE, max_tokens=C.MAX_TOKENS,
+    )
+    for event in stream:
+        if not event.choices:
+            continue
+        d = event.choices[0].delta
+        rc = getattr(d, "reasoning_content", None)
+        if rc:
+            yield "reasoning", rc
+        if d.content:
+            yield "content", d.content
+
+
+def _safe_cut(buf):
+    """Largest index we can release without splitting a word (so never a citation)."""
+    limit = len(buf) - HOLDBACK
+    if limit <= 0:
+        return 0
+    cut = buf.rfind(" ", 0, limit)
+    return cut + 1 if cut > 0 else 0
+
+
+def stream_answer(rag, question, context="", history=()):
+    """Yield ("reasoning"|"content"|"done", payload) for a streaming request.
+
+    Fast paths (identity/override/deterministic) emit their fixed text at once;
+    they never call the model. Everything else streams token by token.
+    """
+    fixed = identity.match(question)
+    if fixed:
+        yield "content", fixed
+        yield "done", {"mode": "identity", "citations": [], "answer": fixed}
+        return
+
+    rule = rag.overrides.match(question)
+    if rule:
+        text = rule["answer"] + (f'\n\nManba: {rule["source"]}' if rule["source"] else "")
+        yield "content", text
+        yield "done", {"mode": "override", "answer": text,
+                       "citations": [{"code": "override", "code_title": rule["source"],
+                                      "article": rule["id"], "lex_uz": ""}]}
+        return
+
+    refs = rag.index.parse_references(question, context=context)
+    explicit = rag._is_legal(question, refs)
+    retrieved = []
+    if not explicit:
+        keys, best = rag.retriever.search(rag.expander.expand(question))
+        if best > C.LEGAL_DISTANCE:                      # ordinary conversation
+            msgs = [{"role": "system", "content": chat_system()}]
+            msgs += [m for m in history if m.get("content")][-8:]
+            msgs.append({"role": "user", "content": question})
+            yield from _passthrough(msgs, mode="chat")
+            return
+        retrieved = [rag.index.by_key[k] for k in keys if k in rag.index.by_key]
+
+    resolved = [rag.index.resolve(r) for r in refs]
+    found = [rec for st, _, rec in resolved if st == "EXISTS"]
+    notes = [rag._missing(st, h) for st, h, _ in resolved
+             if st in ("REPEALED", "OUT_OF_RANGE", "NO_CODE", "AMBIGUOUS_CODE")]
+
+    if refs and not found:                               # deterministic refusal
+        text = "\n".join(notes)
+        yield "content", text
+        yield "done", {"mode": "deterministic", "citations": [], "answer": text}
+        return
+
+    articles = found or retrieved
+    if not articles:
+        keys, _ = rag.retriever.search(rag.expander.expand(question))
+        articles = [rag.index.by_key[k] for k in keys if k in rag.index.by_key]
+    mode = "article-lookup" if found else "semantic"
+
+    if notes:
+        yield "content", "\n".join(notes) + "\n\n"
+
+    ctx = _format(articles)
+    allowed = rag.index.allowed_ids(articles)
+    msgs = [{"role": "system", "content": SYSTEM},
+            {"role": "user", "content": f"MODDALAR:\n{ctx}\n\nSAVOL: {question}"}]
+
+    buf, emitted = "", []
+    try:
+        for kind, piece in _stream_lm(msgs):
+            if kind == "reasoning":
+                yield "reasoning", piece
+                continue
+            buf += piece
+            cut = _safe_cut(buf)
+            if cut:
+                chunk, buf = buf[:cut], buf[cut:]
+                if rag.index.bad_citations(chunk, allowed):
+                    raise BadCitation
+                emitted.append(chunk)
+                yield "content", chunk
+        if rag.index.bad_citations(buf, allowed):
+            raise BadCitation
+        emitted.append(buf)
+        yield "content", buf
+    except BadCitation:
+        # Never leave a fabricated citation on screen: replace with the law.
+        verbatim = "\n\n".join(f'{a["code_title"]}, {a["article_display"]}:\n{a["text"]}'
+                               for a in articles)
+        text = ("\n\n[Javob tekshiruvdan oʻtmadi. Soʻralgan moddaning toʻliq matni:]\n\n"
+                + verbatim)
+        yield "content", text
+        emitted.append(text)
+    except Exception as e:
+        raise UpstreamUnavailable(str(e)) from e
+
+    answer = "".join(emitted)
+    cited = rag.index.cited_subset(answer, articles) if mode == "semantic" else articles
+    if cited:
+        src = "\n\nManbalar:\n" + _sources(cited)
+        yield "content", src
+        answer += src
+    yield "done", {"mode": mode, "answer": answer,
+                   "citations": [{"code": a["code"], "code_title": a["code_title"],
+                                  "article": a["article_display"],
+                                  "lex_uz": a["lex_uz_doc"]} for a in cited]}
+
+
+def _passthrough(messages, mode):
+    """Stream a plain assistant turn -- no retrieval, nothing to audit."""
+    parts = []
+    try:
+        for kind, piece in _stream_lm(messages):
+            if kind == "reasoning":
+                yield "reasoning", piece
+            else:
+                parts.append(piece)
+                yield "content", piece
+    except Exception as e:
+        raise UpstreamUnavailable(str(e)) from e
+    yield "done", {"mode": mode, "answer": "".join(parts), "citations": []}

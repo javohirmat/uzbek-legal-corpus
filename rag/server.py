@@ -5,7 +5,6 @@ on the frontend changes except VAST_API_URL. `citations` is an extra top-level
 field -- clients that ignore it are unaffected.
 """
 import json
-import threading
 import time
 import uuid
 from datetime import datetime, timezone
@@ -15,7 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 
 import config as C
-from pipeline import UpstreamUnavailable, get_rag
+from pipeline import UpstreamUnavailable, get_rag, stream_answer
 
 app = FastAPI(title="Tomaris legal RAG")
 app.add_middleware(
@@ -121,48 +120,47 @@ async def chat(req: Request):
 
             yield frame({"role": "assistant"})      # flushes immediately
 
-            # Generation is a single blocking call, so without this the stream
-            # goes silent for ~30s on the semantic path. A client with an
-            # inactivity timeout (a common default) aborts during that gap and
-            # the user sees "couldn't reach the model" while a correct answer is
-            # being produced. SSE comments keep bytes flowing; compliant clients
-            # ignore them.
-            box = {}
-
-            def work():
-                try:
-                    box["result"] = run()
-                except Exception as exc:            # surfaced below, on the stream
-                    box["error"] = exc
-
-            worker = threading.Thread(target=work, daemon=True)
-            worker.start()
-            while worker.is_alive():
-                worker.join(timeout=C.HEARTBEAT_SECONDS)
-                if worker.is_alive():
-                    yield ": keep-alive\n\n"
-
-            if "error" in box:
-                err = box["error"]
-                print(f"[stream-failed] {type(err).__name__}: {err}")
-                msg = ("Til modeli hozircha ishga tushmoqda. "
-                       "Bir necha daqiqadan soʻng qayta urinib koʻring."
-                       if isinstance(err, UpstreamUnavailable) else
-                       "Javob tayyorlashda xatolik yuz berdi. Qayta urinib koʻring.")
-                yield frame({"content": msg})
+            done, reasoning_parts = None, []
+            try:
+                for kind, payload in stream_answer(
+                        get_rag(), question, context=context, history=history):
+                    if kind == "done":
+                        done = payload
+                    elif kind == "reasoning":
+                        reasoning_parts.append(payload)
+                        yield frame({"reasoning_content": payload})
+                    else:
+                        yield frame({"content": payload})
+            except UpstreamUnavailable as e:
+                print(f"[upstream-unavailable] {e}")
+                yield frame({"content": "Til modeli hozircha ishga tushmoqda. "
+                                        "Bir necha daqiqadan soʻng qayta urinib koʻring."})
                 yield frame({}, "stop")
                 yield "data: [DONE]\n\n"
                 return
-            result = box["result"]
+            except Exception as e:
+                print(f"[stream-failed] {type(e).__name__}: {e}")
+                yield frame({"content": "Javob tayyorlashda xatolik yuz berdi. "
+                                        "Qayta urinib koʻring."})
+                yield frame({}, "stop")
+                yield "data: [DONE]\n\n"
+                return
 
-            def deltas(text, field):
-                for i in range(0, len(text), 48):
-                    yield frame({field: text[i:i + 48]})
+            done = done or {"mode": "unknown", "answer": "", "citations": []}
+            print(f"[{done['mode']}] {done['answer'][:160]}...")
+            try:
+                with open(C.CHAT_LOG, "a", encoding="utf-8") as f:
+                    f.write(json.dumps({
+                        "t": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                        "question": question, "mode": done["mode"],
+                        "answer": done["answer"], "citations": done["citations"],
+                        "seconds": round(time.time() - t0, 1),
+                    }, ensure_ascii=False) + "\n")
+            except Exception as e:
+                print(f"[chat-log failed] {e}")
 
-            yield from deltas(result.reasoning or "", "reasoning_content")
-            yield from deltas(result.answer, "content")
-            yield frame({}, "stop", {"citations": result.citations,
-                                     "retrieval_mode": result.mode})
+            yield frame({}, "stop", {"citations": done["citations"],
+                                     "retrieval_mode": done["mode"]})
             yield "data: [DONE]\n\n"
 
         return StreamingResponse(sse(), media_type="text/event-stream",
