@@ -5,6 +5,7 @@ on the frontend changes except VAST_API_URL. `citations` is an extra top-level
 field -- clients that ignore it are unaffected.
 """
 import json
+import threading
 import time
 import uuid
 from datetime import datetime, timezone
@@ -120,15 +121,39 @@ async def chat(req: Request):
 
             yield frame({"role": "assistant"})      # flushes immediately
 
-            try:
-                result = run()
-            except UpstreamUnavailable as e:
-                print(f"[upstream-unavailable] {e}")
-                yield frame({"content": "Til modeli hozircha ishga tushmoqda. "
-                                        "Bir necha daqiqadan soʻng qayta urinib koʻring."})
+            # Generation is a single blocking call, so without this the stream
+            # goes silent for ~30s on the semantic path. A client with an
+            # inactivity timeout (a common default) aborts during that gap and
+            # the user sees "couldn't reach the model" while a correct answer is
+            # being produced. SSE comments keep bytes flowing; compliant clients
+            # ignore them.
+            box = {}
+
+            def work():
+                try:
+                    box["result"] = run()
+                except Exception as exc:            # surfaced below, on the stream
+                    box["error"] = exc
+
+            worker = threading.Thread(target=work, daemon=True)
+            worker.start()
+            while worker.is_alive():
+                worker.join(timeout=C.HEARTBEAT_SECONDS)
+                if worker.is_alive():
+                    yield ": keep-alive\n\n"
+
+            if "error" in box:
+                err = box["error"]
+                print(f"[stream-failed] {type(err).__name__}: {err}")
+                msg = ("Til modeli hozircha ishga tushmoqda. "
+                       "Bir necha daqiqadan soʻng qayta urinib koʻring."
+                       if isinstance(err, UpstreamUnavailable) else
+                       "Javob tayyorlashda xatolik yuz berdi. Qayta urinib koʻring.")
+                yield frame({"content": msg})
                 yield frame({}, "stop")
                 yield "data: [DONE]\n\n"
                 return
+            result = box["result"]
 
             def deltas(text, field):
                 for i in range(0, len(text), 48):

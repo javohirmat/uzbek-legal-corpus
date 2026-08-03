@@ -30,7 +30,7 @@ VLLM_MODEL = os.getenv("VLLM_MODEL", "tomaris")   # the DPO LoRA adapter name
 VLLM_BASE = os.getenv("VLLM_BASE", "http://localhost:8001/v1")
 VLLM_KEY = "EMPTY"
 TEMPERATURE = 0.1
-MAX_TOKENS = 1200
+MAX_TOKENS = 900        # caps worst-case latency: 900 tokens / ~23 tok/s ~= 39s
 
 # Reasoning mode:
 #   "auto"  -> send nothing, let the chat template and the model decide per
@@ -63,3 +63,7 @@ SYNONYMS_JSON = os.getenv("SYNONYMS_JSON", os.path.join(HERE, "synonyms.json"))
 
 # Durable transcript of every question and answer (survives service restarts).
 CHAT_LOG = os.getenv("CHAT_LOG", "/workspace/chat-history.jsonl")
+
+# How often the SSE stream emits a keep-alive comment while an answer is being
+# generated. Must stay below any client/proxy inactivity timeout.
+HEARTBEAT_SECONDS = float(os.getenv("HEARTBEAT_SECONDS", "5"))

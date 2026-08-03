@@ -41,7 +41,9 @@ SYSTEM = (
     "berilgan moddalar matni asosida yoz. Har bir daʼvodan keyin (Kodeks nomi, "
     "N-modda) koʻrinishida iqtibos keltir. Agar berilgan moddalarda javob "
     "boʻlmasa, «Berilgan moddalarda bunga javob yoʻq» deb yoz. Berilmagan modda "
-    "raqamini hech qachon oʻylab topma."
+    "raqamini hech qachon oʻylab topma. Javobing qisqa va aniq boʻlsin — "
+    "eng koʻpi 4-6 jumla. Modda matnini toʻliq koʻchirma, faqat savolga tegishli "
+    "qismini tushuntir."
 )
 
 
@@ -50,7 +52,9 @@ class GroundedAnswer(dspy.Signature):
     moddalar matni asosida yoz. Har bir daʼvodan keyin (Kodeks nomi, N-modda)
     koʻrinishida iqtibos keltir. Berilgan moddalarda javob boʻlmasa —
     «Berilgan moddalarda bunga javob yoʻq» deb yoz. Berilmagan modda raqamini
-    hech qachon oʻylab topma."""
+    hech qachon oʻylab topma. Javobing qisqa va aniq boʻlsin — eng koʻpi 4-6
+    jumla. Modda matnini toʻliq koʻchirma, faqat savolga tegishli qismini
+    tushuntir."""
 
     question = dspy.InputField(desc="foydalanuvchi savoli")
     articles = dspy.InputField(desc="tegishli qonun moddalari (toʻliq matn)")
