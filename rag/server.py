@@ -10,6 +10,7 @@ import uuid
 from datetime import datetime, timezone
 
 from fastapi import FastAPI, Request
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 
@@ -169,7 +170,10 @@ async def chat(req: Request):
                                           "Connection": "keep-alive"})
 
     try:
-        result = run()
+        # run() blocks for the whole generation (up to a minute). Straight on
+        # the event loop that freezes every other request -- /health, streams,
+        # even the instant deterministic answers -- until it finishes.
+        result = await run_in_threadpool(run)
     except UpstreamUnavailable as e:
         print(f"[upstream-unavailable] {e}")
         return JSONResponse(
