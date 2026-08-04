@@ -2,7 +2,9 @@
 # vLLM pins torch/transformers hard, and sentence-transformers will happily
 # upgrade them out from under it. The two processes talk over HTTP, so they
 # share nothing but a port number.
-dspy>=3.0
+# dspy is pinned: 3.3.0's lazy numpy import crashes the server on startup
+# ("data type 'bool' not understood"). 3.2.1 is the version every deploy ran.
+dspy==3.2.1
 chromadb>=0.5
 sentence-transformers>=3.0
 rank_bm25>=0.2.2

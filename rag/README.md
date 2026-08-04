@@ -148,6 +148,25 @@ checkpoint and without it vLLM tries to load an image processor and dies with
 no authentication of its own, so exposing it would let anyone with the URL spend
 your GPU. Only the RAG server is public, and only behind the Caddy token edge.
 
+**If Caddy is broken on the box** (it crash-looped on the 2026-08-04 image and
+took the registered services down with it), skip the edge entirely: free a
+*valid* mapped port and bind uvicorn to it directly —
+
+```bash
+supervisorctl stop jupyter; kill $(pgrep -f jupyter-notebook)   # frees 8080
+uvicorn server:app --host 0.0.0.0 --port 8080                    # public = $VAST_TCP_PORT_8080
+```
+
+Beware: the template's port list includes **72299, which is not a valid TCP
+port** (max 65535 — the kernel silently truncates it, so uvicorn reports
+"running on 72299" while actually listening on 6763 and the public mapping goes
+nowhere). Use only 6006, 8080 or 8384.
+
+**One operator per box.** Two sessions (person, or AI tab via the portal
+terminal) mutating services simultaneously kill each other's processes in ways
+that look like random crashes. The 2026-08-04 deploy lost ~15 minutes to a
+duplicate vLLM launched by a parallel session racing the first for the GPU.
+
 Restart after a code change:
 
 ```bash
