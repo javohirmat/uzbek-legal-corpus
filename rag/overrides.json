@@ -3,15 +3,15 @@
     "_comment": "DEMO RULE — sample values, not a real bank's data. Every rule shipped in this repo must announce itself as a sample (guardrail 12). A customer replaces these with their own figures and drops the NAMUNA labels.",
     "id": "ish-vaqti",
     "any": ["ish vaqti", "necha soatda ochiladi", "qachon ochiladi", "ish tartibi"],
-    "not": ["mehnat kodeksi"],
+    "not": ["mehnat kodeksi", "modda", "kodeks", "qonun", "sud"],
     "answer": "NAMUNA: Bank filiallari dushanbadan jumagacha 09:00–18:00, shanba kuni 09:00–13:00. Yakshanba — dam olish kuni.\n\n(Namuna maʼlumot — haqiqiy bank jadvali emas.)",
     "source": "NAMUNA — bank ish tartibi"
   },
   {
     "_comment": "DEMO RULE — sample values, not a real tariff.",
     "id": "kredit-foizi",
-    "any": ["kredit foizi", "foiz stavkasi", "kredit stavkasi"],
-    "not": ["ipoteka"],
+    "any": ["kredit foizi", "krediti foizi", "foiz stavkasi", "kredit stavkasi"],
+    "not": ["ipoteka", "modda", "kodeks", "qonun", "sud"],
     "answer": "NAMUNA: Isteʼmol krediti boʻyicha yillik stavka — 24%, muddat 36 oygacha.\n\n(Namuna maʼlumot — haqiqiy tarif emas.)",
     "source": "NAMUNA — bank tariflari"
   }

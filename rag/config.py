@@ -30,6 +30,11 @@ VLLM_MODEL = os.getenv("VLLM_MODEL", "tomaris")   # the DPO LoRA adapter name
 VLLM_BASE = os.getenv("VLLM_BASE", "http://localhost:8001/v1")
 VLLM_KEY = "EMPTY"
 TEMPERATURE = 0.1
+# General chat is not grounded in retrieved text, so the low legal temperature
+# only hurts it: at 0.1 the model loops on a phrase when asked for anything
+# creative ("alla aytib ber" came back repeating one word). Legal generation
+# keeps TEMPERATURE; conversation uses this.
+CHAT_TEMPERATURE = float(os.getenv("CHAT_TEMPERATURE", "0.7"))
 MAX_TOKENS = 900        # caps worst-case latency: 900 tokens / ~23 tok/s ~= 39s
 
 # Reasoning mode:

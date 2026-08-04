@@ -262,7 +262,7 @@ class LegalRAG(dspy.Module):
         messages += [m for m in history if m.get("content")][-8:]
         messages.append({"role": "user", "content": question})
         try:
-            out = lm(messages=messages)
+            out = lm(messages=messages, temperature=C.CHAT_TEMPERATURE)
         except Exception as e:
             raise UpstreamUnavailable(str(e)) from e
         return _as_text(out[0] if isinstance(out, list) else out), _last_reasoning()
@@ -376,11 +376,11 @@ class BadCitation(RuntimeError):
     """Model cited an article it was not given; stop the stream."""
 
 
-def _stream_lm(messages):
+def _stream_lm(messages, temperature=C.TEMPERATURE):
     """Yield ("reasoning"|"content", text) as vLLM produces them."""
     stream = _client.chat.completions.create(
         model=C.VLLM_MODEL, messages=messages, stream=True,
-        temperature=C.TEMPERATURE, max_tokens=C.MAX_TOKENS,
+        temperature=temperature, max_tokens=C.MAX_TOKENS,
     )
     for event in stream:
         if not event.choices:
@@ -506,7 +506,7 @@ def _passthrough(messages, mode):
     """Stream a plain assistant turn -- no retrieval, nothing to audit."""
     parts = []
     try:
-        for kind, piece in _stream_lm(messages):
+        for kind, piece in _stream_lm(messages, temperature=C.CHAT_TEMPERATURE):
             if kind == "reasoning":
                 yield "reasoning", piece
             else:
