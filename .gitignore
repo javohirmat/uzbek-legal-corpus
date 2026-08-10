@@ -1,2 +1,32 @@
 .DS_Store
 .claude/settings.local.json
+.superpowers/
+
+# Python bytecode from ui-ux-pro-max scripts
+__pycache__/
+
+# Skills managed by `npx skills` live in .agents/skills (committed as real files).
+# .claude/skills/<name> are symlinks into it — ignore the links, keep the source.
+.claude/skills/animate
+.claude/skills/animation-vocabulary
+.claude/skills/apple-design
+.claude/skills/deploy-to-vercel
+.claude/skills/emil-design-eng
+.claude/skills/extract-design-system
+.claude/skills/find-animation-opportunities
+.claude/skills/improve-animations
+.claude/skills/pick-ui-library
+.claude/skills/prototype
+.claude/skills/review-animations
+.claude/skills/vercel-cli-with-tokens
+.claude/skills/vercel-composition-patterns
+.claude/skills/vercel-optimize
+.claude/skills/vercel-react-best-practices
+.claude/skills/vercel-react-native-skills
+.claude/skills/vercel-react-view-transitions
+.claude/skills/web-design-guidelines
+.claude/skills/writing-guidelines
+
+# Project MCP config: `claude mcp add --scope project` writes API keys here.
+# This repo is public — keep it out of git. Use --scope local instead.
+.mcp.json
