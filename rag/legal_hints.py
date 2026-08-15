@@ -66,6 +66,13 @@ CYRILLIC_LEGAL_CUES = (
     "иш ҳақ",
     "ишдан ҳайда",
     "ишдан бўшат",
+    "арми",
+    "солдат",
+    "срочк",
+    "военн",
+    "призыв",
+    "повестк",
+    "дезертир",
 )
 
 # Leading boundary so "суд" does not fire inside "посуда", but stems still

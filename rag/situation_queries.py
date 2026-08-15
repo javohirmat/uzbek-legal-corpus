@@ -13,6 +13,7 @@ import re
 
 import config as C
 from corpus_index import norm
+from normalize_query import normalize_query
 from situation_prompt import mostly_cyrillic
 
 REWRITE_SYSTEM = (
@@ -38,27 +39,38 @@ def _phrase_re(phrase):
 
 
 ISSUE_TEMPLATES = [
-    {"when": [_phrase_re(p) for p in ("ijara", "ijaraga", "ijarachi", "аренд")],
+    {"when": [_phrase_re(p) for p in ("ijara", "ijaraga", "ijarachi", "arend")],
      "query": "ijara shartnomasi Fuqarolik kodeksi"},
     {"when": [_phrase_re(p) for p in (
-        "suv bosdi", "toshqin", "suv ostida", "uyimni suv", "затопил", "потоп",
+        "suv bosdi", "toshqin", "suv ostida", "uyimni suv", "zatopil", "potop",
     )],
      "query": "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"},
     {"when": [_phrase_re(p) for p in (
-        "oylik", "maosh", "ish haqi", "ish haqqi", "зарплат", "оклад",
+        "oylik", "maosh", "ish haqi", "ish haqqi", "zarplat", "oklad",
     )],
      "query": "ish haqini toʻlash muddatlari Mehnat kodeksi"},
     {"when": [_phrase_re(p) for p in (
         "ishdan hayda", "ishdan boʻshat", "ishdan boshat", "ishdan chiqar",
-        "уволил", "увольн",
+        "uvolil", "uvolen",
     )],
      "query": "mehnat shartnomasini bekor qilish Mehnat kodeksi"},
+    {"when": [_phrase_re(p) for p in (
+        "armiya", "soldat", "harbiy", "chaqiruv", "chaqiriq", "mudofaa",
+        "srochka", "povestka", "askar", "dezertir",
+    )],
+     "query": "harbiy xizmatga chaqiruvdan boʻyin tovlash muddatli harbiy xizmat Jinoyat kodeksi"},
+    {"when": [_phrase_re(p) for p in ("aliment", "alimet")],
+     "query": "aliment undirish voyaga yetmagan bolalarni taʼminlash Oila kodeksi"},
+    {"when": [_phrase_re(p) for p in (
+        "pul toʻlamadim", "pul tolamadim", "pul toʻlamasa",
+    )],
+     "query": "majburiyatni bajarish qarz shartnomasi Fuqarolik kodeksi"},
 ]
 
 
 def issue_queries(question):
     """<1s: one short issue+family query per matching template."""
-    q = norm(question)
+    q = norm(normalize_query(question))
     return [t["query"] for t in ISSUE_TEMPLATES if any(p.search(q) for p in t["when"])]
 
 
@@ -149,11 +161,13 @@ def cap_per_code(keys, cap=None, limit=None):
 
 
 def queries_for(question, expander, complete_fn=None):
-    """Original+expand first, then issue templates. 27B only if still under 3 queries.
+    """Normalize, then original+expand first, then issue templates.
 
-    Retrieval queries stay Latin-Uzbek: a Cyrillic story is not sent to BM25
-    against a Latin corpus. Issue templates (and the rewrite) already emit Latin.
+    27B only if still under 3 queries. Retrieval queries stay Latin-Uzbek:
+    a Cyrillic story is transliterated before BM25 against a Latin corpus.
+    Issue templates (and the rewrite) already emit Latin.
     """
+    question = normalize_query(question)
     extras = issue_queries(question)
     if expander is not None and hasattr(expander, "issue_adds"):
         extras = extras + expander.issue_adds(question)

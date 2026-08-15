@@ -73,6 +73,7 @@ for q, want in [
     ("статья 253 трудового кодекса", True),
     ("что говорит закон", True),
     ("иш ҳақини бермади", True),
+    ("если не пойду в армию", True),
     ("привет как дела", False),
     ("посуда на кухне", False),          # "суд" must not fire inside посуда
     ("oylik bermadi", False),            # Latin is pipeline._LEGAL_HINT's job

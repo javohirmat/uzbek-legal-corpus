@@ -16,6 +16,7 @@ from corpus_index import CorpusIndex, norm
 from answer_rules import Overrides
 from query_expand import QueryExpander
 import identity
+from normalize_query import normalize_query
 from retriever import Retriever
 import situation_queries
 from pack_context import pack_articles, format_grounding
@@ -30,7 +31,9 @@ _LEGAL_HINT = re.compile(
     r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
     r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
     r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
-    r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius)",
+    r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius|"
+    r"armiya|harbiy|soldat|chaqiruv|mudofaa|askar|oylik|maosh|aliment|"
+    r"ishdan|dezertir)",
     re.IGNORECASE,
 )
 
@@ -268,15 +271,31 @@ class LegalRAG(dspy.Module):
                 return audit_fail_reply(question, articles), False, _last_reasoning()
         return answer, True, _last_reasoning()
 
+    def _refs(self, question, context=""):
+        """Parse N-modda on the raw string first so SMS maps cannot eat 999.
+
+        Cyrillic «модда» only reaches the parser after query normalization.
+        """
+        refs = self.index.parse_references(question, context=context)
+        if refs:
+            return refs
+        normalized = normalize_query(question)
+        if normalized != question:
+            return self.index.parse_references(normalized, context=context)
+        return refs
+
     def _is_legal(self, question, refs):
         """Route to the corpus only when the message is actually about law."""
         if refs:                                        # "JK 173-modda"
             return True
-        if self.index.find_codes(question):             # "Mehnat kodeksi ..."
-            return True
-        if _LEGAL_HINT.search(norm(question)):
-            return True
-        return has_cyrillic_legal_cue(question) or bool(CYRILLIC_LEGAL_HINT.search(question))
+        for q in (question, normalize_query(question)):
+            if self.index.find_codes(q):                # "Mehnat kodeksi ..."
+                return True
+            if _LEGAL_HINT.search(norm(q)):
+                return True
+            if has_cyrillic_legal_cue(q) or bool(CYRILLIC_LEGAL_HINT.search(q)):
+                return True
+        return False
 
     def _lookup(self, keys):
         return [self.index.by_key[k] for k in keys if k in self.index.by_key]
@@ -346,7 +365,7 @@ class LegalRAG(dspy.Module):
                                    citations=[{"code": "override", "code_title": rule["source"],
                                                "article": rule["id"], "lex_uz": ""}])
 
-        refs = self.index.parse_references(question, context=context)
+        refs = self._refs(question, context=context)
 
         # Route between "answer from the law" and "answer as an assistant".
         # An explicit signal decides immediately; otherwise let the corpus vote
@@ -485,7 +504,7 @@ def stream_answer(rag, question, context="", history=()):
                                       "article": rule["id"], "lex_uz": ""}]}
         return
 
-    refs = rag.index.parse_references(question, context=context)
+    refs = rag._refs(question, context=context)
     explicit = rag._is_legal(question, refs)
     retrieved = []
     if not explicit:

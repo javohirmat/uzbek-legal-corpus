@@ -105,14 +105,22 @@ check("flood+lease has zarar issue",
 check("wages template without 27B",
       "ish haqini toʻlash muddatlari Mehnat kodeksi"
       in queries_for("oylik bermadi", _Expander(), complete_fn=None), True)
+_NOMA = "noma\u02bclum savol mehnatga haq tolash"
 check("raising complete still keeps original+expand",
       queries_for("noma'lum savol", _Expander(),
                   complete_fn=lambda q: (_ for _ in ()).throw(TimeoutError()))[0],
-      "noma'lum savol mehnatga haq tolash")
+      _NOMA)
 check("thin rewrite still prepends original",
       queries_for("noma'lum savol", _Expander(),
                   complete_fn=lambda q: '["fuqarolik zarar", "mehnat haq"]')[0],
-      "noma'lum savol mehnatga haq tolash")
+      _NOMA)
+check("SMS oylk+haydad still emits Mehnat issues",
+      issue_queries("oylk bermayapti ishdan haydad"),
+      ["ish haqini toʻlash muddatlari Mehnat kodeksi",
+       "mehnat shartnomasini bekor qilish Mehnat kodeksi"])
+check("army slang emits JK chaqiruv issue",
+      any("chaqiruv" in q for q in issue_queries("Armiyaga bormadim nima qilishadi")),
+      True)
 check("issue_queries splits lease vs flood",
       issue_queries("ijaraga olganman, suv bosdi"),
       ["ijara shartnomasi Fuqarolik kodeksi",

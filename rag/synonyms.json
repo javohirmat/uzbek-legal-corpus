@@ -1,11 +1,15 @@
 [
-  {"when": ["armiya", "armiyaga", "armiyada", "askarlik", "harbiy xizmat", "chaqiriq"],
-   "add": "harbiy xizmatga chaqiruvdan boʻyin tovlash muddatli harbiy xizmat muqobil xizmat"},
+  {"when": ["armiya", "armiyaga", "armiyada", "armiyu", "askarlik", "askar",
+            "harbiy", "harbiy xizmat", "chaqiruv", "chaqiriq", "chaqiriluvchi",
+            "soldat", "soldatga", "mudofaa", "srochka", "povestka",
+            "dezertirlik", "dezertir"],
+   "add": "harbiy xizmatga chaqiruvdan boʻyin tovlash muddatli harbiy xizmat muqobil xizmat harbiy majburiyat dezertirlik chaqiruv mudofaa ishlari"},
 
-  {"when": ["ishdan haydash", "ishdan boʻshatish", "ishdan boshatish", "ishdan chiqarish"],
+  {"when": ["ishdan haydash", "ishdan hayda", "ishdan boʻshatish", "ishdan boshatish",
+            "ishdan chiqarish", "ishdan boʻshat"],
    "add": "mehnat shartnomasini bekor qilish xodimni ishdan boʻshatish asoslari"},
 
-  {"when": ["oylik", "maosh", "ish haqi", "ish haqqi"],
+  {"when": ["oylik", "maosh", "ish haqi", "ish haqqi", "zarplata"],
    "add": "mehnatga haq toʻlash ish haqini toʻlash muddatlari"},
 
   {"when": ["taʼtil", "tatil", "otpusk"],
@@ -14,7 +18,7 @@
   {"when": ["ajrashish", "taloq", "ajralish"],
    "add": "nikohni bekor qilish er-xotinning ajralishi"},
 
-  {"when": ["aliment", "alimet"],
+  {"when": ["aliment", "alimet", "alimenty"],
    "add": "aliment undirish voyaga yetmagan bolalarni taʼminlash"},
 
   {"when": ["oʻgʻirlik", "ogirlik", "oʻgʻirlash", "talon"],
@@ -35,7 +39,7 @@
   {"when": ["suv bosdi", "toshqin", "uyimni suv", "suv ostida"],
    "add": "ijara shartnomasi zarar yetkazish mulkka yetkazilgan zararni qoplash ijaraga beruvchining majburiyatlari"},
 
-  {"when": ["kredit", "qarz"],
+  {"when": ["kredit", "qarz", "pul toʻlamadim", "pul tolamadim", "pul toʻlamasa"],
    "add": "qarz shartnomasi kredit shartnomasi majburiyatni bajarish"},
 
   {"when": ["jarima", "shtraf"],

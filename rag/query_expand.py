@@ -15,6 +15,7 @@ import os
 import re
 
 from corpus_index import norm
+from normalize_query import normalize_query
 
 
 class QueryExpander:
@@ -39,13 +40,14 @@ class QueryExpander:
             return cls(json.load(f))
 
     def expand(self, question):
+        question = normalize_query(question)
         q = norm(question)
         extra = [add for pats, add in self.rules if any(p.search(q) for p in pats)]
         return f"{question} {' '.join(extra)}" if extra else question
 
     def issue_adds(self, question):
         """Each matched rule as its own search string (issue-level, not a paraphrase)."""
-        q = norm(question)
+        q = norm(normalize_query(question))
         return [add for pats, add in self.rules if any(p.search(q) for p in pats)]
 
     def __len__(self):
