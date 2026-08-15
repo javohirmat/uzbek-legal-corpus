@@ -43,6 +43,12 @@ for e in cat.entries:
 
 print("\n2. army slang → jinoyat / ma'muriy (not a random code)")
 army = match_code_slugs("armiyaga bormasa Nima boladi")
+check("army extra uses 225/237 title, not hisobdan o'tish",
+      any("muqobil xizmatdan bo" in q.lower() or "muqobil xizmatdan bo" in q
+          for q in keyword_queries("armiyaga bormasa Nima boladi")), True)
+check("army extra does not prefer MJK 235 title",
+      any("hisobdan" in q for q in keyword_queries("armiyaga bormasa Nima boladi")),
+      False)
 check("armiya hits jinoyat", "jinoyat_kodeksi" in army, True)
 check("armiya hits mamuriy", "mamuriy_javobgarlik_kodeksi" in army, True)
 check("armiya does not hit havo", "havo_kodeksi" in army, False)

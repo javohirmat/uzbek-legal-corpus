@@ -60,7 +60,7 @@ ISSUE_TEMPLATES = [
         "armiya", "armiga", "soldat", "harbiy", "chaqiruv", "chaqiriq",
         "mudofaa", "srochka", "povestka", "askar", "dezertir",
     )],
-     "query": "harbiy xizmatga chaqiruvdan boʻyin tovlash muddatli harbiy xizmat Jinoyat kodeksi"},
+     "query": "Harbiy yoki muqobil xizmatdan boʻyin tovlash muddatli harbiy xizmatga chaqiruv Jinoyat kodeksi"},
     {"when": [_phrase_re(p) for p in (
         "urishib", "urish", "urib", "urdim", "qamash", "qamoq", "kaltak",
         "janjal", "haqorat", "turtib",

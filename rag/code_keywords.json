@@ -112,10 +112,9 @@
   {
     "code": "jinoyat_kodeksi",
     "formal": [
-      "harbiy xizmatga chaqiruvdan boʻyin tovlash",
+      "Harbiy yoki muqobil xizmatdan boʻyin tovlash",
       "muddatli harbiy xizmat",
-      "oʻgʻrilik oʻzganing mol-mulkini yashirin ravishda talon-toroj qilish",
-      "jinoyat tushunchasi"
+      "oʻgʻrilik oʻzganing mol-mulkini yashirin ravishda talon-toroj qilish"
     ],
     "informal_uz": ["armiya", "soldat", "askar", "dezertir", "chaqiruv", "oʻgʻrilik", "ogirlab", "pora", "korrupsiya", "jinoyat kodeksi"],
     "informal_ru": ["armiya", "soldat", "dezertir", "krazha", "vzyatka"],
@@ -148,8 +147,7 @@
   {
     "code": "mamuriy_javobgarlik_kodeksi",
     "formal": [
-      "harbiy hisobdan oʻtish qoidalarini buzish",
-      "chaqiruv boʻyicha mudofaa ishlari organlariga kelmaslik",
+      "Harbiy yoki muqobil xizmatdan boʻyin tovlash",
       "yengil tanaga shikast yetkazish",
       "maʼmuriy jarima",
       "mayda bezorilik"
