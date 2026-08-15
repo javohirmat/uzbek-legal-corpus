@@ -59,6 +59,7 @@ utils=/opt/supervisor-scripts/utils
 . "\${utils}/environment.sh"
 ${PORTAL_GUARD}
 cd ${REPO}/rag
+export THINKING_MODE="\${THINKING_MODE:-auto}"
 pty ${RAG_VENV}/bin/uvicorn server:app --host ${BIND_HOST} --port ${BIND_PORT} 2>&1
 SH
 
