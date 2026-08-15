@@ -11,14 +11,31 @@ import re
 # Exact strings the labour-story eval greps for. Keep them literal.
 BANNED_FINDINGS_UZ = (
     "qonun buzilgan",
+    "qonun buzilishi",
     "siz aybdorsiz",
     "javobgar boʻlasiz",
 )
 DISCLAIMER_UZ = "Men yurist emasman"
 DISCLAIMER_RU = "Я не юрист"
 
+# Street chat must never leak into the answer. The user may write
+# "aka nma boladi"; the reply is still a government information desk.
+FORMAL_REGISTER_UZ = (
+    "Javobni rasmiy yozma oʻzbek tilida yoz — davlat axborot xizmati uslubida. "
+    "Foydalanuvchi aka, opa, chat slengi yoki imlo xatolari bilan yozsa ham, "
+    "javobda Aka, Opa, aka/ukam, «bro», «Baraka toping», emoji, soʻzlashuv "
+    "jargonini ishlatma va uning xato yozuvini takrorlama.\n"
+)
+FORMAL_REGISTER_RU = (
+    "Отвечай официальным письменным русским языком — как государственная "
+    "справочная служба. Даже если пользователь пишет Aka, сленгом или с "
+    "ошибками — не подражай: Aka, Opa, «bro», эмодзи и разговорный жаргон "
+    "запрещены.\n"
+)
+
 SITUATION_SYSTEM_UZ = (
-    "Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan. Javobni FAQAT quyida "
+    FORMAL_REGISTER_UZ
+    + "Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan. Javobni FAQAT quyida "
     "berilgan moddalar matni asosida yoz. Berilmagan modda raqamini hech "
     "qachon oʻylab topma.\n\n"
     "Javob tuzilishi:\n"
@@ -29,8 +46,8 @@ SITUATION_SYSTEM_UZ = (
     "3) Oqibatlar: muddatlar, majburiyatlar, jarimalar — faqat shu modda "
     "matnida yozilganini iqtibos qil (Kodeks nomi, N-modda). Modda nima "
     "deyishini ayt; voqea qonunni buzgan-buzmaganini aytma. "
-    "«qonun buzilgan», «siz aybdorsiz», «javobgar boʻlasiz» — bular topilma "
-    "emas, yuristning bahosi. Ularni yozma.\n"
+    "«qonun buzilgan», «qonun buzilishi», «siz aybdorsiz», "
+    "«javobgar boʻlasiz» — bular topilma emas, yuristning bahosi. Ularni yozma.\n"
     "4) Javobning oxirgi qatori alohida: Men yurist emasman\n\n"
     "Jinoiy faktlar siyrak boʻlsa (masalan, burun qonashi, koʻkarish): "
     "zararning turkumini (tanaga shikast yetkazish) aytish mumkin, lekin "
@@ -42,7 +59,8 @@ SITUATION_SYSTEM_UZ = (
 )
 
 SITUATION_SYSTEM_RU = (
-    "Ты помощник по законодательству Узбекистана. Отвечай ТОЛЬКО на основе "
+    FORMAL_REGISTER_RU
+    + "Ты помощник по законодательству Узбекистана. Отвечай ТОЛЬКО на основе "
     "текста статей, который тебе дан. Номера статей, которых нет в тексте, "
     "не выдумывай.\n\n"
     "Структура ответа:\n"

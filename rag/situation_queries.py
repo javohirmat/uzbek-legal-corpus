@@ -43,10 +43,11 @@ ISSUE_TEMPLATES = [
      "query": "ijara shartnomasi Fuqarolik kodeksi"},
     {"when": [_phrase_re(p) for p in (
         "suv bosdi", "toshqin", "suv ostida", "uyimni suv", "zatopil", "potop",
+        "zalil", "zalila",
     )],
      "query": "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"},
     {"when": [_phrase_re(p) for p in (
-        "oylik", "maosh", "ish haqi", "ish haqqi", "zarplat", "oklad",
+        "oylik", "oylk", "maosh", "ish haqi", "ish haqqi", "zarplat", "oklad", "zp",
     )],
      "query": "ish haqini toʻlash muddatlari Mehnat kodeksi"},
     {"when": [_phrase_re(p) for p in (
@@ -55,10 +56,19 @@ ISSUE_TEMPLATES = [
     )],
      "query": "mehnat shartnomasini bekor qilish Mehnat kodeksi"},
     {"when": [_phrase_re(p) for p in (
-        "armiya", "soldat", "harbiy", "chaqiruv", "chaqiriq", "mudofaa",
-        "srochka", "povestka", "askar", "dezertir",
+        "armiya", "armiga", "soldat", "harbiy", "chaqiruv", "chaqiriq",
+        "mudofaa", "srochka", "povestka", "askar", "dezertir",
     )],
      "query": "harbiy xizmatga chaqiruvdan boʻyin tovlash muddatli harbiy xizmat Jinoyat kodeksi"},
+    {"when": [_phrase_re(p) for p in (
+        "urishib", "urish", "urib", "urdim", "qamash", "qamoq", "kaltak",
+        "janjal", "haqorat", "turtib",
+    )],
+     "query": "yengil tanaga shikast yetkazish kaltaklash haqorat Maʼmuriy javobgarlik kodeksi"},
+    {"when": [_phrase_re(p) for p in ("ogirlab", "ogirlash", "ogirlik", "oʻgʻirlik")],
+     "query": "oʻgʻirlik birovning mol-mulkini talon-toroj qilish Jinoyat kodeksi"},
+    {"when": [_phrase_re(p) for p in ("nalog", "soliq toʻlama", "soliq tolama")],
+     "query": "soliq toʻlamaganlik uchun javobgarlik Soliq kodeksi"},
     {"when": [_phrase_re(p) for p in ("aliment", "alimet")],
      "query": "aliment undirish voyaga yetmagan bolalarni taʼminlash Oila kodeksi"},
     {"when": [_phrase_re(p) for p in (

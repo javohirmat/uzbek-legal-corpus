@@ -1,5 +1,5 @@
 [
-  {"when": ["armiya", "armiyaga", "armiyada", "armiyu", "askarlik", "askar",
+  {"when": ["armiya", "armiyaga", "armiga", "armiyada", "armiyu", "askarlik", "askar",
             "harbiy", "harbiy xizmat", "chaqiruv", "chaqiriq", "chaqiriluvchi",
             "soldat", "soldatga", "mudofaa", "srochka", "povestka",
             "dezertirlik", "dezertir"],
@@ -21,7 +21,7 @@
   {"when": ["aliment", "alimet", "alimenty"],
    "add": "aliment undirish voyaga yetmagan bolalarni taʼminlash"},
 
-  {"when": ["oʻgʻirlik", "ogirlik", "oʻgʻirlash", "talon"],
+  {"when": ["oʻgʻirlik", "ogirlik", "oʻgʻirlash", "ogirlab", "ogirlash", "talon"],
    "add": "oʻgʻirlik talonchilik birovning mol-mulkini talon-toroj qilish"},
 
   {"when": ["pora", "korrupsiya"],
@@ -36,14 +36,18 @@
   {"when": ["meros", "vorislik"],
    "add": "merosni qabul qilish vasiyatnoma qonun boʻyicha vorislik"},
 
-  {"when": ["suv bosdi", "toshqin", "uyimni suv", "suv ostida"],
+  {"when": ["suv bosdi", "toshqin", "uyimni suv", "suv ostida", "zalil"],
    "add": "ijara shartnomasi zarar yetkazish mulkka yetkazilgan zararni qoplash ijaraga beruvchining majburiyatlari"},
 
   {"when": ["kredit", "qarz", "pul toʻlamadim", "pul tolamadim", "pul toʻlamasa"],
    "add": "qarz shartnomasi kredit shartnomasi majburiyatni bajarish"},
 
-  {"when": ["jarima", "shtraf"],
-   "add": "maʼmuriy jarima javobgarlik choralari"},
+  {"when": ["jarima", "shtraf", "nalog"],
+   "add": "maʼmuriy jarima javobgarlik choralari soliq toʻlamaganlik"},
+
+  {"when": ["urishib", "urish", "urib", "qamash", "qamashadi", "qamoq", "kaltak",
+            "janjal", "hibsga", "haqorat"],
+   "add": "yengil tanaga shikast yetkazish kaltaklash haqorat mayda bezorilik Maʼmuriy javobgarlik"},
 
   {"when": ["biznes ochish", "firma ochish", "yatt", "tadbirkorlik"],
    "add": "tadbirkorlik faoliyati davlat roʻyxatidan oʻtkazish"}

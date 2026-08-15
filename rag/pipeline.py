@@ -7,7 +7,6 @@ comes back is audited against the articles that were actually supplied.
 """
 import json
 from datetime import datetime, timedelta, timezone
-import re
 
 import dspy
 
@@ -21,21 +20,13 @@ from retriever import Retriever
 import situation_queries
 from pack_context import pack_articles, format_grounding
 from situation_prompt import (
-    SITUATION_SYSTEM_UZ, audit_fail_reply, generation_system, situation_system_for,
+    FORMAL_REGISTER_RU, FORMAL_REGISTER_UZ, SITUATION_SYSTEM_UZ,
+    audit_fail_reply, generation_system, mostly_cyrillic, situation_system_for,
 )
-from legal_hints import CYRILLIC_LEGAL_HINT, has_cyrillic_legal_cue
+from legal_hints import LATIN_LEGAL_HINT, has_legal_cue
 
-# Latin legal vocabulary. Cyrillic stems live in legal_hints.CYRILLIC_LEGAL_HINT
-# so a Russian wages/firing story is not routed to general chat.
-_LEGAL_HINT = re.compile(
-    r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
-    r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
-    r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
-    r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius|"
-    r"armiya|harbiy|soldat|chaqiruv|mudofaa|askar|oylik|maosh|aliment|"
-    r"ishdan|dezertir)",
-    re.IGNORECASE,
-)
+# Alias kept so older tests/grep that look for `_LEGAL_HINT` still find a gate.
+_LEGAL_HINT = LATIN_LEGAL_HINT
 
 _lm_kwargs = {}
 if C.THINKING_MODE in ("true", "false"):
@@ -56,24 +47,20 @@ lm = dspy.LM(
 dspy.configure(lm=lm)
 
 SYSTEM = (
-    "Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan. Javobni FAQAT quyida "
+    FORMAL_REGISTER_UZ
+    + "Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan. Javobni FAQAT quyida "
     "berilgan moddalar matni asosida yoz. Har bir daʼvodan keyin (Kodeks nomi, "
     "N-modda) koʻrinishida iqtibos keltir. Agar berilgan moddalarda javob "
     "boʻlmasa, «Berilgan moddalarda bunga javob yoʻq» deb yoz. Berilmagan modda "
     "raqamini hech qachon oʻylab topma. Javobing qisqa va aniq boʻlsin — "
     "eng koʻpi 4-6 jumla. Modda matnini toʻliq koʻchirma, faqat savolga tegishli "
-    "qismini tushuntir."
+    "qismini tushuntir. Oxirgi qator alohida: Men yurist emasman. "
+    "«qonun buzilgan» deb yozma."
 )
 
 
 class GroundedAnswer(dspy.Signature):
-    """Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan. Javobni FAQAT berilgan
-    moddalar matni asosida yoz. Har bir daʼvodan keyin (Kodeks nomi, N-modda)
-    koʻrinishida iqtibos keltir. Berilgan moddalarda javob boʻlmasa —
-    «Berilgan moddalarda bunga javob yoʻq» deb yoz. Berilmagan modda raqamini
-    hech qachon oʻylab topma. Javobing qisqa va aniq boʻlsin — eng koʻpi 4-6
-    jumla. Modda matnini toʻliq koʻchirma, faqat savolga tegishli qismini
-    tushuntir."""
+    """Rasmiy yozma o‘zbek; faqat berilgan moddalar; Aka yo‘q; yurist emassan."""
 
     articles = dspy.InputField(desc="tegishli qonun moddalari (toʻliq matn)")
     question = dspy.InputField(desc="foydalanuvchi vaziyati, moddalardan keyin")
@@ -89,25 +76,46 @@ class SituationAnswer(dspy.Signature):
 
 
 SituationAnswer.__doc__ = SITUATION_SYSTEM_UZ
+GroundedAnswer.__doc__ = SYSTEM
 
 
 _MONTHS_UZ = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul",
               "avgust", "sentabr", "oktabr", "noyabr", "dekabr"]
 
 
-def chat_system():
+def chat_system(question=""):
     """Built per request so the date is never stale. A model with no clock
-    answers "men bugungi sanani bilmayman", which reads as a broken assistant."""
+    answers "men bugungi sanani bilmayman", which reads as a broken assistant.
+
+    Chat is not a lawyer: if a legal question still lands here, refuse to
+    invent articles or punishments. Routing should have sent those to retrieve.
+    """
     now = datetime.now(timezone.utc) + timedelta(hours=5)   # Asia/Tashkent
     today = f"{now.day}-{_MONTHS_UZ[now.month - 1]} {now.year}"
+    if mostly_cyrillic(question):
+        return (
+            "Ты Tomaris — искусственный интеллект, созданный командой Tomaris AI "
+            "в Узбекистане. Не называй другую компанию своим создателем. "
+            + FORMAL_REGISTER_RU
+            + "Ты не юрист. Если вопрос о законе, наказании, армии, аресте или "
+            "штрафе — не угадывай статьи и меры наказания. Одним официальным "
+            "предложением скажи, что нужен поиск по тексту закона. Не пиши "
+            "«закон нарушен». "
+            f"Сегодня: {today} (время Ташкента)."
+        )
     return (
         "Sen Tomaris — oʻzbek tili va madaniyati uchun yaratilgan sunʼiy intellekt "
         "yordamchisisan. Seni Oʻzbekistondagi Tomaris AI jamoasi yaratgan; "
         "boshqa hech qanday loyiha yoki kompaniyani oʻz yaratuvching deb "
-        "aytma. Foydalanuvchiga oʻzbek tilida tabiiy, aniq va foydali "
-        f"javob ber. Bugungi sana: {today} (Toshkent vaqti). "
-        "Foydalanuvchi salomlashsa, samimiy salomlash bilan javob ber — "
-        "uning soʻzini takrorlama."
+        "aytma. "
+        + FORMAL_REGISTER_UZ
+        + "Sen yurist emassan. Qonun, jazo, armiya, qamoq, jarima haqidagi "
+        "savolda modda raqami yoki jazoni taxmin qilma. Bitta rasmiy jumla: "
+        "bunday savol qonun matnini qidirishni talab qiladi. «qonun buzilgan» "
+        "va «Baraka toping» deb yozma. "
+        f"Bugungi sana: {today} (Toshkent vaqti). "
+        "Foydalanuvchi salomlashsa, rasmiy salom bilan javob ber — uning "
+        "soʻzini takrorlama."
     )
 
 # Does this message belong to the legal corpus at all? tomaris.ai is a general
@@ -291,9 +299,7 @@ class LegalRAG(dspy.Module):
         for q in (question, normalize_query(question)):
             if self.index.find_codes(q):                # "Mehnat kodeksi ..."
                 return True
-            if _LEGAL_HINT.search(norm(q)):
-                return True
-            if has_cyrillic_legal_cue(q) or bool(CYRILLIC_LEGAL_HINT.search(q)):
+            if has_legal_cue(q) or _LEGAL_HINT.search(norm(q)):
                 return True
         return False
 
@@ -334,7 +340,7 @@ class LegalRAG(dspy.Module):
     def _chat(self, question, history):
         """General assistant turn: no retrieval, no citation audit, full
         conversation history so follow-ups make sense."""
-        messages = [{"role": "system", "content": chat_system()}]
+        messages = [{"role": "system", "content": chat_system(question)}]
         messages += [m for m in history if m.get("content")][-8:]
         messages.append({"role": "user", "content": question})
         try:
@@ -510,7 +516,7 @@ def stream_answer(rag, question, context="", history=()):
     if not explicit:
         keys, best = rag.retriever.search(rag.expander.expand(question))
         if best > C.LEGAL_DISTANCE:                      # ordinary conversation
-            msgs = [{"role": "system", "content": chat_system()}]
+            msgs = [{"role": "system", "content": chat_system(question)}]
             msgs += [m for m in history if m.get("content")][-8:]
             msgs.append({"role": "user", "content": question})
             yield from _passthrough(msgs, mode="chat")

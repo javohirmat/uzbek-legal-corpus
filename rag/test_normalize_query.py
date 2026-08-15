@@ -61,6 +61,8 @@ contains("6zbek → oʻzbek", normalize_query("6zbek"), want)
 contains("wunaqa → shunaqa", normalize_query("wunaqa"), "shunaqa")
 contains("nimaaa → nima", normalize_query("nimaaa boladi"), "nima")
 contains("nimaboladi spaced", normalize_query("nimaboladi"), "nima boladi")
+contains("armiga → armiya", normalize_query("armiga bormasam"), "armiya")
+contains("ogirlab → o‘g‘irlik", normalize_query("ogirlab ketishdi"), "g" + OKINA + "irlik")
 
 
 print("\n4. citations: digit SMS must not smash 999 / 253 / 141²")

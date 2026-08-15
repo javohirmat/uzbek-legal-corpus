@@ -121,6 +121,14 @@ check("SMS oylk+haydad still emits Mehnat issues",
 check("army slang emits JK chaqiruv issue",
       any("chaqiruv" in q for q in issue_queries("Armiyaga bormadim nima qilishadi")),
       True)
+check("armiga SMS still emits chaqiruv issue",
+      any("chaqiruv" in q for q in issue_queries(
+          "aka povestka keldi armiga bormasam nma boladi")),
+      True)
+check("school fight emits shikast/Maʼmuriy issue",
+      any("shikast" in q or "Maʼmuriy" in q
+          for q in issue_queries("maktabda urishib qoldik meni qamashadimi")),
+      True)
 check("issue_queries splits lease vs flood",
       issue_queries("ijaraga olganman, suv bosdi"),
       ["ijara shartnomasi Fuqarolik kodeksi",
@@ -155,8 +163,13 @@ try:
 except FileNotFoundError:
     pass
 for needle in (
+    "Aka",
+    "Baraka toping",
+    "davlat axborot",
+    "rasmiy yozma",
     "Men yurist emasman",
     "qonun buzilgan",
+    "qonun buzilishi",
     "siz aybdorsiz",
     "javobgar boʻlasiz",
     "oqibat",
