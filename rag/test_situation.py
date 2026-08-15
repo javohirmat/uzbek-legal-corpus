@@ -3,8 +3,8 @@
     python test_situation.py
 """
 from situation_queries import (
-    cap_per_code, issue_queries, merge_queries, pack_lost_in_middle,
-    parse_query_list, queries_for, rrf_fuse,
+    cap_per_code, exclude_unmentioned_soliq, issue_queries, merge_queries,
+    pack_lost_in_middle, parse_query_list, queries_for, rrf_fuse,
 )
 
 fails = []
@@ -69,6 +69,18 @@ check("prefer does not evict another preferred occupant",
           prefer={("jinoyat_kodeksi", "169"), ("jinoyat_kodeksi", "166")},
       ),
       [("jinoyat_kodeksi", "169"), ("jinoyat_kodeksi", "166")])
+wage_mix = [
+    ("mehnat_kodeksi", "253"), ("soliq_kodeksi", "371"),
+    ("soliq_kodeksi", "374"), ("mehnat_kodeksi", "161"),
+]
+check("wage queries drop unmentioned Soliq 371/374",
+      exclude_unmentioned_soliq(
+          wage_mix, ["ish haqini toʻlash muddatlari Mehnat kodeksi"]),
+      [("mehnat_kodeksi", "253"), ("mehnat_kodeksi", "161")])
+check("nalog queries keep Soliq",
+      exclude_unmentioned_soliq(
+          wage_mix, ["soliq toʻlamaganlik uchun javobgarlik Soliq kodeksi"]),
+      wage_mix)
 
 
 print("\n3. query merge: original first, no invented article numbers")

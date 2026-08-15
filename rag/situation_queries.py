@@ -155,6 +155,19 @@ def rrf_fuse(ranked_lists, k_const=None):
     return sorted(fused, key=lambda key: -fused[key])
 
 
+def exclude_unmentioned_soliq(keys, questions):
+    """Drop Soliq hits unless a search query actually names tax.
+
+    Wage/dismissal stories share 'haq toʻlash' with Soliq 371/374 (labour
+    income for PIT). Those articles are not labour remedies. Nalog questions
+    already search 'Soliq kodeksi' and keep the family.
+    """
+    blob = norm(" ".join(str(q) for q in questions if q))
+    if "soliq" in blob:
+        return list(keys)
+    return [k for k in keys if k[0] != "soliq_kodeksi"]
+
+
 def cap_per_code(keys, cap=None, limit=None, prefer=None):
     """Keep at most `cap` articles from each code slug in the final `limit`.
 

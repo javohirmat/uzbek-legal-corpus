@@ -10,7 +10,7 @@
    "add": "mehnat shartnomasini bekor qilish xodimni ishdan boʻshatish asoslari"},
 
   {"when": ["oylik", "maosh", "ish haqi", "ish haqqi", "zarplata"],
-   "add": "ish haqini toʻlash muddatlari xodimlarga ish haqi toʻlash"},
+   "add": "ish haqini toʻlash muddatlari har yarim oyda"},
 
   {"when": ["taʼtil", "tatil", "otpusk"],
    "add": "mehnat taʼtili yillik asosiy taʼtil"},

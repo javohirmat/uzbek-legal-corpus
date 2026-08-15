@@ -17,7 +17,7 @@ from rank_bm25 import BM25Okapi
 
 import config as C
 from corpus_index import norm
-from situation_queries import cap_per_code, rrf_fuse
+from situation_queries import cap_per_code, exclude_unmentioned_soliq, rrf_fuse
 
 
 def _tok(s):
@@ -89,6 +89,6 @@ class Retriever:
                 best = dist
         if not lists:
             return [], best
-        fused = rrf_fuse(lists)
+        fused = exclude_unmentioned_soliq(rrf_fuse(lists), questions)
         prefer = self._title_prefer(fused, questions)
         return cap_per_code(fused, cap=cap, limit=k, prefer=prefer), best
