@@ -32,6 +32,9 @@ class Retriever:
         )
         self.col = client.get_collection(C.COLLECTION, embedding_function=ef)
         self.keys = [(r["code"], r["article_id"]) for r in articles]
+        self.titles = {
+            (r["code"], r["article_id"]): r.get("title") or "" for r in articles
+        }
         self.bm25 = BM25Okapi(
             [_tok(f'{r["code_title"]} {r["article_display"]} {r["title"]} {r["text"]}')
              for r in articles]
@@ -55,6 +58,24 @@ class Retriever:
         fused = rrf_fuse([dense, sparse])
         return fused[:k], best
 
+    def _title_prefer(self, keys, questions):
+        """Keys whose article title appears in the search queries.
+
+        Used so the per-code cap cannot drop JK 169 (Oʻgʻrilik) when 166/164
+        crowd Jinoyat. Does not invent article numbers — titles come from the
+        index, phrases from the queries already built.
+        """
+        blob = norm(" ".join(str(q) for q in questions if q))
+        if not blob:
+            return []
+        prefer = []
+        for key in keys:
+            title = self.titles.get(key) or ""
+            folded = norm(title)
+            if folded and folded in blob:
+                prefer.append(key)
+        return prefer
+
     def search_multi(self, questions, k=C.TOP_K, cap=None):
         """Search each query for CANDIDATES, RRF-fuse the lists, cap per code."""
         cap = C.PER_CODE_CAP if cap is None else cap
@@ -68,4 +89,6 @@ class Retriever:
                 best = dist
         if not lists:
             return [], best
-        return cap_per_code(rrf_fuse(lists), cap=cap, limit=k), best
+        fused = rrf_fuse(lists)
+        prefer = self._title_prefer(fused, questions)
+        return cap_per_code(fused, cap=cap, limit=k, prefer=prefer), best

@@ -62,7 +62,7 @@ contains("wunaqa → shunaqa", normalize_query("wunaqa"), "shunaqa")
 contains("nimaaa → nima", normalize_query("nimaaa boladi"), "nima")
 contains("nimaboladi spaced", normalize_query("nimaboladi"), "nima boladi")
 contains("armiga → armiya", normalize_query("armiga bormasam"), "armiya")
-contains("ogirlab → o‘g‘irlik", normalize_query("ogirlab ketishdi"), "g" + OKINA + "irlik")
+contains("ogirlab → o‘g‘rilik", normalize_query("ogirlab ketishdi"), "g" + OKINA + "rilik")
 
 
 print("\n4. citations: digit SMS must not smash 999 / 253 / 141²")
@@ -96,6 +96,20 @@ lab = "oylk 2 oy bermayapti ishdan haydad nima boladi"
 expanded = exp.expand(lab)
 contains("labour expand mentions ish haqi", expanded, "ish haqini toʻlash")
 contains("labour expand mentions bekor qilish", expanded, "bekor qilish")
+check("labour expand does not inject Soliq 371 phrasing",
+      "mehnatga haq toʻlash" not in expanded, True)
+
+phone = exp.expand("telefonimni ogirlab ketishdi nma qilaman aka")
+contains("theft expand uses statute Oʻgʻrilik", phone, "g" + OKINA + "rilik")
+contains("theft expand uses yashirin ravishda", phone, "yashirin")
+check("theft expand does not inject Talonchilik (JK 166)",
+      "talonchilik" not in phone.lower(), True)
+
+zp_qs = queries_for("зп не платят уволили", exp, complete_fn=None)
+check("зп slang searches Mehnat pay-timing",
+      any("ish haqini toʻlash" in q or "Mehnat" in q for q in zp_qs), True)
+check("зп slang does not search Soliq 371 phrasing",
+      any("mehnatga haq toʻlash" in q or "Soliq" in q for q in zp_qs), False)
 issues = issue_queries(lab)
 check("wages issue after oylk",
       any("ish haqini toʻlash" in q for q in issues), True)

@@ -10,7 +10,7 @@
    "add": "mehnat shartnomasini bekor qilish xodimni ishdan boʻshatish asoslari"},
 
   {"when": ["oylik", "maosh", "ish haqi", "ish haqqi", "zarplata"],
-   "add": "mehnatga haq toʻlash ish haqini toʻlash muddatlari"},
+   "add": "ish haqini toʻlash muddatlari xodimlarga ish haqi toʻlash"},
 
   {"when": ["taʼtil", "tatil", "otpusk"],
    "add": "mehnat taʼtili yillik asosiy taʼtil"},
@@ -21,8 +21,8 @@
   {"when": ["aliment", "alimet", "alimenty"],
    "add": "aliment undirish voyaga yetmagan bolalarni taʼminlash"},
 
-  {"when": ["oʻgʻirlik", "ogirlik", "oʻgʻirlash", "ogirlab", "ogirlash", "talon"],
-   "add": "oʻgʻirlik talonchilik birovning mol-mulkini talon-toroj qilish"},
+  {"when": ["oʻgʻrilik", "oʻgʻirlik", "ogirlik", "oʻgʻirlash", "ogirlab", "ogirlash"],
+   "add": "oʻgʻrilik oʻzganing mol-mulkini yashirin ravishda talon-toroj qilish"},
 
   {"when": ["pora", "korrupsiya"],
    "add": "pora olish pora berish mansabdorlik jinoyatlari"},

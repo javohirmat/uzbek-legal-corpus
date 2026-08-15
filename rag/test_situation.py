@@ -52,6 +52,23 @@ check("cap 2 on a 3-code mix fills from later codes",
       ),
       [("suv_kodeksi", "1"), ("suv_kodeksi", "2"),
        ("fuqarolik_kodeksi_1qism", "14"), ("mehnat_kodeksi", "253")])
+check("preferred JK 169 survives 166/164 crowding",
+      cap_per_code(
+          [("jinoyat_kodeksi", "166"), ("jinoyat_kodeksi", "164"),
+           ("jinoyat_kodeksi", "169"), ("mehnat_kodeksi", "253")],
+          cap=2, limit=6,
+          prefer={("jinoyat_kodeksi", "169")},
+      ),
+      [("jinoyat_kodeksi", "166"), ("jinoyat_kodeksi", "169"),
+       ("mehnat_kodeksi", "253")])
+check("prefer does not evict another preferred occupant",
+      cap_per_code(
+          [("jinoyat_kodeksi", "169"), ("jinoyat_kodeksi", "166"),
+           ("jinoyat_kodeksi", "164")],
+          cap=2, limit=6,
+          prefer={("jinoyat_kodeksi", "169"), ("jinoyat_kodeksi", "166")},
+      ),
+      [("jinoyat_kodeksi", "169"), ("jinoyat_kodeksi", "166")])
 
 
 print("\n3. query merge: original first, no invented article numbers")
@@ -137,6 +154,15 @@ check("Russian wages+firing still emits Latin Mehnat queries",
       issue_queries("два месяца не платит зарплату и уволил"),
       ["ish haqini toʻlash muddatlari Mehnat kodeksi",
        "mehnat shartnomasini bekor qilish Mehnat kodeksi"])
+check("зп slang emits Mehnat not Soliq",
+      issue_queries("зп не платят уволили"),
+      ["ish haqini toʻlash muddatlari Mehnat kodeksi",
+       "mehnat shartnomasini bekor qilish Mehnat kodeksi"])
+phone_issues = issue_queries("telefonimni ogirlab ketishdi nma qilaman aka")
+check("stolen phone issue uses Oʻgʻrilik / yashirin",
+      any("gʻrilik" in q or "yashirin" in q for q in phone_issues), True)
+check("stolen phone issue does not name Talonchilik",
+      any("talonchilik" in q.lower() for q in phone_issues), False)
 qs_ru = queries_for(
     "Работодатель два месяца не выплачивает зарплату и уволил меня",
     _Expander(),

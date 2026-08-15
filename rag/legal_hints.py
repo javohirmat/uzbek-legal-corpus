@@ -161,6 +161,7 @@ LATIN_LEGAL_CUES = (
     "ogirlab",
     "ogirlash",
     "ogirlik",
+    "ogrilik",
     "zalil",
 )
 

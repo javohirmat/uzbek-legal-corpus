@@ -193,9 +193,17 @@ check("street punch searches yengil shikast not qiynash",
       any("shikast" in q for q in issue_queries("kochada urib yubordim meni qamashadimi"))
       and not any("qiynash" in q for q in issue_queries("kochada urib yubordim meni qamashadimi")),
       True)
-check("stolen phone searches o‘g‘irlik not Oila",
-      any("gʻirlik" in q or "girlik" in q or "ogirlik" in q.lower()
-          for q in issue_queries("telefonimni ogirlab ketishdi nma qilaman aka")),
+phone_qs = issue_queries("telefonimni ogirlab ketishdi nma qilaman aka")
+check("stolen phone searches o‘g‘rilik / yashirin not Oila",
+      any("gʻrilik" in q or "grilik" in q or "yashirin" in q for q in phone_qs),
+      True)
+check("stolen phone does not search Talonchilik",
+      any("talonchilik" in q.lower() for q in phone_qs), False)
+check("зп fired does not emit Soliq issue",
+      any("Soliq" in q or "soliq" in q
+          for q in issue_queries("зп не платят уволили")), False)
+check("зп fired still emits Mehnat pay-timing",
+      any("ish haqini toʻlash" in q for q in issue_queries("зп не платят уволили")),
       True)
 check("oylk zp searches Mehnat",
       any("Mehnat" in q for q in issue_queries("oylk 2 oydan beri yoq zp bermayapti")),

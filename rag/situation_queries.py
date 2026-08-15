@@ -65,8 +65,10 @@ ISSUE_TEMPLATES = [
         "janjal", "haqorat", "turtib",
     )],
      "query": "yengil tanaga shikast yetkazish kaltaklash haqorat Maʼmuriy javobgarlik kodeksi"},
-    {"when": [_phrase_re(p) for p in ("ogirlab", "ogirlash", "ogirlik", "oʻgʻirlik")],
-     "query": "oʻgʻirlik birovning mol-mulkini talon-toroj qilish Jinoyat kodeksi"},
+    {"when": [_phrase_re(p) for p in (
+        "ogirlab", "ogirlash", "ogirlik", "oʻgʻirlik", "oʻgʻrilik",
+    )],
+     "query": "oʻgʻrilik oʻzganing mol-mulkini yashirin ravishda talon-toroj qilish Jinoyat kodeksi"},
     {"when": [_phrase_re(p) for p in ("nalog", "soliq toʻlama", "soliq tolama")],
      "query": "soliq toʻlamaganlik uchun javobgarlik Soliq kodeksi"},
     {"when": [_phrase_re(p) for p in ("aliment", "alimet")],
@@ -153,20 +155,38 @@ def rrf_fuse(ranked_lists, k_const=None):
     return sorted(fused, key=lambda key: -fused[key])
 
 
-def cap_per_code(keys, cap=None, limit=None):
-    """Keep at most `cap` articles from each code slug in the final `limit`."""
+def cap_per_code(keys, cap=None, limit=None, prefer=None):
+    """Keep at most `cap` articles from each code slug in the final `limit`.
+
+    `prefer` is an optional set of keys (typically title-phrase matches). If a
+    preferred key would be dropped because neighbours from the same code already
+    filled the cap — JK 166/164 crowding out 169 Oʻgʻrilik — swap the lowest
+    non-preferred occupant of that code. Does not invent ranks; RRF order of
+    everyone else is unchanged.
+    """
     cap = C.PER_CODE_CAP if cap is None else cap
     limit = C.TOP_K if limit is None else limit
-    seen, out = {}, []
+    prefer = {tuple(k) for k in (prefer or [])}
+    seen, out, slots = {}, [], {}
     for key in keys:
+        key_t = tuple(key)
         code = key[0]
         n = seen.get(code, 0)
-        if n >= cap:
+        if n < cap and len(out) < limit:
+            slots.setdefault(code, []).append(len(out))
+            seen[code] = n + 1
+            out.append(key)
             continue
-        seen[code] = n + 1
-        out.append(key)
-        if len(out) >= limit:
-            break
+        if key_t not in prefer:
+            continue
+        victim = None
+        for i in reversed(slots.get(code, [])):
+            if tuple(out[i]) not in prefer:
+                victim = i
+                break
+        if victim is None:
+            continue
+        out[victim] = key
     return out
 
 
