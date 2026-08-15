@@ -127,6 +127,22 @@ check("1 article unchanged", pack_lost_in_middle(["A"]), ["A"])
 check("empty", pack_lost_in_middle([]), [])
 
 
+print("\n7. situation SYSTEM prompt contract")
+src = open("pipeline.py", encoding="utf-8").read()
+try:
+    src += open("situation_prompt.py", encoding="utf-8").read()
+except FileNotFoundError:
+    pass
+for needle in (
+    "Men yurist emasman",
+    "qonun buzilgan",
+    "siz aybdorsiz",
+    "javobgar boʻlasiz",
+    "oqibat",
+):
+    check(f"prompt mentions {needle!r}", needle in src, True)
+
+
 print()
 if fails:
     print(f"{len(fails)} FAILURES:")

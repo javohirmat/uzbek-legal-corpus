@@ -18,7 +18,42 @@ from query_expand import QueryExpander
 import identity
 from retriever import Retriever
 import situation_queries
-from situation_queries import pack_lost_in_middle
+
+try:
+    from pack_context import pack_lost_in_middle
+except ImportError:
+    from situation_queries import pack_lost_in_middle
+
+try:
+    from situation_prompt import SITUATION_SYSTEM
+except ImportError:
+    SITUATION_SYSTEM = (
+        "Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan, lekin yurist emassan. "
+        "Avval foydalanuvchi vaziyatini 2–3 jumlada xolis qisqartir. "
+        "Keyin FAQAT quyida berilgan moddalar matnidagi nomzod moddalarni koʻrsat — "
+        "berilmagan modda raqamini hech qachon oʻylab topma. "
+        "Har bir tegishli moddadan oqibatlarni (muddatlar, majburiyatlar, jarimalar) "
+        "modda matnidan iqtibos qilib yoz; oʻzing chiqarma. "
+        "«qonun buzilgan», «siz aybdorsiz», «javobgar boʻlasiz» deb xulosa chiqarma — "
+        "bu sudning ishi. Jinoiy fakt boʻlsa, faqat zarar turini ayt "
+        "(masalan tan jarohati); burni qonaganidan Jinoyat kodeksi 110-moddasini chiqarma. "
+        "Javob oxirida albatta yoz: «Men yurist emasman, bu huquqiy maslahat emas — "
+        "aniq ish uchun mutaxassisga murojaat qiling.» "
+        "Javob 6–8 jumladan oshmasin. Har bir daʼvodan keyin (Kodeks nomi, N-modda) iqtibos keltir."
+    )
+
+try:
+    from legal_hints import LEGAL_HINT as _LEGAL_HINT
+    if isinstance(_LEGAL_HINT, str):
+        _LEGAL_HINT = re.compile(_LEGAL_HINT, re.IGNORECASE)
+except ImportError:
+    _LEGAL_HINT = re.compile(
+        r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
+        r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
+        r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
+        r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius)",
+        re.IGNORECASE,
+    )
 
 _lm_kwargs = {}
 if C.THINKING_MODE in ("true", "false"):
@@ -63,6 +98,17 @@ class GroundedAnswer(dspy.Signature):
     answer = dspy.OutputField(desc="iqtiboslangan javob (oʻzbek tilida)")
 
 
+class SituationAnswer(dspy.Signature):
+    """Vaziyat: faqat berilgan moddalar; oqibatlarni matndan iqtibos qil; yurist emassan."""
+
+    articles = dspy.InputField(desc="tegishli qonun moddalari (toʻliq matn)")
+    question = dspy.InputField(desc="foydalanuvchi vaziyati, moddalardan keyin")
+    answer = dspy.OutputField(desc="iqtiboslangan javob (oʻzbek tilida)")
+
+
+SituationAnswer.__doc__ = SITUATION_SYSTEM
+
+
 _MONTHS_UZ = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul",
               "avgust", "sentabr", "oktabr", "noyabr", "dekabr"]
 
@@ -86,13 +132,7 @@ def chat_system():
 # assistant: greetings, history questions and small talk must NOT be forced
 # through statute retrieval, or they come back as
 # "Berilgan moddalarda bunga javob yoʻq".
-_LEGAL_HINT = re.compile(
-    r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
-    r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
-    r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
-    r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius)",
-    re.IGNORECASE,
-)
+# `_LEGAL_HINT` is loaded above (legal_hints.py or the fallback regex).
 
 
 def _format(articles):
@@ -177,6 +217,7 @@ class LegalRAG(dspy.Module):
         self.overrides = Overrides.load(C.OVERRIDES_JSON)
         self.expander = QueryExpander.load(C.SYNONYMS_JSON)
         self.generate = dspy.Predict(GroundedAnswer)
+        self.generate_situation = dspy.Predict(SituationAnswer)
 
     # ---------------- deterministic messages (no LLM) ----------------
     def _missing(self, status, hint):
@@ -204,25 +245,27 @@ class LegalRAG(dspy.Module):
         return f'{names}da {hint["num"]}-modda yoʻq. Oxirgi modda — {hint["max"]}-modda.'
 
     # ---------------- generation + citation audit ----------------
-    def _raw_call(self, question, ctx):
+    def _raw_call(self, question, ctx, system=SYSTEM):
         """Fallback when DSPy cannot parse the structured reply (fine-tuned
         models do not always honour field markers)."""
         out = lm(messages=[
-            {"role": "system", "content": SYSTEM},
+            {"role": "system", "content": system},
             {"role": "user", "content": _user_turn(question, ctx)},
         ])
         return _as_text(out[0] if isinstance(out, list) else out)
 
-    def _grounded(self, question, articles):
+    def _grounded(self, question, articles, generate=None, system=None):
+        generate = generate or self.generate
+        system = system or SYSTEM
         ctx = _format(articles)
         allowed = self.index.allowed_ids(articles)
         try:
-            answer = _as_text(self.generate(question=question, articles=ctx).answer)
+            answer = _as_text(generate(question=question, articles=ctx).answer)
         except Exception as first:
             # A structured-output parse failure is recoverable via a plain call;
             # an unreachable vLLM is not, and must not surface as a raw traceback.
             try:
-                answer = self._raw_call(question, ctx)
+                answer = self._raw_call(question, ctx, system=system)
             except Exception as second:
                 raise UpstreamUnavailable(str(second)) from first
 
@@ -233,10 +276,10 @@ class LegalRAG(dspy.Module):
                 f'Quyidagilar berilmagan: {", ".join(sorted(set(bad)))}]'
             )
             try:
-                answer = _as_text(self.generate(question=retry, articles=ctx).answer)
+                answer = _as_text(generate(question=retry, articles=ctx).answer)
             except Exception as first:
                 try:
-                    answer = self._raw_call(retry, ctx)
+                    answer = self._raw_call(retry, ctx, system=system)
                 except Exception as second:
                     raise UpstreamUnavailable(str(second)) from first
             if self.index.bad_citations(answer, allowed):
@@ -371,7 +414,10 @@ class LegalRAG(dspy.Module):
             # Story / open legal question: rewrite into several searches so one
             # keyword-heavy code cannot fill the whole window.
             retrieved, best = self._situation_retrieve(question)
-            answer, ok, reasoning = self._grounded(question, retrieved)
+            answer, ok, reasoning = self._grounded(
+                question, retrieved,
+                generate=self.generate_situation, system=SITUATION_SYSTEM,
+            )
             # report only what the answer actually leans on, not every candidate
             used = self.index.cited_subset(answer, retrieved) if ok else []
             mode = "semantic"
@@ -500,7 +546,8 @@ def stream_answer(rag, question, context="", history=()):
 
     ctx = _format(articles)
     allowed = rag.index.allowed_ids(articles)
-    msgs = [{"role": "system", "content": SYSTEM},
+    sys_prompt = SITUATION_SYSTEM if mode == "semantic" else SYSTEM
+    msgs = [{"role": "system", "content": sys_prompt},
             {"role": "user", "content": _user_turn(question, ctx)}]
 
     buf, emitted = "", []
