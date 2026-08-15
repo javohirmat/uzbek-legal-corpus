@@ -145,8 +145,8 @@ def load_gold(path: Path) -> list[dict]:
             if row["lang"] not in ("uz", "ru"):
                 raise SystemExit(f"{path}:{i} lang must be uz|ru, got {row['lang']!r}")
             gold = row["gold_article_ids"]
-            if not isinstance(gold, list) or not 2 <= len(gold) <= 4:
-                raise SystemExit(f"{path}:{i} gold_article_ids must have 2–4 ids")
+            if not isinstance(gold, list) or not 1 <= len(gold) <= 4:
+                raise SystemExit(f"{path}:{i} gold_article_ids must have 1–4 ids")
             row["_parsed"] = [parse_gold_id(g) for g in gold]
             rows.append(row)
     return rows
