@@ -13,6 +13,7 @@ import re
 
 import config as C
 from corpus_index import norm
+from situation_prompt import mostly_cyrillic
 
 REWRITE_SYSTEM = (
     "Sen qonun qidiruv yordamchisisan. Foydalanuvchi vaziyatini 3-5 ta "
@@ -37,13 +38,20 @@ def _phrase_re(phrase):
 
 
 ISSUE_TEMPLATES = [
-    {"when": [_phrase_re(p) for p in ("ijara", "ijaraga", "ijarachi")],
+    {"when": [_phrase_re(p) for p in ("ijara", "ijaraga", "ijarachi", "аренд")],
      "query": "ijara shartnomasi Fuqarolik kodeksi"},
-    {"when": [_phrase_re(p) for p in ("suv bosdi", "toshqin", "suv ostida", "uyimni suv")],
+    {"when": [_phrase_re(p) for p in (
+        "suv bosdi", "toshqin", "suv ostida", "uyimni suv", "затопил", "потоп",
+    )],
      "query": "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"},
-    {"when": [_phrase_re(p) for p in ("oylik", "maosh", "ish haqi", "ish haqqi")],
+    {"when": [_phrase_re(p) for p in (
+        "oylik", "maosh", "ish haqi", "ish haqqi", "зарплат", "оклад",
+    )],
      "query": "ish haqini toʻlash muddatlari Mehnat kodeksi"},
-    {"when": [_phrase_re(p) for p in ("ishdan hayda", "ishdan boʻshat", "ishdan boshat", "ishdan chiqar")],
+    {"when": [_phrase_re(p) for p in (
+        "ishdan hayda", "ishdan boʻshat", "ishdan boshat", "ishdan chiqar",
+        "уволил", "увольн",
+    )],
      "query": "mehnat shartnomasini bekor qilish Mehnat kodeksi"},
 ]
 
@@ -141,11 +149,18 @@ def cap_per_code(keys, cap=None, limit=None):
 
 
 def queries_for(question, expander, complete_fn=None):
-    """Original+expand first, then issue templates. 27B only if still under 3 queries."""
-    first = expander.expand(question) if expander is not None else question
+    """Original+expand first, then issue templates. 27B only if still under 3 queries.
+
+    Retrieval queries stay Latin-Uzbek: a Cyrillic story is not sent to BM25
+    against a Latin corpus. Issue templates (and the rewrite) already emit Latin.
+    """
     extras = issue_queries(question)
     if expander is not None and hasattr(expander, "issue_adds"):
         extras = extras + expander.issue_adds(question)
+    if mostly_cyrillic(question):
+        first = ""
+    else:
+        first = expander.expand(question) if expander is not None else question
     merged = merge_queries(first, extras)
     if len(merged) >= 3 or complete_fn is None:
         return merged

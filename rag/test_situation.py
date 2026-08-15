@@ -117,6 +117,19 @@ check("issue_queries splits lease vs flood",
       issue_queries("ijaraga olganman, suv bosdi"),
       ["ijara shartnomasi Fuqarolik kodeksi",
        "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"])
+check("Russian wages+firing still emits Latin Mehnat queries",
+      issue_queries("два месяца не платит зарплату и уволил"),
+      ["ish haqini toʻlash muddatlari Mehnat kodeksi",
+       "mehnat shartnomasini bekor qilish Mehnat kodeksi"])
+qs_ru = queries_for(
+    "Работодатель два месяца не выплачивает зарплату и уволил меня",
+    _Expander(),
+    complete_fn=None,
+)
+check("Russian story does not search the raw Cyrillic",
+      any("Работодатель" in q or "зарплат" in q for q in qs_ru), False)
+check("Russian story still searches Latin Mehnat",
+      any("Mehnat kodeksi" in q for q in qs_ru), True)
 
 
 print("\n6. lost-in-the-middle packing: best first, second-best last")

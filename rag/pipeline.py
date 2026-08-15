@@ -18,42 +18,21 @@ from query_expand import QueryExpander
 import identity
 from retriever import Retriever
 import situation_queries
+from pack_context import pack_articles, format_grounding
+from situation_prompt import (
+    SITUATION_SYSTEM_UZ, audit_fail_reply, generation_system, situation_system_for,
+)
+from legal_hints import CYRILLIC_LEGAL_HINT, has_cyrillic_legal_cue
 
-try:
-    from pack_context import pack_lost_in_middle
-except ImportError:
-    from situation_queries import pack_lost_in_middle
-
-try:
-    from situation_prompt import SITUATION_SYSTEM
-except ImportError:
-    SITUATION_SYSTEM = (
-        "Sen Oʻzbekiston qonunchiligi boʻyicha yordamchisan, lekin yurist emassan. "
-        "Avval foydalanuvchi vaziyatini 2–3 jumlada xolis qisqartir. "
-        "Keyin FAQAT quyida berilgan moddalar matnidagi nomzod moddalarni koʻrsat — "
-        "berilmagan modda raqamini hech qachon oʻylab topma. "
-        "Har bir tegishli moddadan oqibatlarni (muddatlar, majburiyatlar, jarimalar) "
-        "modda matnidan iqtibos qilib yoz; oʻzing chiqarma. "
-        "«qonun buzilgan», «siz aybdorsiz», «javobgar boʻlasiz» deb xulosa chiqarma — "
-        "bu sudning ishi. Jinoiy fakt boʻlsa, faqat zarar turini ayt "
-        "(masalan tan jarohati); burni qonaganidan Jinoyat kodeksi 110-moddasini chiqarma. "
-        "Javob oxirida albatta yoz: «Men yurist emasman, bu huquqiy maslahat emas — "
-        "aniq ish uchun mutaxassisga murojaat qiling.» "
-        "Javob 6–8 jumladan oshmasin. Har bir daʼvodan keyin (Kodeks nomi, N-modda) iqtibos keltir."
-    )
-
-try:
-    from legal_hints import LEGAL_HINT as _LEGAL_HINT
-    if isinstance(_LEGAL_HINT, str):
-        _LEGAL_HINT = re.compile(_LEGAL_HINT, re.IGNORECASE)
-except ImportError:
-    _LEGAL_HINT = re.compile(
-        r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
-        r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
-        r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
-        r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius)",
-        re.IGNORECASE,
-    )
+# Latin legal vocabulary. Cyrillic stems live in legal_hints.CYRILLIC_LEGAL_HINT
+# so a Russian wages/firing story is not routed to general chat.
+_LEGAL_HINT = re.compile(
+    r"(modda|kodeks|qonun|huquq|jazo|sud|shartnoma|majburiyat|javobgarlik|"
+    r"jinoyat|fuqarolik|mehnat|soliq|bojxona|ijara|nikoh|meros|farzandlikka|"
+    r"davo|konstitutsiya|litsenziya|jarima|nafaqa|mulk|vorislik|ajrashish|"
+    r"shartnomani|huquqiy|qonuniy|jinoiy|sudga|notarius)",
+    re.IGNORECASE,
+)
 
 _lm_kwargs = {}
 if C.THINKING_MODE in ("true", "false"):
@@ -106,7 +85,7 @@ class SituationAnswer(dspy.Signature):
     answer = dspy.OutputField(desc="iqtiboslangan javob (oʻzbek tilida)")
 
 
-SituationAnswer.__doc__ = SITUATION_SYSTEM
+SituationAnswer.__doc__ = SITUATION_SYSTEM_UZ
 
 
 _MONTHS_UZ = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul",
@@ -132,22 +111,14 @@ def chat_system():
 # assistant: greetings, history questions and small talk must NOT be forced
 # through statute retrieval, or they come back as
 # "Berilgan moddalarda bunga javob yoʻq".
-# `_LEGAL_HINT` is loaded above (legal_hints.py or the fallback regex).
-
-
 def _format(articles):
-    packed = pack_lost_in_middle(articles)
+    packed = pack_articles(articles)
     return "\n\n".join(
         f'[{a["code_title"]} | {a["article_display"]}'
-        + (f' | {a["title"]}' if a["title"] else "")
+        + (f' | {a["title"]}' if a.get("title") else "")
         + f']\n{a["text"][: C.MAX_ARTICLE_CHARS]}'
         for a in packed
     )
-
-
-def _user_turn(question, ctx):
-    """Statutes first; restate the story after them (lost-in-the-middle)."""
-    return f"MODDALAR:\n{ctx}\n\nFOYDALANUVCHI VAZIYATI:\n{question}"
 
 
 class UpstreamUnavailable(RuntimeError):
@@ -245,27 +216,33 @@ class LegalRAG(dspy.Module):
         return f'{names}da {hint["num"]}-modda yoʻq. Oxirgi modda — {hint["max"]}-modda.'
 
     # ---------------- generation + citation audit ----------------
-    def _raw_call(self, question, ctx, system=SYSTEM):
+    def _raw_call(self, question, articles, system=SYSTEM):
         """Fallback when DSPy cannot parse the structured reply (fine-tuned
         models do not always honour field markers)."""
         out = lm(messages=[
             {"role": "system", "content": system},
-            {"role": "user", "content": _user_turn(question, ctx)},
+            {"role": "user", "content": format_grounding(articles, question)},
         ])
         return _as_text(out[0] if isinstance(out, list) else out)
 
-    def _grounded(self, question, articles, generate=None, system=None):
-        generate = generate or self.generate
-        system = system or SYSTEM
+    def _grounded(self, question, articles, generate=None, system=None,
+                  skip_dspy=False):
+        if generate is None:
+            generate = self.generate
+        if system is None:
+            system = SYSTEM
         ctx = _format(articles)
         allowed = self.index.allowed_ids(articles)
         try:
-            answer = _as_text(generate(question=question, articles=ctx).answer)
+            if skip_dspy:
+                answer = self._raw_call(question, articles, system=system)
+            else:
+                answer = _as_text(generate(question=question, articles=ctx).answer)
         except Exception as first:
             # A structured-output parse failure is recoverable via a plain call;
             # an unreachable vLLM is not, and must not surface as a raw traceback.
             try:
-                answer = self._raw_call(question, ctx, system=system)
+                answer = self._raw_call(question, articles, system=system)
             except Exception as second:
                 raise UpstreamUnavailable(str(second)) from first
 
@@ -276,26 +253,19 @@ class LegalRAG(dspy.Module):
                 f'Quyidagilar berilmagan: {", ".join(sorted(set(bad)))}]'
             )
             try:
-                answer = _as_text(generate(question=retry, articles=ctx).answer)
+                if skip_dspy:
+                    answer = self._raw_call(retry, articles, system=system)
+                else:
+                    answer = _as_text(generate(question=retry, articles=ctx).answer)
             except Exception as first:
                 try:
-                    answer = self._raw_call(retry, ctx, system=system)
+                    answer = self._raw_call(retry, articles, system=system)
                 except Exception as second:
                     raise UpstreamUnavailable(str(second)) from first
             if self.index.bad_citations(answer, allowed):
-                # We hold the verbatim articles the user asked about. Returning
-                # "not enough information" while sitting on them is worse than
-                # useless -- show the law itself instead of the model's take.
-                verbatim = "\n\n".join(
-                    f'{a["code_title"]}, {a["article_display"]}:\n{a["text"]}'
-                    for a in articles
-                )
-                return (
-                    "Quyida soʻralgan moddaning toʻliq matni keltirilgan:\n\n"
-                    + verbatim,
-                    False,
-                    _last_reasoning(),
-                )
+                # Do not dump the supplied statutes: six articles is a 10k
+                # Uzbek wall, and a Russian question must not get that dump.
+                return audit_fail_reply(question, articles), False, _last_reasoning()
         return answer, True, _last_reasoning()
 
     def _is_legal(self, question, refs):
@@ -304,7 +274,9 @@ class LegalRAG(dspy.Module):
             return True
         if self.index.find_codes(question):             # "Mehnat kodeksi ..."
             return True
-        return bool(_LEGAL_HINT.search(norm(question)))
+        if _LEGAL_HINT.search(norm(question)):
+            return True
+        return has_cyrillic_legal_cue(question) or bool(CYRILLIC_LEGAL_HINT.search(question))
 
     def _lookup(self, keys):
         return [self.index.by_key[k] for k in keys if k in self.index.by_key]
@@ -414,9 +386,11 @@ class LegalRAG(dspy.Module):
             # Story / open legal question: rewrite into several searches so one
             # keyword-heavy code cannot fill the whole window.
             retrieved, best = self._situation_retrieve(question)
+            sit_sys = situation_system_for(question)
             answer, ok, reasoning = self._grounded(
                 question, retrieved,
-                generate=self.generate_situation, system=SITUATION_SYSTEM,
+                generate=self.generate_situation, system=sit_sys,
+                skip_dspy=sit_sys is not SITUATION_SYSTEM_UZ,
             )
             # report only what the answer actually leans on, not every candidate
             used = self.index.cited_subset(answer, retrieved) if ok else []
@@ -544,11 +518,10 @@ def stream_answer(rag, question, context="", history=()):
     if notes:
         yield "content", "\n".join(notes) + "\n\n"
 
-    ctx = _format(articles)
     allowed = rag.index.allowed_ids(articles)
-    sys_prompt = SITUATION_SYSTEM if mode == "semantic" else SYSTEM
+    sys_prompt = generation_system(refs, SYSTEM, question)
     msgs = [{"role": "system", "content": sys_prompt},
-            {"role": "user", "content": _user_turn(question, ctx)}]
+            {"role": "user", "content": format_grounding(articles, question)}]
 
     buf, emitted = "", []
     try:
@@ -569,11 +542,7 @@ def stream_answer(rag, question, context="", history=()):
         emitted.append(buf)
         yield "content", buf
     except BadCitation:
-        # Never leave a fabricated citation on screen: replace with the law.
-        verbatim = "\n\n".join(f'{a["code_title"]}, {a["article_display"]}:\n{a["text"]}'
-                               for a in articles)
-        text = ("\n\n[Javob tekshiruvdan oʻtmadi. Soʻralgan moddaning toʻliq matni:]\n\n"
-                + verbatim)
+        text = "\n\n" + audit_fail_reply(question, articles)
         yield "content", text
         emitted.append(text)
     except Exception as e:
