@@ -27,6 +27,40 @@ REWRITE_SYSTEM = (
 _ART_NUM = re.compile(r"\d+\s*[-‐‑‒–—]?\s*modda", re.IGNORECASE)
 _FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.IGNORECASE | re.DOTALL)
 
+# Issue-level templates: one search per legal issue, never a paraphrase of the
+# story and never an article number. Flood+lease must search ijara and zarar
+# separately so Suv kodeksi cannot occupy the whole window.
+def _phrase_re(phrase):
+    words = norm(phrase).split()
+    body = r"\s+".join(re.escape(w) for w in words)
+    return re.compile(r"(?<!\w)" + body + r"\w*")
+
+
+ISSUE_TEMPLATES = [
+    {"when": [_phrase_re(p) for p in ("ijara", "ijaraga", "ijarachi")],
+     "query": "ijara shartnomasi Fuqarolik kodeksi"},
+    {"when": [_phrase_re(p) for p in ("suv bosdi", "toshqin", "suv ostida", "uyimni suv")],
+     "query": "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"},
+    {"when": [_phrase_re(p) for p in ("oylik", "maosh", "ish haqi", "ish haqqi")],
+     "query": "ish haqini toʻlash muddatlari Mehnat kodeksi"},
+    {"when": [_phrase_re(p) for p in ("ishdan hayda", "ishdan boʻshat", "ishdan boshat", "ishdan chiqar")],
+     "query": "mehnat shartnomasini bekor qilish Mehnat kodeksi"},
+]
+
+
+def issue_queries(question):
+    """<1s: one short issue+family query per matching template."""
+    q = norm(question)
+    return [t["query"] for t in ISSUE_TEMPLATES if any(p.search(q) for p in t["when"])]
+
+
+def pack_lost_in_middle(articles):
+    """Best first, second-best last. Models under-attend the middle of a list."""
+    arts = list(articles)
+    if len(arts) < 2:
+        return arts
+    return [arts[0], *arts[2:], arts[1]]
+
 
 def parse_query_list(raw):
     """Best-effort JSON array of short strings. Empty on any garbage."""
@@ -107,12 +141,16 @@ def cap_per_code(keys, cap=None, limit=None):
 
 
 def queries_for(question, expander, complete_fn=None):
-    """Return 1–5 search strings. complete_fn is optional (tests pass None)."""
+    """Original+expand first, then issue templates. 27B only if still under 3 queries."""
     first = expander.expand(question) if expander is not None else question
-    rewritten = []
-    if complete_fn is not None:
-        try:
-            rewritten = parse_query_list(complete_fn(question) or "")
-        except Exception:
-            rewritten = []
-    return merge_queries(first, rewritten)
+    extras = issue_queries(question)
+    if expander is not None and hasattr(expander, "issue_adds"):
+        extras = extras + expander.issue_adds(question)
+    merged = merge_queries(first, extras)
+    if len(merged) >= 3 or complete_fn is None:
+        return merged
+    try:
+        rewritten = parse_query_list(complete_fn(question) or "")
+    except Exception:
+        rewritten = []
+    return merge_queries(first, extras + rewritten)

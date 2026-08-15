@@ -18,6 +18,7 @@ from query_expand import QueryExpander
 import identity
 from retriever import Retriever
 import situation_queries
+from situation_queries import pack_lost_in_middle
 
 _lm_kwargs = {}
 if C.THINKING_MODE in ("true", "false"):
@@ -57,8 +58,8 @@ class GroundedAnswer(dspy.Signature):
     jumla. Modda matnini toʻliq koʻchirma, faqat savolga tegishli qismini
     tushuntir."""
 
-    question = dspy.InputField(desc="foydalanuvchi savoli")
     articles = dspy.InputField(desc="tegishli qonun moddalari (toʻliq matn)")
+    question = dspy.InputField(desc="foydalanuvchi vaziyati, moddalardan keyin")
     answer = dspy.OutputField(desc="iqtiboslangan javob (oʻzbek tilida)")
 
 
@@ -95,12 +96,18 @@ _LEGAL_HINT = re.compile(
 
 
 def _format(articles):
+    packed = pack_lost_in_middle(articles)
     return "\n\n".join(
         f'[{a["code_title"]} | {a["article_display"]}'
         + (f' | {a["title"]}' if a["title"] else "")
         + f']\n{a["text"][: C.MAX_ARTICLE_CHARS]}'
-        for a in articles
+        for a in packed
     )
+
+
+def _user_turn(question, ctx):
+    """Statutes first; restate the story after them (lost-in-the-middle)."""
+    return f"MODDALAR:\n{ctx}\n\nFOYDALANUVCHI VAZIYATI:\n{question}"
 
 
 class UpstreamUnavailable(RuntimeError):
@@ -202,7 +209,7 @@ class LegalRAG(dspy.Module):
         models do not always honour field markers)."""
         out = lm(messages=[
             {"role": "system", "content": SYSTEM},
-            {"role": "user", "content": f"MODDALAR:\n{ctx}\n\nSAVOL: {question}"},
+            {"role": "user", "content": _user_turn(question, ctx)},
         ])
         return _as_text(out[0] if isinstance(out, list) else out)
 
@@ -494,7 +501,7 @@ def stream_answer(rag, question, context="", history=()):
     ctx = _format(articles)
     allowed = rag.index.allowed_ids(articles)
     msgs = [{"role": "system", "content": SYSTEM},
-            {"role": "user", "content": f"MODDALAR:\n{ctx}\n\nSAVOL: {question}"}]
+            {"role": "user", "content": _user_turn(question, ctx)}]
 
     buf, emitted = "", []
     try:

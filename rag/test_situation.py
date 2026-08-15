@@ -2,7 +2,10 @@
 
     python test_situation.py
 """
-from situation_queries import cap_per_code, merge_queries, parse_query_list, queries_for, rrf_fuse
+from situation_queries import (
+    cap_per_code, issue_queries, merge_queries, pack_lost_in_middle,
+    parse_query_list, queries_for, rrf_fuse,
+)
 
 fails = []
 
@@ -80,23 +83,48 @@ check("garbage -> empty", parse_query_list("not json at all"), [])
 check("empty -> empty", parse_query_list(""), [])
 
 
-print("\n5. queries_for fallback when rewrite fails")
+print("\n5. queries_for: templates first, 27B only if still thin")
 
 class _Expander:
     def expand(self, q):
         return q + " mehnatga haq tolash"
 
-check("timeout/None complete -> original+expand only",
-      queries_for("oylik bermadi", _Expander(), complete_fn=None),
-      ["oylik bermadi mehnatga haq tolash"])
-check("raising complete -> same fallback",
-      queries_for("oylik bermadi", _Expander(),
-                  complete_fn=lambda q: (_ for _ in ()).throw(TimeoutError())),
-      ["oylik bermadi mehnatga haq tolash"])
-check("good rewrite prepends original",
-      queries_for("oylik bermadi", _Expander(),
-                  complete_fn=lambda q: '["ish haqi muddati", "ishdan boshathish"]'),
-      ["oylik bermadi mehnatga haq tolash", "ish haqi muddati", "ishdan boshathish"])
+called = []
+qs = queries_for(
+    "Uyimni ijaraga olganman, kecha suv bosdi",
+    _Expander(),
+    complete_fn=lambda q: called.append(q) or '["should not run"]',
+)
+check("flood+lease skips 27B", called, [])
+check("flood+lease keeps original first", qs[0].startswith("Uyimni ijaraga"), True)
+check("flood+lease has ijara issue",
+      any("ijara shartnomasi" in q for q in qs), True)
+check("flood+lease has zarar issue",
+      any("zarar qoplash" in q for q in qs), True)
+
+check("wages template without 27B",
+      "ish haqini toʻlash muddatlari Mehnat kodeksi"
+      in queries_for("oylik bermadi", _Expander(), complete_fn=None), True)
+check("raising complete still keeps original+expand",
+      queries_for("noma'lum savol", _Expander(),
+                  complete_fn=lambda q: (_ for _ in ()).throw(TimeoutError()))[0],
+      "noma'lum savol mehnatga haq tolash")
+check("thin rewrite still prepends original",
+      queries_for("noma'lum savol", _Expander(),
+                  complete_fn=lambda q: '["fuqarolik zarar", "mehnat haq"]')[0],
+      "noma'lum savol mehnatga haq tolash")
+check("issue_queries splits lease vs flood",
+      issue_queries("ijaraga olganman, suv bosdi"),
+      ["ijara shartnomasi Fuqarolik kodeksi",
+       "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"])
+
+
+print("\n6. lost-in-the-middle packing: best first, second-best last")
+six = list("ABCDEF")
+check("6 articles", pack_lost_in_middle(six), list("ACDEFB"))
+check("2 articles unchanged", pack_lost_in_middle(["A", "B"]), ["A", "B"])
+check("1 article unchanged", pack_lost_in_middle(["A"]), ["A"])
+check("empty", pack_lost_in_middle([]), [])
 
 
 print()

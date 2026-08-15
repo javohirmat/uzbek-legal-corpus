@@ -43,5 +43,10 @@ class QueryExpander:
         extra = [add for pats, add in self.rules if any(p.search(q) for p in pats)]
         return f"{question} {' '.join(extra)}" if extra else question
 
+    def issue_adds(self, question):
+        """Each matched rule as its own search string (issue-level, not a paraphrase)."""
+        q = norm(question)
+        return [add for pats, add in self.rules if any(p.search(q) for p in pats)]
+
     def __len__(self):
         return len(self.rules)
