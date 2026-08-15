@@ -32,6 +32,9 @@
   {"when": ["meros", "vorislik"],
    "add": "merosni qabul qilish vasiyatnoma qonun boʻyicha vorislik"},
 
+  {"when": ["suv bosdi", "toshqin", "uyimni suv", "suv ostida"],
+   "add": "ijara shartnomasi zarar yetkazish mulkka yetkazilgan zararni qoplash ijaraga beruvchining majburiyatlari"},
+
   {"when": ["kredit", "qarz"],
    "add": "qarz shartnomasi kredit shartnomasi majburiyatni bajarish"},
 

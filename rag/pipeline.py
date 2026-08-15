@@ -17,6 +17,7 @@ from answer_rules import Overrides
 from query_expand import QueryExpander
 import identity
 from retriever import Retriever
+import situation_queries
 
 _lm_kwargs = {}
 if C.THINKING_MODE in ("true", "false"):
@@ -255,6 +256,40 @@ class LegalRAG(dspy.Module):
             return True
         return bool(_LEGAL_HINT.search(norm(question)))
 
+    def _lookup(self, keys):
+        return [self.index.by_key[k] for k in keys if k in self.index.by_key]
+
+    def _rewrite(self, question):
+        """One cheap 27B call, thinking off. Empty string on timeout/error."""
+        try:
+            from openai import OpenAI
+            client = OpenAI(base_url=C.VLLM_BASE, api_key=C.VLLM_KEY,
+                            timeout=C.REWRITE_TIMEOUT)
+            resp = client.chat.completions.create(
+                model=C.VLLM_MODEL,
+                messages=[
+                    {"role": "system", "content": situation_queries.REWRITE_SYSTEM},
+                    {"role": "user", "content": question},
+                ],
+                temperature=0.0,
+                max_tokens=C.REWRITE_MAX_TOKENS,
+                extra_body={"chat_template_kwargs": {"enable_thinking": False}},
+            )
+            msg = resp.choices[0].message
+            return (getattr(msg, "content", None) or "") if msg else ""
+        except Exception as e:
+            print(f"[rewrite-fallback] {type(e).__name__}: {e}")
+            return ""
+
+    def _situation_retrieve(self, question):
+        """Multi-query RRF + per-code cap. Used only when no N-modda was parsed."""
+        queries = situation_queries.queries_for(
+            question, self.expander, complete_fn=self._rewrite
+        )
+        print(f"[situation-queries] {queries}")
+        keys, best = self.retriever.search_multi(queries)
+        return self._lookup(keys), best
+
     def _chat(self, question, history):
         """General assistant turn: no retrieval, no citation audit, full
         conversation history so follow-ups make sense."""
@@ -305,7 +340,7 @@ class LegalRAG(dspy.Module):
                 answer, reasoning = self._chat(question, list(history))
                 return dspy.Prediction(answer=answer, reasoning=reasoning,
                                        mode="chat", citations=[])
-            retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
+            retrieved = self._lookup(keys)
 
         resolved = [self.index.resolve(r) for r in refs]
 
@@ -326,9 +361,9 @@ class LegalRAG(dspy.Module):
                 answer, used, mode, ok = "\n".join(notes), [], "deterministic", True
                 reasoning = ""
         else:
-            if not retrieved:                       # explicit legal signal path
-                keys, best = self.retriever.search(self.expander.expand(question))
-                retrieved = [self.index.by_key[k] for k in keys if k in self.index.by_key]
+            # Story / open legal question: rewrite into several searches so one
+            # keyword-heavy code cannot fill the whole window.
+            retrieved, best = self._situation_retrieve(question)
             answer, ok, reasoning = self._grounded(question, retrieved)
             # report only what the answer actually leans on, not every candidate
             used = self.index.cited_subset(answer, retrieved) if ok else []
@@ -434,7 +469,7 @@ def stream_answer(rag, question, context="", history=()):
             msgs.append({"role": "user", "content": question})
             yield from _passthrough(msgs, mode="chat")
             return
-        retrieved = [rag.index.by_key[k] for k in keys if k in rag.index.by_key]
+        retrieved = rag._lookup(keys)
 
     resolved = [rag.index.resolve(r) for r in refs]
     found = [rec for st, _, rec in resolved if st == "EXISTS"]
@@ -447,11 +482,11 @@ def stream_answer(rag, question, context="", history=()):
         yield "done", {"mode": "deterministic", "citations": [], "answer": text}
         return
 
-    articles = found or retrieved
-    if not articles:
-        keys, _ = rag.retriever.search(rag.expander.expand(question))
-        articles = [rag.index.by_key[k] for k in keys if k in rag.index.by_key]
-    mode = "article-lookup" if found else "semantic"
+    if found:
+        articles, mode = found, "article-lookup"
+    else:
+        articles, _ = rag._situation_retrieve(question)
+        mode = "semantic"
 
     if notes:
         yield "content", "\n".join(notes) + "\n\n"

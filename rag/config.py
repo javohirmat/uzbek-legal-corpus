@@ -55,6 +55,12 @@ OVERRIDES_JSON = os.getenv("OVERRIDES_JSON", os.path.join(HERE, "overrides.json"
 TOP_K = 6                 # articles handed to the model on the semantic path
 CANDIDATES = 20           # per-retriever candidates before rank fusion
 RRF_K = 60                # reciprocal-rank-fusion constant
+PER_CODE_CAP = int(os.getenv("PER_CODE_CAP", "2"))  # max articles per code in TOP_K
+# Situational rewrite: one extra 27B call, thinking off, hard timeout so a
+# slow rewrite cannot stall a story behind the main answer.
+REWRITE_TIMEOUT = float(os.getenv("REWRITE_TIMEOUT", "8"))
+REWRITE_MAX_TOKENS = int(os.getenv("REWRITE_MAX_TOKENS", "200"))
+SITUATION_MAX_QUERIES = int(os.getenv("SITUATION_MAX_QUERIES", "5"))
 MAX_ARTICLE_CHARS = 6000  # guard for the few very long articles (e.g. Soliq 483)
 HISTORY_TURNS = 6         # how far back to look for a code name in a chat thread
 
