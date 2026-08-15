@@ -17,6 +17,7 @@ from rank_bm25 import BM25Okapi
 
 import config as C
 from corpus_index import norm
+from code_keywords import boost_matched_codes
 from situation_queries import cap_per_code, exclude_unmentioned_soliq, rrf_fuse
 
 
@@ -76,8 +77,12 @@ class Retriever:
                 prefer.append(key)
         return prefer
 
-    def search_multi(self, questions, k=C.TOP_K, cap=None):
-        """Search each query for CANDIDATES, RRF-fuse the lists, cap per code."""
+    def search_multi(self, questions, k=C.TOP_K, cap=None, boost_codes=None):
+        """Search each query for CANDIDATES, RRF-fuse the lists, cap per code.
+
+        `boost_codes` promotes already-retrieved keys from matched codes. It
+        never invents articles and never becomes the only retrieval path.
+        """
         cap = C.PER_CODE_CAP if cap is None else cap
         lists, best = [], 1.0
         for q in questions:
@@ -90,5 +95,6 @@ class Retriever:
         if not lists:
             return [], best
         fused = exclude_unmentioned_soliq(rrf_fuse(lists), questions)
+        fused = boost_matched_codes(fused, boost_codes)
         prefer = self._title_prefer(fused, questions)
         return cap_per_code(fused, cap=cap, limit=k, prefer=prefer), best

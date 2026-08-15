@@ -12,6 +12,7 @@ import json
 import re
 
 import config as C
+from code_keywords import keyword_queries
 from corpus_index import norm
 from normalize_query import normalize_query
 from situation_prompt import mostly_cyrillic
@@ -211,7 +212,7 @@ def queries_for(question, expander, complete_fn=None):
     Issue templates (and the rewrite) already emit Latin.
     """
     question = normalize_query(question)
-    extras = issue_queries(question)
+    extras = issue_queries(question) + keyword_queries(question)
     if expander is not None and hasattr(expander, "issue_adds"):
         extras = extras + expander.issue_adds(question)
     if mostly_cyrillic(question):

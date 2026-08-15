@@ -23,6 +23,7 @@ from situation_prompt import (
     FORMAL_REGISTER_RU, FORMAL_REGISTER_UZ, SITUATION_SYSTEM_UZ,
     audit_fail_reply, generation_system, mostly_cyrillic, situation_system_for,
 )
+from code_keywords import cap_for_matches, match_code_slugs
 from legal_hints import LATIN_LEGAL_HINT, has_legal_cue
 
 # Alias kept so older tests/grep that look for `_LEGAL_HINT` still find a gate.
@@ -301,6 +302,10 @@ class LegalRAG(dspy.Module):
                 return True
             if has_legal_cue(q) or _LEGAL_HINT.search(norm(q)):
                 return True
+        # Colloquial code labels ("havo", "asosiy qonun") are a retrieve
+        # signal. "futbol nima" matches nothing and stays on the cosine gate.
+        if match_code_slugs(question):
+            return True
         return False
 
     def _lookup(self, keys):
@@ -333,8 +338,11 @@ class LegalRAG(dspy.Module):
         queries = situation_queries.queries_for(
             question, self.expander, complete_fn=self._rewrite
         )
-        print(f"[situation-queries] {queries}")
-        keys, best = self.retriever.search_multi(queries)
+        boost = match_code_slugs(question)
+        print(f"[situation-queries] {queries} boost={boost}")
+        keys, best = self.retriever.search_multi(
+            queries, cap=cap_for_matches(boost), boost_codes=boost
+        )
         return self._lookup(keys), best
 
     def _chat(self, question, history):
