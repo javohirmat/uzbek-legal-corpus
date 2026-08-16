@@ -7,9 +7,22 @@
       "bojxona deklaratsiyasi",
       "bojxona toʻlovlari"
     ],
-    "informal_uz": ["bojxona", "bojxona kodeksi", "bojxona toʻlovi", "bojxona ruxsatnomasi"],
-    "informal_ru": ["tamojnya", "tamojennya", "tamojenniy", "tamojennaya"],
-    "sms": ["gumruk", "bojxna"]
+    "informal_uz": [
+      "bojxona",
+      "bojxona kodeksi",
+      "bojxona toʻlovi",
+      "bojxona ruxsatnomasi"
+    ],
+    "informal_ru": [
+      "tamojnya",
+      "tamojennya",
+      "tamojenniy",
+      "tamojennaya"
+    ],
+    "sms": [
+      "gumruk",
+      "bojxna"
+    ]
   },
   {
     "code": "budjet_kodeksi",
@@ -19,9 +32,17 @@
       "budjet mablagʻlari",
       "gʻazna ijrosi"
     ],
-    "informal_uz": ["budjet", "budjet kodeksi", "gʻazna", "smeta", "davlat budjeti"],
-    "informal_ru": ["byudjet", "kazna", "smeta"],
-    "sms": ["byudjet"]
+    "informal_uz": [
+      "budjet kodeksi",
+      "gʻazna",
+      "smeta",
+      "davlat budjeti"
+    ],
+    "informal_ru": [
+      "kazna",
+      "smeta"
+    ],
+    "sms": []
   },
   {
     "code": "fuqarolik_kodeksi_1qism",
@@ -32,9 +53,21 @@
       "yuridik shaxs",
       "mulk huquqi"
     ],
-    "informal_uz": ["zarar qoplash", "yetkazilgan zarar", "yuridik shaxs", "jismoniy shaxs", "mulk huquqi"],
-    "informal_ru": ["vozmeshenie ushherba", "yuridicheskoe litso", "fizicheskoe litso"],
-    "sms": ["fk 1"]
+    "informal_uz": [
+      "zarar qoplash",
+      "yetkazilgan zarar",
+      "yuridik shaxs",
+      "jismoniy shaxs",
+      "mulk huquqi"
+    ],
+    "informal_ru": [
+      "vozmeshenie ushherba",
+      "yuridicheskoe litso",
+      "fizicheskoe litso"
+    ],
+    "sms": [
+      "fk 1"
+    ]
   },
   {
     "code": "fuqarolik_kodeksi_2qism",
@@ -45,9 +78,26 @@
       "kredit shartnomasi",
       "merosni qabul qilish"
     ],
-    "informal_uz": ["oldi-sotdi", "ijara", "ijaraga", "uy sotish", "kvartira sotish", "qarz shartnomasi", "meros", "vorislik"],
-    "informal_ru": ["arenda", "kuplya prodaja", "kredit dogovor", "nasledstvo"],
-    "sms": ["arend", "ipoteka"]
+    "informal_uz": [
+      "oldi-sotdi",
+      "ijara",
+      "ijaraga",
+      "uy sotish",
+      "kvartira sotish",
+      "qarz shartnomasi",
+      "meros",
+      "vorislik"
+    ],
+    "informal_ru": [
+      "arenda",
+      "kuplya prodaja",
+      "kredit dogovor",
+      "nasledstvo"
+    ],
+    "sms": [
+      "arend",
+      "ipoteka"
+    ]
   },
   {
     "code": "fuqarolik_protsessual_kodeksi",
@@ -57,9 +107,20 @@
       "sud hujjatlari",
       "fuqarolik ishi"
     ],
-    "informal_uz": ["fuqarolik protsessual", "daʼvo arizasi", "fuqarolik ishi", "fuqarolik sudi"],
-    "informal_ru": ["grazhdanskiy protsess", "iskovoe zayavlenie"],
-    "sms": ["fpk", "davo ariza"]
+    "informal_uz": [
+      "fuqarolik protsessual",
+      "daʼvo arizasi",
+      "fuqarolik ishi",
+      "fuqarolik sudi"
+    ],
+    "informal_ru": [
+      "grazhdanskiy protsess",
+      "iskovoe zayavlenie"
+    ],
+    "sms": [
+      "fpk",
+      "davo ariza"
+    ]
   },
   {
     "code": "havo_kodeksi",
@@ -70,9 +131,23 @@
       "parvozlar xavfsizligi",
       "Havo kodeksi"
     ],
-    "informal_uz": ["havo", "havo kodeksi", "samolyot", "aeroport", "aviatsiya", "havo kemasi", "parvoz", "uchuvchi"],
-    "informal_ru": ["samolet", "aeroport", "aviatsiya", "vozdushnyy kodeks"],
-    "sms": ["reys", "pilot"]
+    "informal_uz": [
+      "havo kodeksi",
+      "havo qonuni",
+      "samolyot",
+      "aeroport",
+      "aviatsiya",
+      "havo kemasi",
+      "parvoz",
+      "uchuvchi"
+    ],
+    "informal_ru": [
+      "samolet",
+      "aeroport",
+      "aviatsiya",
+      "vozdushnyy kodeks"
+    ],
+    "sms": []
   },
   {
     "code": "investitsiyalar_faoliyati_qonuni",
@@ -82,9 +157,20 @@
       "chet el investitsiyalarini qaytarish",
       "investitsiya resurslari"
     ],
-    "informal_uz": ["investitsiya", "investor", "chet el investitsiyasi", "investitsiya qonuni"],
-    "informal_ru": ["investitsiya", "investor", "inostrannaya investitsiya"],
-    "sms": ["invest"]
+    "informal_uz": [
+      "investitsiya",
+      "investor",
+      "chet el investitsiyasi",
+      "investitsiya qonuni"
+    ],
+    "informal_ru": [
+      "investitsiya",
+      "investor",
+      "inostrannaya investitsiya"
+    ],
+    "sms": [
+      "invest"
+    ]
   },
   {
     "code": "iqtisodiy_protsessual_kodeksi",
@@ -93,9 +179,20 @@
       "iqtisodiy sudga murojaat",
       "iqtisodiy ish"
     ],
-    "informal_uz": ["iqtisodiy sud", "iqtisodiy protsessual", "xoʻjalik nizo", "arbitraj"],
-    "informal_ru": ["arbitraj", "ekonomicheskiy sud", "khozyaystvenniy spor"],
-    "sms": ["ipk"]
+    "informal_uz": [
+      "iqtisodiy sud",
+      "iqtisodiy protsessual",
+      "xoʻjalik nizo",
+      "arbitraj"
+    ],
+    "informal_ru": [
+      "arbitraj",
+      "ekonomicheskiy sud",
+      "khozyaystvenniy spor"
+    ],
+    "sms": [
+      "ipk"
+    ]
   },
   {
     "code": "jinoyat-ijroiya_kodeksi",
@@ -105,9 +202,23 @@
       "jazoni oʻtash joylari",
       "jinoyat-ijroiya qonunchiligi"
     ],
-    "informal_uz": ["koloniya", "mahkum", "jazoni oʻtash", "qamoqxona", "jinoyat-ijroiya"],
-    "informal_ru": ["koloniya", "tyurma", "zaklyuchenniy", "otbitie sroka"],
-    "sms": ["tyurma", "zona"]
+    "informal_uz": [
+      "koloniya",
+      "mahkum",
+      "jazoni oʻtash",
+      "qamoqxona",
+      "jinoyat-ijroiya"
+    ],
+    "informal_ru": [
+      "koloniya",
+      "tyurma",
+      "zaklyuchenniy",
+      "otbitie sroka"
+    ],
+    "sms": [
+      "tyurma",
+      "zona"
+    ]
   },
   {
     "code": "jinoyat_kodeksi",
@@ -116,9 +227,30 @@
       "muddatli harbiy xizmat",
       "oʻgʻrilik oʻzganing mol-mulkini yashirin ravishda talon-toroj qilish"
     ],
-    "informal_uz": ["armiya", "harbiy", "harbiy xizmat", "soldat", "askar", "dezertir", "chaqiruv", "oʻgʻrilik", "ogirlab", "pora", "korrupsiya", "jinoyat kodeksi"],
-    "informal_ru": ["armiya", "soldat", "dezertir", "krazha", "vzyatka"],
-    "sms": ["jk"]
+    "informal_uz": [
+      "armiya",
+      "harbiy",
+      "harbiy xizmat",
+      "soldat",
+      "askar",
+      "dezertir",
+      "chaqiruv",
+      "oʻgʻrilik",
+      "ogirlab",
+      "pora",
+      "korrupsiya",
+      "jinoyat kodeksi"
+    ],
+    "informal_ru": [
+      "armiya",
+      "soldat",
+      "dezertir",
+      "krazha",
+      "vzyatka"
+    ],
+    "sms": [
+      "jk"
+    ]
   },
   {
     "code": "jinoyat_protsessual_kodeksi",
@@ -128,9 +260,22 @@
       "tergov",
       "ayblov"
     ],
-    "informal_uz": ["jinoyat protsessual", "tergov", "gumon qilinuvchi", "ayblanuvchi", "jinoyat ishi"],
-    "informal_ru": ["ugolovniy protsess", "sledstvie", "podozrevaemiy"],
-    "sms": ["jpk", "tergovchi"]
+    "informal_uz": [
+      "jinoyat protsessual",
+      "tergov",
+      "gumon qilinuvchi",
+      "ayblanuvchi",
+      "jinoyat ishi"
+    ],
+    "informal_ru": [
+      "ugolovniy protsess",
+      "sledstvie",
+      "podozrevaemiy"
+    ],
+    "sms": [
+      "jpk",
+      "tergovchi"
+    ]
   },
   {
     "code": "konstitutsiya",
@@ -140,9 +285,20 @@
       "konstitutsiya va qonunning ustunligi",
       "fuqarolarning asosiy huquqlari"
     ],
-    "informal_uz": ["konstitutsiya", "asosiy qonun", "konstitutsiyaviy", "asosiy qonuni"],
-    "informal_ru": ["konstitutsiya", "osnovnoy zakon", "konstitutsionniy"],
-    "sms": ["konst"]
+    "informal_uz": [
+      "konstitutsiya",
+      "asosiy qonun",
+      "konstitutsiyaviy",
+      "asosiy qonuni"
+    ],
+    "informal_ru": [
+      "konstitutsiya",
+      "osnovnoy zakon",
+      "konstitutsionniy"
+    ],
+    "sms": [
+      "konst"
+    ]
   },
   {
     "code": "mamuriy_javobgarlik_kodeksi",
@@ -152,9 +308,31 @@
       "maʼmuriy jarima",
       "mayda bezorilik"
     ],
-    "informal_uz": ["armiya", "harbiy", "harbiy xizmat", "soldat", "askar", "chaqiruv", "mudofaa", "shtraf", "jarima", "urishib", "kaltak", "qamash", "maʼmuriy javobgarlik"],
-    "informal_ru": ["armiya", "shtraf", "draka", "arest"],
-    "sms": ["mjk", "shtraf"]
+    "informal_uz": [
+      "armiya",
+      "harbiy",
+      "harbiy xizmat",
+      "soldat",
+      "askar",
+      "chaqiruv",
+      "mudofaa",
+      "shtraf",
+      "jarima",
+      "urishib",
+      "kaltak",
+      "qamash",
+      "maʼmuriy javobgarlik"
+    ],
+    "informal_ru": [
+      "armiya",
+      "shtraf",
+      "draka",
+      "arest"
+    ],
+    "sms": [
+      "mjk",
+      "shtraf"
+    ]
   },
   {
     "code": "mamuriy_sud_ishlarni_yuritish_kodeksi",
@@ -163,9 +341,19 @@
       "davlat organi qarorini haqiqiy emas deb topish",
       "maʼmuriy shikoyat"
     ],
-    "informal_uz": ["maʼmuriy sud", "maʼmuriy sud ishlari", "davlat organi qarori", "maʼmuriy shikoyat"],
-    "informal_ru": ["administrativniy sud", "objalovanie resheniya"],
-    "sms": ["msiyk"]
+    "informal_uz": [
+      "maʼmuriy sud",
+      "maʼmuriy sud ishlari",
+      "davlat organi qarori",
+      "maʼmuriy shikoyat"
+    ],
+    "informal_ru": [
+      "administrativniy sud",
+      "objalovanie resheniya"
+    ],
+    "sms": [
+      "msiyk"
+    ]
   },
   {
     "code": "markaziy_bank_qonuni",
@@ -175,9 +363,17 @@
       "soʻmning barqarorligi",
       "bank nazorati"
     ],
-    "informal_uz": ["markaziy bank", "pul-kredit", "inflyatsiya", "valyuta", "soʻm kursi"],
-    "informal_ru": ["tsentralniy bank", "inflyatsiya", "valyuta", "kurs suma"],
-    "sms": ["cbu", "tsb"]
+    "informal_uz": [
+      "markaziy bank",
+      "pul-kredit"
+    ],
+    "informal_ru": [
+      "tsentralniy bank"
+    ],
+    "sms": [
+      "cbu",
+      "tsb"
+    ]
   },
   {
     "code": "mehnat_kodeksi",
@@ -188,9 +384,27 @@
       "mehnat shartnomasini bekor qilish",
       "mehnat taʼtili"
     ],
-    "informal_uz": ["oylik", "maosh", "ish haqi", "ishdan hayda", "ishdan boʻshat", "taʼtil", "mehnat kodeksi", "mehnat shartnomasi"],
-    "informal_ru": ["zarplata", "uvolil", "otpusk", "trudovoy dogovor"],
-    "sms": ["zp", "oylk", "oklad"]
+    "informal_uz": [
+      "oylik",
+      "maosh",
+      "ish haqi",
+      "ishdan hayda",
+      "ishdan boʻshat",
+      "taʼtil",
+      "mehnat kodeksi",
+      "mehnat shartnomasi"
+    ],
+    "informal_ru": [
+      "zarplata",
+      "uvolil",
+      "otpusk",
+      "trudovoy dogovor"
+    ],
+    "sms": [
+      "zp",
+      "oylk",
+      "oklad"
+    ]
   },
   {
     "code": "oila_kodeksi",
@@ -200,9 +414,24 @@
       "voyaga yetmagan bolalarni taʼminlash",
       "nikoh tuzish tartibi"
     ],
-    "informal_uz": ["nikoh", "ajrashish", "taloq", "aliment", "farzandlikka", "oila kodeksi"],
-    "informal_ru": ["brak", "razvod", "aliment", "opeka"],
-    "sms": ["alimet", "ajralish"]
+    "informal_uz": [
+      "nikoh",
+      "ajrashish",
+      "taloq",
+      "aliment",
+      "farzandlikka",
+      "oila kodeksi"
+    ],
+    "informal_ru": [
+      "brak",
+      "razvod",
+      "aliment",
+      "opeka"
+    ],
+    "sms": [
+      "alimet",
+      "ajralish"
+    ]
   },
   {
     "code": "qimmatli_qogozlar_bozori_qonuni",
@@ -212,9 +441,20 @@
       "obligatsiyalar",
       "emissiyaviy qimmatli qogʻozlar"
     ],
-    "informal_uz": ["qimmatli qogʻoz", "aksiya", "obligatsiya", "birja", "fond bozori"],
-    "informal_ru": ["tsennaya bumaga", "aktsiya", "obligatsiya", "birja"],
-    "sms": ["aksiya", "brok"]
+    "informal_uz": [
+      "qimmatli qogʻoz",
+      "obligatsiya",
+      "birja",
+      "fond bozori"
+    ],
+    "informal_ru": [
+      "tsennaya bumaga",
+      "obligatsiya",
+      "birja"
+    ],
+    "sms": [
+      "brok"
+    ]
   },
   {
     "code": "raqobat_qonuni",
@@ -224,9 +464,21 @@
       "monopol yuqori narx",
       "insofsiz raqobat"
     ],
-    "informal_uz": ["raqobat", "monopol", "antimonopol", "ustun mavqe", "kartel"],
-    "informal_ru": ["konkurentsiya", "monopoliya", "antimonopol"],
-    "sms": ["antimonopol"]
+    "informal_uz": [
+      "raqobat",
+      "monopol",
+      "antimonopol",
+      "ustun mavqe",
+      "kartel"
+    ],
+    "informal_ru": [
+      "konkurentsiya",
+      "monopoliya",
+      "antimonopol"
+    ],
+    "sms": [
+      "antimonopol"
+    ]
   },
   {
     "code": "saylov_kodeksi",
@@ -236,9 +488,21 @@
       "saylov komissiyalari",
       "saylov okruglari"
     ],
-    "informal_uz": ["saylov", "ovoz berish", "saylov byulleteni", "saylov kodeksi", "prezident saylovi"],
-    "informal_ru": ["vibori", "golosovanie", "byulleten"],
-    "sms": ["saylov byulleten"]
+    "informal_uz": [
+      "saylov",
+      "ovoz berish",
+      "saylov byulleteni",
+      "saylov kodeksi",
+      "prezident saylovi"
+    ],
+    "informal_ru": [
+      "vibori",
+      "golosovanie",
+      "byulleten"
+    ],
+    "sms": [
+      "saylov byulleten"
+    ]
   },
   {
     "code": "shaharsozlik_kodeksi",
@@ -248,9 +512,21 @@
       "obyektlarni qurish",
       "aholi punktlari"
     ],
-    "informal_uz": ["shaharsozlik", "qurilish ruxsati", "bino qurish", "uy qurish", "shaharsozlik kodeksi"],
-    "informal_ru": ["gradostroitelstvo", "stroitelstvo", "razreshenie na stroitelstvo"],
-    "sms": ["qurilish ruxsatnomasi"]
+    "informal_uz": [
+      "shaharsozlik",
+      "qurilish ruxsati",
+      "bino qurish",
+      "uy qurish",
+      "shaharsozlik kodeksi"
+    ],
+    "informal_ru": [
+      "gradostroitelstvo",
+      "stroitelstvo",
+      "razreshenie na stroitelstvo"
+    ],
+    "sms": [
+      "qurilish ruxsatnomasi"
+    ]
   },
   {
     "code": "soliq_kodeksi",
@@ -260,9 +536,24 @@
       "soliq toʻlovchi",
       "soliq organlari"
     ],
-    "informal_uz": ["soliq", "soliq kodeksi", "soliqchi", "soliq toʻlama", "deklaratsiya"],
-    "informal_ru": ["nalog", "nalogovaya", "nds", "ndfl"],
-    "sms": ["nalog", "qqs", "nds"]
+    "informal_uz": [
+      "soliq",
+      "soliq kodeksi",
+      "soliqchi",
+      "soliq toʻlama",
+      "deklaratsiya"
+    ],
+    "informal_ru": [
+      "nalog",
+      "nalogovaya",
+      "nds",
+      "ndfl"
+    ],
+    "sms": [
+      "nalog",
+      "qqs",
+      "nds"
+    ]
   },
   {
     "code": "suv_kodeksi",
@@ -272,9 +563,22 @@
       "suvga davlat egaligi",
       "suv xoʻjaligi"
     ],
-    "informal_uz": ["suv kodeksi", "toshqin", "suv bosdi", "ariq", "irrigatsiya", "suv xoʻjaligi"],
-    "informal_ru": ["potop", "zatopil", "oroshhenie"],
-    "sms": ["kanal suv"]
+    "informal_uz": [
+      "suv kodeksi",
+      "toshqin",
+      "suv bosdi",
+      "ariq",
+      "irrigatsiya",
+      "suv xoʻjaligi"
+    ],
+    "informal_ru": [
+      "potop",
+      "zatopil",
+      "oroshhenie"
+    ],
+    "sms": [
+      "kanal suv"
+    ]
   },
   {
     "code": "tadbirkorlik_faoliyati_qonuni",
@@ -284,9 +588,21 @@
       "yakka tartibdagi tadbirkorlik",
       "tadbirkorlik faoliyatini litsenziyalash"
     ],
-    "informal_uz": ["tadbirkorlik", "biznes ochish", "firma ochish", "yakka tadbirkor", "litsenziya"],
-    "informal_ru": ["predprinimatelstvo", "otkrit biznes", "litsenziya"],
-    "sms": ["yatt"]
+    "informal_uz": [
+      "tadbirkorlik",
+      "biznes ochish",
+      "firma ochish",
+      "yakka tadbirkor",
+      "litsenziya"
+    ],
+    "informal_ru": [
+      "predprinimatelstvo",
+      "otkrit biznes",
+      "litsenziya"
+    ],
+    "sms": [
+      "yatt"
+    ]
   },
   {
     "code": "yer_kodeksi",
@@ -296,8 +612,22 @@
       "yer fondi toifalari",
       "yer uchastkasidan foydalanish"
     ],
-    "informal_uz": ["yer kodeksi", "yer uchastkasi", "kadastr", "uchastka", "qishloq xoʻjaligi yeri"],
-    "informal_ru": ["zemlya", "uchastok", "kadastr", "zemelniy kodeks"],
-    "sms": ["uchastka", "zemlya"]
+    "informal_uz": [
+      "yer kodeksi",
+      "yer uchastkasi",
+      "kadastr",
+      "uchastka",
+      "qishloq xoʻjaligi yeri"
+    ],
+    "informal_ru": [
+      "zemlya",
+      "uchastok",
+      "kadastr",
+      "zemelniy kodeks"
+    ],
+    "sms": [
+      "uchastka",
+      "zemlya"
+    ]
   }
 ]

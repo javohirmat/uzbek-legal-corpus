@@ -177,6 +177,10 @@ def validate_gold(rows: list[dict], corpus_ids: set[str]) -> list[str]:
 # ----- retrieval backends -------------------------------------------------
 
 
+_SUPER_DIGITS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
+_SUPER_RUN = re.compile(r"[⁰¹²³⁴⁵⁶⁷⁸⁹]+")
+
+
 def _normalize_hit(item) -> tuple[str, str] | None:
     if item is None:
         return None
@@ -191,7 +195,10 @@ def _normalize_hit(item) -> tuple[str, str] | None:
         code = item.get("code") or item.get("slug")
         aid = item.get("article_id") or item.get("article") or item.get("id")
         if isinstance(aid, str) and "-modda" in aid.lower():
-            aid = re.sub(r"[^\d.]", "", aid.replace("¹", ".1").replace("³", ".3"))
+            # superscript run -> ".N" (all ten digits, not just 1 and 3):
+            # 128²-modda -> 128.2, 419¹⁸-modda -> 419.18
+            aid = _SUPER_RUN.sub(lambda m: "." + m.group(0).translate(_SUPER_DIGITS), aid)
+            aid = re.sub(r"[^\d.]", "", aid)
         if code and aid:
             if "::" in str(code):
                 return parse_gold_id(str(code))

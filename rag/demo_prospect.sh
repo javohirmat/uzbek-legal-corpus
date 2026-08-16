@@ -82,11 +82,14 @@ elif expect == "article-lookup":
 elif expect == "flood":
     suv_only = bool(codes) and all(suv_re.search(c or "") for c in codes)
     suv_in_text = bool(suv_re.search(low)) and not fk_re.search(low)
-    has_fk = any(fk_re.search(c or "") for c in codes) or bool(fk_re.search(low))
+    # citations only: the answer always echoes "ijara" from the user's own
+    # question, which used to PASS the exact Suv-only regression this gate
+    # exists to catch
+    has_fk = any(fk_re.search(c or "") for c in codes)
     if suv_only or (not has_fk and suv_in_text):
         fail("Suv-only (need Fuqarolik ijara/zarar)")
     if not has_fk:
-        fail("no Fuqarolik/ijara in citations or answer")
+        fail("no Fuqarolik/ijara in citations")
     why = "not Suv-only"
 elif expect == "labour":
     has_mk = any(mk_re.search(c or "") for c in codes) or bool(mk_re.search(low))

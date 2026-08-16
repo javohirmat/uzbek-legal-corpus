@@ -57,9 +57,13 @@ armiga = match_code_slugs("aka povestka keldi armiga bormasam nma boladi")
 check("armiga SMS still hits jinoyat", "jinoyat_kodeksi" in armiga, True)
 
 
-print("\n3. havo / asosiy qonun route; futbol does not")
-check("havo → havo_kodeksi",
-      "havo_kodeksi" in match_code_slugs("havo nima"), True)
+print("\n3. havo kodeksi / asosiy qonun route; weather and futbol do not")
+# bare "havo" is weather small-talk, not the Air Code -- it was removed from
+# the informal labels; the code must still be reachable by its real name.
+check("havo nima (weather) matches no code",
+      "havo_kodeksi" in match_code_slugs("havo nima"), False)
+check("havo kodeksi → havo_kodeksi",
+      "havo_kodeksi" in match_code_slugs("havo kodeksi nima deydi"), True)
 check("asosiy qonun → konstitutsiya",
       "konstitutsiya" in match_code_slugs("asosiy qonun nima deydi"), True)
 check("konstitutsiya → konstitutsiya",

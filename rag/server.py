@@ -4,6 +4,7 @@ Same contract the old rag_server exposed (POST /v1/chat/completions), so nothing
 on the frontend changes except VAST_API_URL. `citations` is an extra top-level
 field -- clients that ignore it are unaffected.
 """
+import asyncio
 import json
 import time
 import uuid
@@ -13,6 +14,7 @@ from fastapi import FastAPI, Request
 from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
+from starlette.concurrency import iterate_in_threadpool
 
 import config as C
 from api_keys import KeyAuth, KeyAuthError
@@ -90,6 +92,34 @@ def usage(req: Request):
     return _keyauth.usage_for(key_id)
 
 
+@app.post("/retrieve")
+async def retrieve(req: Request):
+    """Top-k hybrid retrieval without generation.
+
+    What eval_recall.py --url probes, so the recall harness can finally
+    measure the live box instead of dying on 404. No model call, but it does
+    run embeddings, so it sits behind the same API keys and counters.
+    """
+    try:
+        key_id = _keyauth.authorize(req)
+    except KeyAuthError as e:
+        return JSONResponse(status_code=e.status, content=e.body())
+    _keyauth.count_request(key_id)
+    try:
+        body = await req.json()
+        query = body.get("query") or body.get("question") or ""
+        k = int(body.get("k") or C.TOP_K)
+    except Exception:
+        return JSONResponse(status_code=400,
+                            content={"error": "invalid JSON body"})
+    if not isinstance(query, str) or not query.strip():
+        return JSONResponse(status_code=400, content={"error": "empty query"})
+    rag = await run_in_threadpool(get_rag)
+    expanded = await run_in_threadpool(rag.expander.expand, query)
+    keys, _ = await run_in_threadpool(rag.retriever.search, expanded)
+    return {"results": [{"code": slug, "article_id": aid} for slug, aid in keys[:k]]}
+
+
 @app.post("/v1/chat/completions")
 async def chat(req: Request):
     try:
@@ -98,9 +128,16 @@ async def chat(req: Request):
         return JSONResponse(status_code=e.status, content=e.body())
     _keyauth.count_request(key_id)
 
-    body = await req.json()
-    messages = body.get("messages", [])
-    question = messages[-1]["content"] if messages else ""
+    try:
+        body = await req.json()
+        messages = body.get("messages", [])
+        question = messages[-1]["content"] if messages else ""
+        if not isinstance(question, str):
+            question = str(question)
+    except Exception:
+        return JSONResponse(status_code=400, content={
+            "error": {"type": "invalid_request_error",
+                      "message": "Body must be JSON with a messages array."}})
     history = [m for m in messages[:-1] if m.get("role") in ("user", "assistant")]
     # earlier turns also let a follow-up like "va 12-moddasi-chi?" inherit its code
     context = "\n".join(
@@ -134,7 +171,14 @@ async def chat(req: Request):
         # equal to full generation (~30s on the semantic path), so clients hit
         # their own timeout and showed "couldn't reach the model" while the
         # server was happily producing a correct answer.
-        def sse():
+        #
+        # The sync stream_answer (CPU embeddings + sync OpenAI iteration) runs
+        # in the threadpool via iterate_in_threadpool and lands on a queue; the
+        # async generator then only touches the event loop between items and
+        # can emit a keep-alive comment every HEARTBEAT_SECONDS while the
+        # first token is still being computed (retrieval + rewrite can take
+        # 10s+). Without that, one stream froze /health for every other client.
+        async def sse():
             cid = f"chatcmpl-{uuid.uuid4().hex[:12]}"
             base = {"id": cid, "object": "chat.completion.chunk",
                     "created": int(time.time()), "model": C.VLLM_MODEL}
@@ -148,10 +192,34 @@ async def chat(req: Request):
 
             yield frame({"role": "assistant"})      # flushes immediately
 
+            queue: asyncio.Queue = asyncio.Queue()
+
+            async def produce():
+                try:
+                    rag = await run_in_threadpool(get_rag)
+                    async for kind, payload in iterate_in_threadpool(
+                            stream_answer(rag, question, context=context,
+                                          history=history)):
+                        await queue.put((kind, payload))
+                except Exception as e:               # surfaced by the consumer
+                    await queue.put(("__error__", e))
+                finally:
+                    await queue.put(("__end__", None))
+
+            producer = asyncio.create_task(produce())
             done, reasoning_parts, usage = None, [], {}
             try:
-                for kind, payload in stream_answer(
-                        get_rag(), question, context=context, history=history):
+                while True:
+                    try:
+                        kind, payload = await asyncio.wait_for(
+                            queue.get(), timeout=C.HEARTBEAT_SECONDS)
+                    except asyncio.TimeoutError:
+                        yield ": keep-alive\n\n"     # SSE comment, clients skip it
+                        continue
+                    if kind == "__end__":
+                        break
+                    if kind == "__error__":
+                        raise payload
                     if kind == "done":
                         done = payload
                     elif kind == "reasoning":
@@ -175,6 +243,8 @@ async def chat(req: Request):
                 yield frame({}, "stop")
                 yield "data: [DONE]\n\n"
                 return
+            finally:
+                producer.cancel()
 
             done = done or {"mode": "unknown", "answer": "", "citations": []}
             print(f"[{done['mode']}] {done['answer'][:160]}...")
@@ -221,6 +291,25 @@ async def chat(req: Request):
                         "content": "Til modeli hozircha ishga tushmoqda. "
                                    "Bir necha daqiqadan soʻng qayta urinib koʻring.",
                     },
+                    "finish_reason": "stop",
+                }],
+            },
+        )
+    except Exception as e:
+        # Anything unexpected must still answer with a parseable body -- a raw
+        # 500 with a traceback is what the demo curl showed on bad input.
+        print(f"[request-failed] {type(e).__name__}: {e}")
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": {"type": "server_error",
+                          "message": "Javob tayyorlashda xatolik yuz berdi. "
+                                     "Qayta urinib koʻring."},
+                "choices": [{
+                    "index": 0,
+                    "message": {"role": "assistant",
+                                "content": "Javob tayyorlashda xatolik yuz berdi. "
+                                           "Qayta urinib koʻring."},
                     "finish_reason": "stop",
                 }],
             },

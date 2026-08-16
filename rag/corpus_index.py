@@ -24,12 +24,30 @@ _APOS = "ʻʼ‘’ʹʺ`´'"
 ABBR_STOPLIST = {"ok", "bu", "va", "uz", "yo", "shu", "har"}
 
 # Superscripts run to two digits in this corpus (419²⁰-modda, 145 such articles),
-# so the run is matched greedily, not as a single character.
+# so the run is matched greedily, not as a single character. The dotted part
+# form ("141.2-modda") is accepted too: it is how people type 141² on a Latin
+# keyboard, and "141.2" is already the canonical article_id.
 _ART_RE = re.compile(
     # up to 6 digits: base articles reach 1199, and a flattened two-digit
     # superscript reaches "41920" (= 419²⁰)
-    r"(?<![\d.])(\d{1,6})\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?\s*[-‐‑‒–—]?\s*modda\w*",
+    r"(?<![\d.])(\d{1,6})(?:\.(\d{1,2}))?\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?"
+    r"\s*[-‐‑‒–—]?\s*modda\w*",
     re.IGNORECASE,
+)
+
+# A bare number followed by a count/time word is a quantity, not an article:
+# "Mehnat kodeksi bo'yicha 3 oydan beri oylik bermayapti" is not Article 3.
+# No leading ^: this is used as .match(tail, m.end()), where ^ would only
+# anchor at the string's true start, not at pos.
+_COUNT_AFTER = re.compile(
+    r"\s*[-‐‑‒–—]?\s*(?:oy|oydan|oyda|oylik|oyi|oylab|yil|yilda|yildan|yili|"
+    r"yillardan|yillik|soat|soatdan|soatlik|hafta|haftadan|kun|kunda|kundan|"
+    r"kishi|kishidan|marta|martadan|ta|tasi|tadan|som|foiz|protsent|"
+    r"daqiqa|daqiqadan|dona|ming|mln|mlrd|yuz|xil|bet|qavat|xona|sinf|"
+    r"sinfdan|kurs|yosh|yoshda|farzand|farzandimga|farzandiga|farzandlar|"
+    r"shaxs|dollar|yevro|rubl|qism|"
+    r"yanvar|fevral|mart|aprel|may|iyun|iyul|avgust|sentabr|oktabr|noyabr|"
+    r"dekabr|yanvardan|dekabrdan)\b"
 )
 _TITLE_PREFIX = re.compile(r"^ozbekiston respublikasining\s+", re.IGNORECASE)
 
@@ -43,14 +61,17 @@ def norm(s: str) -> str:
     return re.sub(r"\s+", " ", s.lower()).strip()
 
 
-def candidates(digits: str, sup: str | None) -> list[str]:
+def candidates(digits: str, sup: str | None, part: str | None = None) -> list[str]:
     """Canonical article_id candidates for a parsed reference.
 
     '480' + '¹' -> ['480.1']      (explicit superscript: unambiguous)
+    '141' + '2' -> ['141.2']      (dotted part form == superscript article)
     '480'       -> ['480']        (plain base article)
     '4801'      -> ['4801']       (resolver also tries the flattened map, where
                                    article_raw '4801-modda' points at 480.1)
     """
+    if part:
+        return [f"{digits}.{part}"]
     if sup:
         return [f'{digits}.{"".join(SUP[c] for c in sup)}']
     return [digits]
@@ -152,6 +173,26 @@ class CorpusIndex:
             else:
                 self.ambiguous[abbr] = [s for o in owners for s in groups[o]]
 
+        # Russian-style abbreviations arrive after transliteration
+        # ("УК 173" -> "uk 173"): уголовный -> jinoyat, трудовой -> mehnat.
+        for abbr, members in (("uk", ["jinoyat_kodeksi"]),
+                              ("tk", ["mehnat_kodeksi"])):
+            if abbr not in self.aliases and abbr not in self.ambiguous:
+                put(abbr, members)
+
+        # Unique single-word subjects, so "Mehnat 253-modda" resolves without
+        # the word "kodeksi". Only when exactly one logical code claims the
+        # head word (jinoyat/fuqarolik/mamuriy each head several -> skipped),
+        # and never for words that are everyday nouns on their own ("havo",
+        # "budjet" -- the weather and the household budget are not statutes).
+        head_owners = {}
+        for logical in groups:
+            head = re.split(r"[_\-]+", logical)[0]
+            head_owners.setdefault(head, []).append(logical)
+        for head, owners in head_owners.items():
+            if len(owners) == 1 and len(head) > 3 and head not in ("havo", "budjet"):
+                put(head, groups[owners[0]])
+
     def _compile_matchers(self):
         self._matchers = []
         for alias in sorted(self.aliases, key=len, reverse=True):
@@ -228,6 +269,9 @@ class CorpusIndex:
         message names no code at all ("...va 12-moddasi-chi?").
         """
         t = norm(text)
+        # Glued citations: "JK173"/"jk173" must read as "jk 173". Only the
+        # letter->digit seam is split, so "1412modda" and "4801" stay intact.
+        t = re.sub(r"(?<=[a-z])(?=\d)", " ", t)
         mentions = self._mentions(t)
         if not mentions and context:
             # fall back to the most recent code named earlier in the thread
@@ -250,7 +294,7 @@ class CorpusIndex:
                 {
                     "slugs": slugs,
                     "ambiguous": amb,
-                    "cands": candidates(m.group(1), m.group(2)),
+                    "cands": candidates(m.group(1), m.group(3), m.group(2)),
                     "digits": m.group(1),
                     "raw": m.group(0),
                     "span": m.span(),
@@ -260,19 +304,24 @@ class CorpusIndex:
         # People also write the number bare: "fuqarolik kodeksi 674 kerak".
         # Only accept a number that directly follows a code mention, so stray
         # figures elsewhere in a sentence are never mistaken for articles.
+        # A number glued to a count/time word ("3 oydan", "5 kishi") is a
+        # quantity, never an article -- rejecting it keeps situation stories
+        # out of the article-lookup path.
         covered = [r["span"] for r in refs]
         for pos, slugs, amb in mentions:
             tail = t[pos:pos + 120]
-            for m in re.finditer(r"(?<!\w)(\d{1,4})\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?(?!\s*-?\s*modda)", tail):
+            for m in re.finditer(r"(?<!\w)(\d{1,4})(?:\.(\d{1,2}))?\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?(?!\s*-?\s*modda)", tail):
                 start = pos + m.start()
                 if any(s <= start < e for s, e in covered):
                     continue
                 between = t[pos:start]
                 if len(between) > 40 or re.search(r"\d", between):
                     continue
+                if _COUNT_AFTER.match(tail, m.end()):
+                    continue
                 refs.append({
                     "slugs": slugs, "ambiguous": amb,
-                    "cands": candidates(m.group(1), m.group(2)),
+                    "cands": candidates(m.group(1), m.group(3), m.group(2)),
                     "digits": m.group(1), "raw": m.group(0),
                     "span": (start, pos + m.end()),
                 })
@@ -326,7 +375,7 @@ class CorpusIndex:
             ok.add(a["article_id"])
             ok.add(re.sub(r"\D", "", a.get("article_raw") or "") or a["article_id"])
             for m in _ART_RE.finditer(norm(a["text"])):
-                ok.update(candidates(m.group(1), m.group(2)))
+                ok.update(candidates(m.group(1), m.group(3), m.group(2)))
                 ok.add(m.group(1))
         return ok
 
@@ -334,7 +383,7 @@ class CorpusIndex:
         """Citations in the answer that point at nothing we supplied."""
         bad = []
         for m in _ART_RE.finditer(norm(answer)):
-            cands = set(candidates(m.group(1), m.group(2))) | {m.group(1)}
+            cands = set(candidates(m.group(1), m.group(3), m.group(2))) | {m.group(1)}
             if not (cands & allowed):
                 bad.append(m.group(0))
         return bad
@@ -348,7 +397,7 @@ class CorpusIndex:
         """
         seen = set()
         for m in _ART_RE.finditer(norm(answer)):
-            seen.update(candidates(m.group(1), m.group(2)))
+            seen.update(candidates(m.group(1), m.group(3), m.group(2)))
             seen.add(m.group(1))
         used = [
             a for a in articles

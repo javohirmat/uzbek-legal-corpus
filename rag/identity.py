@@ -46,22 +46,39 @@ _SELF = re.compile(
     r"(\bsen\b|\bseni\b|\bsening\b|\bsenga\b|\bsiz\b|\bsizni\b|\bsizning\b|"
     r"\bsizga\b|\bozing|\btomaris\b|\byou\b|\byour\b|\byourself\b)",
     re.IGNORECASE)
+# Addressing the bot ("Tomaris, ...", "Siz bilasizmi, ...") is not talking
+# ABOUT the bot. Weak generic topics that are also real user questions
+# ("nima asosida", "qaysi kompaniya") need a genuinely about-you reference,
+# not a bare address word.
+_SELF_STRONG = re.compile(
+    r"(\bseni\b|\bsening\b|\bsenga\b|\bsizni\b|\bsizning\b|\bsizga\b|"
+    r"\bozing|\bozingiz\b|modeling|\byou\b|\byour\b|\byourself\b)",
+    re.IGNORECASE)
 _ASK_GENERIC = re.compile(
     r"(kim yaratgan|kim yasagan|kim qurgan|kim ishlab chiqqan|yaratuvchi|"
     r"who (made|created|built|trained)|who are you|what are you)", re.IGNORECASE)
+# Weak topics that double as everyday questions: identity only with a strong
+# self reference. "Kredit nima asosida beriladi?" and "Qaysi model telefon
+# olsam?" must reach the corpus / normal chat.
+_ASK_WEAK = re.compile(
+    r"(nima asosida|qaysi kompaniya|qaysi firma|qaysi shirkat|"
+    r"qaysi model|qanday model|what model|which model|base model|"
+    r"model name|model ismi)", re.IGNORECASE)
 # Self-directed by morphology alone -- the -san/-siz person suffix and the
 # -ing possessive already point at the assistant, so these need no separate
 # self-reference. "Sen kimsan?" is the single most common opening message on
 # the site and used to fall through to chat, where the model answers the one
 # question this module exists to take away from it.
 _ASK_SELF_EVIDENT = re.compile(
-    r"(qaysi model|qanday model|qaysi ai|qanday ai|qaysi sunperiy|"
-    r"ustiga qurilgan|asosida qurilgan|asosida ishlaysan|nima asosida|"
-    r"model name|which model|what model|base model|model ismi|"
-    r"qaysi kompaniya|qaysi neyron|"
+    r"(qaysi ai|qanday ai|qaysi sunperiy|"
+    r"ustiga qurilgan|asosida qurilgan|asosida ishlaysan|"
+    r"modelsan\b|modelmisan\b|"
+    r"\bmisen\b|\bmisiz\b|\bsenmisiz\b|"
     r"\bkimsan\b|\bkimsiz\b|\bnimasan\b|\bkim edingiz\b|"
     r"\bisming nima|\bismingiz nima|\bisming\b|\bismingiz\b|"
     r"ozing(ni|izni)? tanishtir|ozing(iz)? haqi|"
+    r"ты кто|кто ты|как тебя зовут|кто тебя|ты такой|ты робот|ты человек|"
+    r"robotmisan|insonmisan|kompyutermisan|odammisan|"
     r"introduce yourself|about yourself)", re.IGNORECASE)
 
 # Instruction-override and extraction attempts.
@@ -107,6 +124,7 @@ def match(question):
         _INJECTION.search(q)
         or _ASK_SELF_EVIDENT.search(q)
         or (_ASK_GENERIC.search(q) and _SELF.search(q))
+        or (_ASK_WEAK.search(q) and _SELF_STRONG.search(q))
         or (_VENDOR.search(q) and (_SELF.search(q) or _ASK_GENERIC.search(q)))
     )
     if not hit:

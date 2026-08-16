@@ -39,7 +39,6 @@ CYRILLIC_LEGAL_CUES = (
     "пенси",
     "исков",
     "истец",
-    "суд",
     "права",
     "право",
     "обязанност",
@@ -86,7 +85,12 @@ CYRILLIC_LEGAL_CUES = (
     "тюрм",
     "залил",
     "зп",
+    "бьёт",
+    "бьет",
+    "развестись",
 )
+# "суд" is a cue, but "судно" (vessel) and "судак" are everyday words sharing
+# the prefix -- it moves to the guarded list below.
 
 # Everyday Latin / SMS. Informal spellings included so the gate fires even
 # when normalize_query has not yet rewritten the string. Do not add bare
@@ -98,7 +102,6 @@ LATIN_LEGAL_CUES = (
     "qonun",
     "huquq",
     "jazo",
-    "sud",
     "shartnoma",
     "majburiyat",
     "javobgarlik",
@@ -111,11 +114,9 @@ LATIN_LEGAL_CUES = (
     "nikoh",
     "meros",
     "farzandlikka",
-    "davo",
     "konstitutsiya",
     "litsenziya",
     "jarima",
-    "nafaqa",
     "mulk",
     "vorislik",
     "ajrashish",
@@ -137,9 +138,22 @@ LATIN_LEGAL_CUES = (
     "zp",
     "maosh",
     "aliment",
-    "ishdan",
+    "ishdan hayda",
+    "ishdan boshat",
+    "ishdan boʻshat",
+    "ishdan chiqar",
     "haydad",
     "haydash",
+    "ajrashish",
+    "ajrashmoqchi",
+    "ajrashaman",
+    "qarz",
+    "kredit",
+    "advokat",
+    "yurist",
+    "uradi",
+    "urayapti",
+    "tolov bermay",
     "dezertir",
     "povestka",
     "qamash",
@@ -165,26 +179,27 @@ LATIN_LEGAL_CUES = (
     "zalil",
 )
 
+# Cues whose bare prefix collides with everyday words: "davom etadi" and
+# "davomat" are not davo (claim), "nafaqat" is not nafaqa (benefit), "sudoku"
+# is not sud (court), "судно" (vessel) is not суд. The guard only blocks the
+# specific colliding continuations; real inflections still match.
+LATIN_GUARDED_CUES = (r"davo(?![ml])", r"nafaqa(?!t\b)", r"sud(?!o)")
+CYRILLIC_GUARDED_CUES = (r"суд(?!н)",)
+
 # Leading boundary so "суд" does not fire inside "посуда", but stems still
 # match inflections (зарплата, уволили, qamashadimi, armiga).
 CYRILLIC_LEGAL_HINT = re.compile(
-    r"(?<!\w)(?:" + "|".join(re.escape(cue) for cue in CYRILLIC_LEGAL_CUES) + r")",
+    r"(?<!\w)(?:" + "|".join(
+        [re.escape(cue) for cue in CYRILLIC_LEGAL_CUES] + list(CYRILLIC_GUARDED_CUES)
+    ) + r")",
     re.IGNORECASE,
 )
 LATIN_LEGAL_HINT = re.compile(
-    r"(?<!\w)(?:" + "|".join(re.escape(cue) for cue in LATIN_LEGAL_CUES) + r")",
+    r"(?<!\w)(?:" + "|".join(
+        [re.escape(cue) for cue in LATIN_LEGAL_CUES] + list(LATIN_GUARDED_CUES)
+    ) + r")",
     re.IGNORECASE,
 )
-
-# "bormasam nma boladi" / "boʻlmasa nima boladi" is a legal-consequence
-# question only when a legal stem is already in the same string. The
-# pattern itself is extra recall for army/skip phrasing that names no code.
-_CONSEQUENCE = re.compile(
-    r"(?:bormasa\w*|bo[ʻʼ''`]?lmasa\w*|qamasha\w*)"
-    r".{0,24}(?:nma|nima|nm)\s*boladi",
-    re.IGNORECASE,
-)
-
 
 def has_cyrillic_legal_cue(text: str) -> bool:
     """True when `text` carries a Cyrillic legal stem from the tuple above."""
@@ -204,7 +219,4 @@ def has_legal_cue(text: str) -> bool:
     """Latin or Cyrillic legal vocabulary, including informal spellings."""
     if not text:
         return False
-    if has_latin_legal_cue(text) or has_cyrillic_legal_cue(text):
-        return True
-    folded = norm(text)
-    return bool(_CONSEQUENCE.search(text) or _CONSEQUENCE.search(folded))
+    return has_latin_legal_cue(text) or has_cyrillic_legal_cue(text)
