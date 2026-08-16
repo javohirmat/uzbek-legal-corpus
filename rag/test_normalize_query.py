@@ -61,7 +61,35 @@ contains("6zbek → oʻzbek", normalize_query("6zbek"), want)
 contains("wunaqa → shunaqa", normalize_query("wunaqa"), "shunaqa")
 contains("nimaaa → nima", normalize_query("nimaaa boladi"), "nima")
 contains("nimaboladi spaced", normalize_query("nimaboladi"), "nima boladi")
-contains("armiga → armiya", normalize_query("armiga bormasam"), "armiya")
+contains("armiga → harbiy xizmat (armiya: 0 corpus postings)",
+         normalize_query("armiga bormasam"), "harbiy xizmat")
+
+
+print("\n3b. counts glued to digits are never letter-play (4ta, 6oy)")
+check("4ta survives", normalize_query("4ta bola bor aliment"), "4ta bola bor aliment")
+check("6ta survives (oʻta is a different real word)",
+      normalize_query("6ta shartnoma"), "6ta shartnoma")
+check("6oy survives", "6oy" in normalize_query("2 yil 6oy"), True)
+check("4chi survives", "4chi" in normalize_query("4chi marta"), True)
+check("4kishi survives", "4kishi" in normalize_query("4kishi ishdan boʻshatildi"), True)
+check("A4 product code survives", "A4" in normalize_query("avtomobil A4 rusumli"), True)
+check("4x4 survives", "4x4" in normalize_query("kompaniya 4x4"), True)
+
+
+print("\n3c. English tokens in Uzbek chat survive the w-map")
+check("whatsapp survives", "whatsapp" in normalize_query("whatsapp orqali tahdid qilishdi"), True)
+check("web survives", "web" in normalize_query("web sayt"), True)
+check("windows survives", "windows" in normalize_query("windows"), True)
+check("power bank survives", "power bank" in normalize_query("power bank kerak"), True)
+check("workflow survives", "workflow" in normalize_query("workflow"), True)
+check("wunaqa still maps", normalize_query("wunaqa holatda"), "shunaqa holatda")
+check("Wu still maps", normalize_query("Wu nimadir"), "Shu nimadir")
+
+
+print("\n3d. www survives the w-map and triple-collapse, and stays idempotent")
+check("www stable", normalize_query("www.lex.uz"), "www.lex.uz")
+check("www idempotent",
+      normalize_query(normalize_query("www.lex.uz")), normalize_query("www.lex.uz"))
 contains("ogirlab → o‘g‘rilik", normalize_query("ogirlab ketishdi"), "g" + OKINA + "rilik")
 
 
@@ -80,7 +108,7 @@ check("non-citation allows 6-map", looks_like_citation("oylk 2 oy bermayapti"), 
 
 print("\n5. Russian chat → Latin search tokens")
 ru_army = normalize_query("Если не пойду в армию что будет?")
-contains("армию → armiya", ru_army.lower(), "armiya")
+contains("армию → harbiy xizmat (statute token)", ru_army.lower(), "harbiy xizmat")
 check("no leftover Cyrillic in army query",
       any("а" <= ch.lower() <= "я" or ch in "ўқғҳ" for ch in ru_army), False)
 ru_pay = normalize_query("зп не дали и уволили")

@@ -15,12 +15,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 
 import config as C
+from api_keys import KeyAuth, KeyAuthError
 from pipeline import UpstreamUnavailable, get_rag, stream_answer
 
 app = FastAPI(title="Tomaris legal RAG")
 app.add_middleware(
     CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"]
 )
+
+# Per-customer keys (TOMARIS_API_KEYS env). Empty env = open mode, unchanged
+# behavior for the frontend and demo scripts.
+_keyauth = KeyAuth.from_env()
 
 
 @app.middleware("http")
@@ -69,8 +74,30 @@ def models():
     }
 
 
+@app.get("/v1/usage")
+def usage(req: Request):
+    """Today's request/token counters for the caller's own key.
+
+    Identified without the daily-cap check so an over-limit customer can
+    still see when their limit resets.
+    """
+    try:
+        key_id = _keyauth.authorize(req, check_cap=False)
+    except KeyAuthError as e:
+        return JSONResponse(status_code=e.status, content=e.body())
+    if not key_id:
+        return {"error": "no API keys configured -- open mode"}
+    return _keyauth.usage_for(key_id)
+
+
 @app.post("/v1/chat/completions")
 async def chat(req: Request):
+    try:
+        key_id = _keyauth.authorize(req)
+    except KeyAuthError as e:
+        return JSONResponse(status_code=e.status, content=e.body())
+    _keyauth.count_request(key_id)
+
     body = await req.json()
     messages = body.get("messages", [])
     question = messages[-1]["content"] if messages else ""
@@ -121,7 +148,7 @@ async def chat(req: Request):
 
             yield frame({"role": "assistant"})      # flushes immediately
 
-            done, reasoning_parts = None, []
+            done, reasoning_parts, usage = None, [], {}
             try:
                 for kind, payload in stream_answer(
                         get_rag(), question, context=context, history=history):
@@ -130,6 +157,8 @@ async def chat(req: Request):
                     elif kind == "reasoning":
                         reasoning_parts.append(payload)
                         yield frame({"reasoning_content": payload})
+                    elif kind == "usage":
+                        usage = payload
                     else:
                         yield frame({"content": payload})
             except UpstreamUnavailable as e:
@@ -149,6 +178,10 @@ async def chat(req: Request):
 
             done = done or {"mode": "unknown", "answer": "", "citations": []}
             print(f"[{done['mode']}] {done['answer'][:160]}...")
+            if usage:
+                # real upstream token counts (vLLM trailing usage chunk)
+                _keyauth.add_usage(key_id, usage.get("prompt_tokens", 0),
+                                   usage.get("completion_tokens", 0))
             try:
                 with open(C.CHAT_LOG, "a", encoding="utf-8") as f:
                     f.write(json.dumps({
@@ -161,7 +194,8 @@ async def chat(req: Request):
                 print(f"[chat-log failed] {e}")
 
             yield frame({}, "stop", {"citations": done["citations"],
-                                     "retrieval_mode": done["mode"]})
+                                     "retrieval_mode": done["mode"],
+                                     "usage": usage or None})
             yield "data: [DONE]\n\n"
 
         return StreamingResponse(sse(), media_type="text/event-stream",

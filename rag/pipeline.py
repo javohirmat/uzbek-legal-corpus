@@ -472,12 +472,25 @@ class BadCitation(RuntimeError):
 
 
 def _stream_lm(messages, temperature=C.TEMPERATURE):
-    """Yield ("reasoning"|"content", text) as vLLM produces them."""
+    """Yield ("reasoning"|"content"|"usage", payload) as vLLM produces them.
+
+    include_usage makes vLLM append one trailing chunk carrying real token
+    usage with empty choices; it rides in extra_body so any openai>=1.0
+    client sends it regardless of SDK age. Verified against vLLM's
+    OpenAI-compatible server docs (stream_options.include_usage).
+    """
     stream = _client.chat.completions.create(
         model=C.VLLM_MODEL, messages=messages, stream=True,
         temperature=temperature, max_tokens=C.MAX_TOKENS,
+        extra_body={"stream_options": {"include_usage": True}},
     )
     for event in stream:
+        usage = getattr(event, "usage", None)
+        if usage is not None:      # the usage chunk arrives with empty choices
+            yield "usage", {
+                "prompt_tokens": usage.prompt_tokens or 0,
+                "completion_tokens": usage.completion_tokens or 0,
+            }
         if not event.choices:
             continue
         d = event.choices[0].delta
@@ -562,6 +575,9 @@ def stream_answer(rag, question, context="", history=()):
             if kind == "reasoning":
                 yield "reasoning", piece
                 continue
+            if kind == "usage":
+                yield "usage", piece
+                continue
             buf += piece
             cut = _safe_cut(buf)
             if cut:
@@ -600,6 +616,8 @@ def _passthrough(messages, mode):
         for kind, piece in _stream_lm(messages, temperature=C.CHAT_TEMPERATURE):
             if kind == "reasoning":
                 yield "reasoning", piece
+            elif kind == "usage":
+                yield "usage", piece
             else:
                 parts.append(piece)
                 yield "content", piece

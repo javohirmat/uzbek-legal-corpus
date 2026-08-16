@@ -8,7 +8,8 @@ invent article numbers and does not touch the indexed corpus.
 
 Applied before synonym expand + retrieve. Deterministic `N-modda` lookup
 keeps working: digit SMS maps are skipped when the string looks like a
-citation (`999-modda`, `141²`, `JK 253-modda`).
+citation (`999-modda`, `141²`, `JK 253-modda`), and counts glued to digits
+(`4ta`, `6oy`) are never read as letter-play.
 """
 from __future__ import annotations
 
@@ -34,19 +35,37 @@ _CITATION = re.compile(
     re.IGNORECASE,
 )
 
-# Isolated 6/4 glued to letters: t6lov, 6zbek, 4iqarish. Not 253, not 2 oy.
-_SMS_6 = re.compile(
-    r"(?:(?<=[A-Za-z\u02bb\u02bc])6(?!\d)|(?<!\d)6(?=[A-Za-z\u02bb\u02bc]))"
-)
-_SMS_4 = re.compile(
-    r"(?:(?<=[A-Za-z\u02bb\u02bc])4(?!\d)|(?<!\d)4(?=[A-Za-z\u02bb\u02bc]))"
+# A digit glued to a numeral suffix is a count, not letter-play: "4ta bola",
+# "6oy", "4kishi", "2 yil 6oy". Substituting there turns the count into a
+# garbage token ("chta") or a different real word ("oʻta").
+_NUM_SUFFIX = (
+    "tasini|tadan|tasi|tada|ta|"
+    "oylari|oylik|oyda|oyi|oy|"
+    "yilda|yili|yil|"
+    "kishidan|kishi|"
+    "martadan|marta|nchisi|nchi|chi|"
+    "xil|dona|foiz|protsent|"
+    "mln|mlrd|ming|yuz|km|kg|sm|mm|soʻm|"
+    "dan|da|ga|ni|sinf|kurs|bet|qavat|xona"
 )
 
-_EN_W = re.compile(
-    r"\b(?:www|https?|what|who|where|when|why|how|will|was|were|with|"
-    r"we|would|which|whose|tweet|twitter)\b",
+# Isolated 6/4 glued to letters: t6lov, 6zbek, 4iqarish. Not 253, not 2 oy,
+# not a count (4ta -- suffix guard), not a product code (A4, 4x4 -- the digit
+# must have letters on both sides and no second digit later in the token).
+_SMS_GUARD = r"(?!(?:" + _NUM_SUFFIX + r")|[A-Za-z\u02bb\u02bc]*\d)"
+_SMS_6 = re.compile(
+    r"(?:(?<=[A-Za-z\u02bb\u02bc])6(?=[A-Za-z\u02bb\u02bc])" + _SMS_GUARD +
+    r"|(?<![0-9A-Za-z\u02bb\u02bc])6(?=[A-Za-z\u02bb\u02bc])" + _SMS_GUARD + r")",
     re.IGNORECASE,
 )
+_SMS_4 = re.compile(
+    r"(?:(?<=[A-Za-z\u02bb\u02bc])4(?=[A-Za-z\u02bb\u02bc])" + _SMS_GUARD +
+    r"|(?<![0-9A-Za-z\u02bb\u02bc])4(?=[A-Za-z\u02bb\u02bc])" + _SMS_GUARD + r")",
+    re.IGNORECASE,
+)
+
+# www is a URL token, not excitement: _TRIPLE_LETTER must not collapse it.
+_WWW = re.compile(r"\bwww\b", re.IGNORECASE)
 
 # 3+ of the same letter → one. Never digits (999-modda) or punctuation.
 _TRIPLE_LETTER = re.compile(r"([^\W\d_])\1{2,}", re.UNICODE)
@@ -88,15 +107,18 @@ _WORDS = (
     ("povestka", "chaqiruv"),
     ("povestku", "chaqiruv"),
     ("povestki", "chaqiruv"),
-    ("armiga", "armiya"),
+    # "armiya" has zero postings in the corpus; "harbiy xizmat" has ~200.
+    # The expander/keyword layers all trigger on "harbiy xizmat" too.
+    ("armiga", "harbiy xizmat"),
     ("ogirlab", "oʻgʻrilik"),
     ("ogirlash", "oʻgʻrilik"),
     ("oʻgʻirlik", "oʻgʻrilik"),
     ("ogirlik", "oʻgʻrilik"),
-    ("armiyu", "armiya"),
-    ("armii", "armiya"),
-    ("armiey", "armiya"),
-    ("armiyey", "armiya"),
+    ("armiyu", "harbiy xizmat"),
+    ("armii", "harbiy xizmat"),
+    ("armiey", "harbiy xizmat"),
+    ("armiyey", "harbiy xizmat"),
+    ("armiya", "harbiy xizmat"),
     ("soldata", "soldat"),
     ("soldatu", "soldat"),
     ("soldaty", "soldat"),
@@ -157,18 +179,24 @@ def transliterate_cyrillic(text: str) -> str:
 
 
 def _sms_w(text: str) -> str:
+    # Only the "wu" → "shu" family. A blanket w→sh corrupts every English
+    # token mixed into Uzbek chat: whatsapp, web, windows, power, workflow.
+    def repl(m: re.Match) -> str:
+        return "Sh" if m.group(0)[0].isupper() else "sh"
+
+    return re.sub(r"[wW](?=[uU])", repl, text)
+
+
+def _collapse_repeats(text: str) -> str:
+    """3+ same letters → one, but never inside www (it is a URL, not excitement)."""
     held: list[str] = []
 
     def hold(m: re.Match) -> str:
         held.append(m.group(0))
         return f"\x00{len(held) - 1}\x00"
 
-    text = _EN_W.sub(hold, text)
-
-    def repl(m: re.Match) -> str:
-        return "Sh" if m.group(0).isupper() else "sh"
-
-    text = re.sub(r"w", repl, text, flags=re.IGNORECASE)
+    text = _WWW.sub(hold, text)
+    text = _TRIPLE_LETTER.sub(r"\1", text)
     for i, orig in enumerate(held):
         text = text.replace(f"\x00{i}\x00", orig)
     return text
@@ -195,8 +223,10 @@ def normalize_query(text: str) -> str:
     if not skip_digits:
         text = _SMS_6.sub("o" + OKINA, text)
         text = _SMS_4.sub("ch", text)
-        text = _sms_w(text)
-    text = _TRIPLE_LETTER.sub(r"\1", text)
+    # The w-map only ever touches the "wu"→"shu" family, so it is safe next to
+    # a citation too: "JK 169-modda wunaqa jazo" still loses its SMS w.
+    text = _sms_w(text)
+    text = _collapse_repeats(text)
     text = _apply_words(text)
     for pat, dst in _GLUED:
         text = pat.sub(dst, text)

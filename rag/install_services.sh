@@ -60,6 +60,10 @@ utils=/opt/supervisor-scripts/utils
 ${PORTAL_GUARD}
 cd ${REPO}/rag
 export THINKING_MODE="\${THINKING_MODE:-auto}"
+# Per-customer API keys: set in the Vast instance env, e.g.
+#   TOMARIS_API_KEYS="azizbek:t7-XXXX:200"
+# Empty (default) = open mode, identical to the pre-key behavior.
+export TOMARIS_API_KEYS="\${TOMARIS_API_KEYS:-}"
 pty ${RAG_VENV}/bin/uvicorn server:app --host ${BIND_HOST} --port ${BIND_PORT} 2>&1
 SH
 
