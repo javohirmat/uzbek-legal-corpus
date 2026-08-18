@@ -169,6 +169,59 @@ check("clean military is stable", normalize_query(clean), normalize_query(normal
 check("empty", normalize_query(""), "")
 
 
+print("\n8. Telegram latin: w=sh, c=ch (reform letters are just-in-case)")
+# w/c are the spellings customers actually send. A wu-only map leaves
+# iwxona / ketiwdi / qamawadimi looking like they never mentioned ish / shartnoma.
+contains("iwxonada → ishxonada", normalize_query("iwxonada oylk bermayapti"), "ishxonada")
+contains("iwxonada still maps oylk", normalize_query("iwxonada oylk bermayapti"), "oylik")
+contains("ketiwdi → ketishdi", normalize_query("ogirlab ketiwdi"), "ketishdi")
+contains("kocada → kochada", normalize_query("kocada urib yubordim"), "kochada")
+contains("qanca → qancha", normalize_query("qanca undiriladi"), "qancha")
+contains("haydamoqci → haydamoqchi", normalize_query("iwdan haydamoqci"), "haydamoqchi")
+contains("iwdan → ishdan", normalize_query("iwdan haydamoqci"), "ishdan")
+contains("qamawadimi → qamashadimi", normalize_query("kocada urib yubordim meni qamawadimi"), "qamashadimi")
+contains("wartnoma → shartnoma", normalize_query("wartnoma buzildi"), "shartnoma")
+contains("bowqa → boshqa", normalize_query("bowqa model beraman"), "boshqa")
+contains("ş → sh (rare reform letter, still maps)", normalize_query("işxonada oylik yoq"), "ishxonada")
+contains("ç → ch", normalize_query("çiqarish tartibi"), "chiqarish")
+contains("ō → oʻ", normalize_query("ōzbek"), want)
+contains("ğ → gʻ", normalize_query("ğalaba")[:2], "g" + OKINA)
+contains("ñ → ng", normalize_query("soñgi oylik"), "songgi")
+contains("muzlatgic oldim → muzlatgich", normalize_query("muzlatgic oldim"), "muzlatgich")
+contains("sotuvci endi → sotuvchi", normalize_query("sotuvci endi"), "sotuvchi")
+contains("hec qanday → hech", normalize_query("hec qanday ogohlantirishsiz"), "hech")
+check("telegram wage is idempotent",
+      normalize_query("iwxonada oylk"), normalize_query(normalize_query("iwxonada oylk")))
+
+print("\n8b. English / URL tokens must survive the broader w/c maps")
+check("whatsapp still survives", "whatsapp" in normalize_query("whatsapp orqali tahdid qilishdi"), True)
+check("facebook survives c-map", "facebook" in normalize_query("facebook orqali haqorat"), True)
+check("camera survives c-map", "camera" in normalize_query("camera jarima keldi"), True)
+check("card survives c-map", "card" in normalize_query("bank card yeb qolishdi"), True)
+check("kiwi is not kishi", "kiwi" in normalize_query("kiwi yedim"), True)
+check("new stays new", "new" in normalize_query("new telefon oldim"), True)
+check("www.lex.uz still stable", normalize_query("www.lex.uz"), "www.lex.uz")
+check("vk.com survives", "vk.com" in normalize_query("vk.com da tahdid"), True)
+jk_w = normalize_query("JK 169-modda ketiwdi nima jazo")
+contains("citation digits survive next to iw", jk_w, "169-modda")
+contains("ketiwdi still maps beside JK", jk_w, "ketishdi")
+
+print("\n8c. expander sees Telegram spelling as formal labour / theft / street")
+tg_wage = "iwxonada 2 oydan beri oylk bermayapti nma qilaman"
+expanded_tg = exp.expand(tg_wage)
+contains("telegram wage expand mentions ish haqi", expanded_tg, "ish haqini toʻlash")
+contains("telegram wage expand mentions ishxonada", expanded_tg, "ishxonada")
+tg_qs = queries_for(tg_wage, exp, complete_fn=None)
+check("telegram wage searches Mehnat pay-timing",
+      any("ish haqini toʻlash" in q or "Mehnat" in q for q in tg_qs), True)
+phone_w = exp.expand("telefonimni ogirlab ketiwdi nma qilaman aka")
+contains("telegram theft still Oʻgʻrilik", phone_w, "g" + OKINA + "rilik")
+issues_c = issue_queries("kocada urib yubordim meni qamawadimi")
+check("telegram street still has beating issue",
+      any("urish" in q or "haqorat" in q or "tana shikast" in q or "Maʼmuriy" in q
+          for q in issues_c), True)
+
+
 print()
 if fails:
     print(f"{len(fails)} FAILURES:")

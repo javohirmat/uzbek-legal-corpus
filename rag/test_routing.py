@@ -222,6 +222,16 @@ for q in [
 check("qurdi (built) is not a beating", has_legal_cue("uy qurdi"), False)
 
 
+print("\n9. Telegram spelling stories are still situations, not article lookups")
+for q in [
+    "Mehnat kodeksi iwxonada 2 oydan beri oylk bermayapti",
+    "JK kocada urib yubordim meni qamawadimi",
+]:
+    check(f"telegram story not article: {q[:40]}...", idx.parse_references(q), [])
+check("JK 169 still parses next to ketiwdi",
+      [r["digits"] for r in idx.parse_references("JK 169-modda ketiwdi")], ["169"])
+
+
 print()
 if fails:
     print(f"{len(fails)} FAILURES:")
