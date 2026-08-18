@@ -156,6 +156,36 @@ class KeyAuth:
                     f"Resets {_tomorrow()} (UTC).")
         return meta["name"]
 
+    def admit(self, request) -> str | None:
+        """Auth + cap check + increment under one lock.
+
+        `authorize()` then `count_request()` on two threads can both see
+        remaining=1 and both proceed. Telegram bots retry. This is the
+        method /v1/chat/completions and /retrieve must call.
+        Open mode (no keys) returns None and does not count.
+        """
+        if not self.enabled:
+            return None
+        header = request.headers.get("authorization") or ""
+        m = _BEARER.match(header)
+        if not m:
+            raise KeyAuthError(401, "invalid_api_key",
+                               "Missing API key. Send 'Authorization: Bearer <key>'.")
+        meta = self._by_secret.get(m.group(1))
+        if meta is None:
+            raise KeyAuthError(401, "invalid_api_key", "Invalid API key.")
+        with self._lock:
+            limit = meta["limit"]
+            bucket = self._bucket(meta["name"])
+            if limit and bucket["requests"] >= limit:
+                raise KeyAuthError(
+                    429, "daily_limit_exceeded",
+                    f"Daily limit of {limit} requests reached for this key. "
+                    f"Resets {_tomorrow()} (UTC).")
+            bucket["requests"] += 1
+            self._save()
+        return meta["name"]
+
     # ------------------------------------------------------------ counters
     def _bucket(self, name: str) -> dict:
         today = _today()

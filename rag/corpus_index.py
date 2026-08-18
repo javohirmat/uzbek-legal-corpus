@@ -41,13 +41,23 @@ _ART_RE = re.compile(
 # anchor at the string's true start, not at pos.
 _COUNT_AFTER = re.compile(
     r"\s*[-‐‑‒–—]?\s*(?:oy|oydan|oyda|oylik|oyi|oylab|yil|yilda|yildan|yili|"
-    r"yillardan|yillik|soat|soatdan|soatlik|hafta|haftadan|kun|kunda|kundan|"
-    r"kishi|kishidan|marta|martadan|ta|tasi|tadan|som|foiz|protsent|"
+    r"yillardan|yillik|soat|soatdan|soatlik|hafta|haftadan|"
+    r"kunlik|kunlikdan|kun|kunda|kundan|"
+    r"kishi|kishidan|marta|martadan|ta|tasi|tadan|som|foizli|foizdan|foiz|"
+    r"protsent|"
     r"daqiqa|daqiqadan|dona|ming|mln|mlrd|yuz|xil|bet|qavat|xona|sinf|"
     r"sinfdan|kurs|yosh|yoshda|farzand|farzandimga|farzandiga|farzandlar|"
     r"shaxs|dollar|yevro|rubl|qism|"
     r"yanvar|fevral|mart|aprel|may|iyun|iyul|avgust|sentabr|oktabr|noyabr|"
-    r"dekabr|yanvardan|dekabrdan)\b"
+    r"dekabr|yanvardan|dekabrdan|"
+    r"месяц(?:а|ев|у)?|год(?:а|у)?|лет|час(?:а|ов)?|"
+    r"день|дня|дней|человек|процент)\b"
+)
+# After a code name, these tails are story facts, not article ids:
+# leftover phone digits, %, the year of 12.05.2024, 12/05 dates,
+# and grouped money ("1 500 000") — but not "JK 169 170" (one 3-digit follow-on).
+_NOT_ARTICLE_TAIL = re.compile(
+    r"(?:\d|%|\.\d{2,4}\b|/\d|\s+\d{3}(?:\s+\d{3})+|\s+\d{3}\s*(?:som|sum|ming|mln))"
 )
 _TITLE_PREFIX = re.compile(r"^ozbekiston respublikasining\s+", re.IGNORECASE)
 
@@ -317,7 +327,7 @@ class CorpusIndex:
                 between = t[pos:start]
                 if len(between) > 40 or re.search(r"\d", between):
                     continue
-                if _COUNT_AFTER.match(tail, m.end()):
+                if _COUNT_AFTER.match(tail, m.end()) or _NOT_ARTICLE_TAIL.match(tail, m.end()):
                     continue
                 refs.append({
                     "slugs": slugs, "ambiguous": amb,

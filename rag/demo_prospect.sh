@@ -12,6 +12,15 @@ set -uo pipefail
 API="${TOMARIS_API:-http://140.150.159.1:22879}"
 API="${API%/}"
 TIMEOUT="${TOMARIS_TIMEOUT:-90}"
+AUTH_HEADER=()
+if [ -n "${TOMARIS_API_KEY:-}" ]; then
+  AUTH_HEADER=(-H "Authorization: Bearer ${TOMARIS_API_KEY}")
+fi
+
+if [ "$API" = "http://140.150.159.1:22879" ]; then
+  echo "WARN: default TOMARIS_API is the destroyed 15 Aug box. Export a live URL:" >&2
+  echo "  TOMARIS_API=http://HOST:PORT TOMARIS_API_KEY=... bash rag/demo_prospect.sh" >&2
+fi
 
 json_body() {
   python3 -c 'import json,sys; print(json.dumps({"messages":[{"role":"user","content":sys.argv[1]}]}, ensure_ascii=False))' "$1"
@@ -128,6 +137,7 @@ ask() {
     curl -sS -o "$tmp" -w "%{http_code}" --max-time "$TIMEOUT" \
       -X POST "$API/v1/chat/completions" \
       -H "Content-Type: application/json; charset=utf-8" \
+      "${AUTH_HEADER[@]}" \
       --data-binary "$(json_body "$question")"
   )" || {
     echo "curl failed (box down or credit gone?)"

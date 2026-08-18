@@ -101,11 +101,6 @@ async def retrieve(req: Request):
     run embeddings, so it sits behind the same API keys and counters.
     """
     try:
-        key_id = _keyauth.authorize(req)
-    except KeyAuthError as e:
-        return JSONResponse(status_code=e.status, content=e.body())
-    _keyauth.count_request(key_id)
-    try:
         body = await req.json()
         query = body.get("query") or body.get("question") or ""
         k = int(body.get("k") or C.TOP_K)
@@ -114,6 +109,10 @@ async def retrieve(req: Request):
                             content={"error": "invalid JSON body"})
     if not isinstance(query, str) or not query.strip():
         return JSONResponse(status_code=400, content={"error": "empty query"})
+    try:
+        _keyauth.admit(req)
+    except KeyAuthError as e:
+        return JSONResponse(status_code=e.status, content=e.body())
     rag = await run_in_threadpool(get_rag)
     expanded = await run_in_threadpool(rag.expander.expand, query)
     keys, _ = await run_in_threadpool(rag.retriever.search, expanded)
@@ -122,12 +121,6 @@ async def retrieve(req: Request):
 
 @app.post("/v1/chat/completions")
 async def chat(req: Request):
-    try:
-        key_id = _keyauth.authorize(req)
-    except KeyAuthError as e:
-        return JSONResponse(status_code=e.status, content=e.body())
-    _keyauth.count_request(key_id)
-
     try:
         body = await req.json()
         messages = body.get("messages", [])
@@ -138,6 +131,10 @@ async def chat(req: Request):
         return JSONResponse(status_code=400, content={
             "error": {"type": "invalid_request_error",
                       "message": "Body must be JSON with a messages array."}})
+    try:
+        key_id = _keyauth.admit(req)
+    except KeyAuthError as e:
+        return JSONResponse(status_code=e.status, content=e.body())
     history = [m for m in messages[:-1] if m.get("role") in ("user", "assistant")]
     # earlier turns also let a follow-up like "va 12-moddasi-chi?" inherit its code
     context = "\n".join(

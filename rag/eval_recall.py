@@ -7,8 +7,9 @@ Does not import pipeline.py (that would spin up vLLM). Three backends:
       Validate every gold id against local JSONL (fallback: data/raw headings).
       No GPU, no network, no Chroma.
 
-  python eval_recall.py --url http://140.150.159.1:22879
-      POST /retrieve (or /v1/retrieve, /search) on a live RAG box.
+  python eval_recall.py --url http://HOST:PORT
+      POST /retrieve on a live RAG box. If keys are on, set
+      TOMARIS_API_KEY to the partner Bearer secret.
 
   python eval_recall.py
       Import Retriever if Chroma is on disk; otherwise a CPU lexical (BM25 /
@@ -235,16 +236,27 @@ def hits_from_payload(payload, k: int) -> list[tuple[str, str]]:
     return out
 
 
+def retrieve_http_headers(env=None) -> dict[str, str]:
+    """Headers for POST /retrieve. TOMARIS_API_KEY is the partner Bearer secret."""
+    env = os.environ if env is None else env
+    headers = {"Content-Type": "application/json"}
+    key = (env.get("TOMARIS_API_KEY") or "").strip()
+    if key:
+        headers["Authorization"] = f"Bearer {key}"
+    return headers
+
+
 def retrieve_http(base: str, query: str, k: int) -> list[tuple[str, str]]:
     base = base.rstrip("/")
     body = json.dumps({"query": query, "question": query, "k": k}).encode("utf-8")
     paths = ("/retrieve", "/v1/retrieve", "/search")
     last_err = None
+    headers = retrieve_http_headers()
     for path in paths:
         req = urllib.request.Request(
             base + path,
             data=body,
-            headers={"Content-Type": "application/json"},
+            headers=headers,
             method="POST",
         )
         try:

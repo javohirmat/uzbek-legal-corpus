@@ -132,10 +132,9 @@ keys = make({"TOMARIS_API_KEYS": "azizbek:t7-prod-AAA:2"})
 @app.post("/v1/chat/completions")
 async def chat(request: Request):
     try:
-        key_id = keys.authorize(request)
+        key_id = keys.admit(request)
     except KeyAuthError as e:
         return JSONResponse(status_code=e.status, content=e.body())
-    keys.count_request(key_id)
     return JSONResponse({"choices": [{"message": {"content": "ok"}}]})
 
 @app.get("/v1/usage")
@@ -165,6 +164,42 @@ check("third request -> 429", (r.status_code, r.json()["error"]["code"]),
 r = client.get("/v1/usage", headers={"Authorization": "Bearer t7-prod-AAA"})
 check("usage endpoint reports the cap", (r.json()["requests"], r.json()["remaining"]),
       (2, 0))
+
+
+print("\n9. admit() is atomic — concurrent callers cannot overshoot the cap")
+# Production change that would fail this: authorize() then count_request()
+# on two threads both seeing remaining=1.
+ka = make({"TOMARIS_API_KEYS": "azizbek:t7-prod-AAA:10"})
+admitted = []
+statuses = []
+
+def race():
+    try:
+        ka.admit(StubReq("Bearer t7-prod-AAA"))
+        admitted.append(1)
+    except KeyAuthError as e:
+        statuses.append(e.status)
+    except AttributeError:
+        statuses.append("no-admit")
+
+threads = [threading.Thread(target=race) for _ in range(20)]
+[t.start() for t in threads]
+[t.join() for t in threads]
+check("exactly 10 admitted under a 10-cap", sum(admitted), 10)
+check("the other 10 are 429", statuses.count(429), 10)
+check("counter matches admits", ka.usage_for("azizbek")["requests"], 10)
+check("open mode admit is a no-op", make().admit(StubReq()), None)
+
+
+print("\n10. eval_recall --url sends the partner Bearer when TOMARIS_API_KEY is set")
+from eval_recall import retrieve_http_headers
+check("no env, no Authorization",
+      "Authorization" in retrieve_http_headers({}), False)
+check("TOMARIS_API_KEY becomes Bearer",
+      retrieve_http_headers({"TOMARIS_API_KEY": " t7-secret "})["Authorization"],
+      "Bearer t7-secret")
+check("empty key stays omitted",
+      "Authorization" in retrieve_http_headers({"TOMARIS_API_KEY": "  "}), False)
 
 
 print()

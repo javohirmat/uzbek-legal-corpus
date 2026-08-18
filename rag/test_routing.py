@@ -184,6 +184,44 @@ check("glued JK169 parses",
       [(r["digits"], r["cands"]) for r in glued], [("169", ["169"])])
 
 
+print("\n7. situation stories: dates, phones, kunlik, percent, money, Russian months")
+# Production change that would fail these: treating the first digits after a
+# named code as an article lookup instead of a quantity/date/phone in the story.
+for q in [
+    "Mehnat kodeksi 90 kunlik ta'til berishadimi",
+    "Mehnat kodeksi 7 kunlik ogohlantirish",
+    "Mehnat kodeksi 12.05.2024 dan beri oylik bermayapti",
+    "Mehnat kodeksi 12.05.24 buyicha nima qilaman",
+    "Mehnat kodeksi 998901234567 raqamiga qo'ng'iroq qilishdi",
+    "Mehnat kodeksi 50% mukofot to'lanadimi",
+    "Mehnat kodeksi 50 foizli ustama",
+    "Mehnat kodeksi 1 500 000 so'm oyligim",
+    "Mehnat kodeksi 3 месяца зарплату не платят",
+    "Mehnat kodeksi 2 года не оформляют",
+]:
+    refs = idx.parse_references(q)
+    check(f"story not article: {q[:46]}...", refs, [])
+# Real article lookups next to a story must still work.
+check("Mehnat 253 still parses",
+      [r["digits"] for r in idx.parse_references("Mehnat kodeksi 253")], ["253"])
+check("JK 141.2 still parses",
+      [r["cands"] for r in idx.parse_references("JK 141.2-modda")], [["141.2"]])
+
+
+print("\n8. emergencies and theft in the tense/language his users will type")
+for q in [
+    "erim meni urdi",
+    "erim meni urdilar",
+    "erim meni kaltakladi",
+    "муж меня ударил",
+    "телефон украли",
+    "у меня украли телефон",
+    "кража телефона что делать",
+]:
+    check(f"legal cue: {q[:44]}...", has_legal_cue(q), True)
+check("qurdi (built) is not a beating", has_legal_cue("uy qurdi"), False)
+
+
 print()
 if fails:
     print(f"{len(fails)} FAILURES:")

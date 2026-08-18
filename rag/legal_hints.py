@@ -6,7 +6,7 @@ spellings (`armiga`, `qamashadimi`, `povestka`) never contained `modda` or
 invented jarima / qamash from memory. Cyrillic stems are the same gate for
 Russian wages/firing stories.
 
-Query normalization (armiga→armiya, povestka→chaqiruv) still runs first in
+Query normalization (armiga→harbiy xizmat, povestka→chaqiruv) still runs first in
 the retrieve path. This module only decides *whether* to retrieve.
 """
 import re
@@ -87,6 +87,9 @@ CYRILLIC_LEGAL_CUES = (
     "зп",
     "бьёт",
     "бьет",
+    "ударил",
+    "украл",
+    "краж",
     "развестись",
 )
 # "суд" is a cue, but "судно" (vessel) and "судак" are everyday words sharing
@@ -152,6 +155,8 @@ LATIN_LEGAL_CUES = (
     "advokat",
     "yurist",
     "uradi",
+    "urdilar",
+    "urdi",
     "urayapti",
     "tolov bermay",
     "dezertir",
