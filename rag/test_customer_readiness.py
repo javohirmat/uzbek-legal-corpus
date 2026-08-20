@@ -13,6 +13,7 @@ triggered it.
   6. a broken TOMARIS_API_KEYS fails closed instead of opening the box
   7. limits are parsed strictly; keys may contain ':'; keys meter per key
   8. a hand-edited usage file cannot 500 every request
+ 8b. "content": null in a thread is a 200, not a plain-text 500
   9. k -> g softening ("oyligimni") keeps the wage path alive
  10. tax questions keep the Tax Code; assault/divorce reach a template
 
@@ -31,6 +32,8 @@ from corpus_index import CorpusIndex
 from legal_hints import has_legal_cue
 from normalize_query import normalize_query
 from query_expand import QueryExpander
+from request_shape import (history_and_context, last_question,
+                           normalize_messages)
 from situation_queries import (
     exclude_unmentioned_soliq, issue_queries, queries_for,
 )
@@ -285,6 +288,41 @@ for broken in [
         check(f"survives {str(broken)[:40]}", auth.admit(Req("t7-A")), "azizbek")
     except Exception as e:                       # noqa: BLE001 - that is the bug
         check(f"survives {str(broken)[:40]}", f"{type(e).__name__}: {e}", "azizbek")
+
+
+print("\n8b. a request body cannot crash the handler")
+# "content": null is normal OpenAI wire format (tool turns, an unset system
+# prompt). It used to raise TypeError outside the handler's guard -> a
+# plain-text 500 the caller cannot parse, on the second message of any thread
+# that keeps history, after the request was already counted against the cap.
+thread = [{"role": "user", "content": "salom"},
+          {"role": "assistant", "content": None},
+          {"role": "user", "content": "boshliqim ish haqi bermayapti"}]
+clean = normalize_messages(thread)
+check("null content becomes a string", clean[1]["content"], "")
+check("the real question survives", last_question(clean),
+      "boshliqim ish haqi bermayapti")
+history, context = history_and_context(clean, 6)
+check("context joins without raising", isinstance(context, str), True)
+check("history keeps user+assistant turns", len(history), 2)
+for label, body, want in [
+    ("missing messages", None, []),
+    ("empty list", [], []),
+    ("non-dict entries dropped", ["oops", 3, {"role": "user", "content": "ha"}],
+     [{"role": "user", "content": "ha"}]),
+    ("numeric content coerced", [{"role": "user", "content": 42}],
+     [{"role": "user", "content": "42"}]),
+    ("content parts flattened",
+     [{"role": "user", "content": [{"type": "text", "text": "ish"},
+                                   {"type": "text", "text": "haqi"}]}],
+     [{"role": "user", "content": "ish haqi"}]),
+]:
+    check(f"tolerates {label}", normalize_messages(body), want)
+try:
+    normalize_messages("oops")
+    check("a non-list is a 400, not a 500", "accepted", "TypeError")
+except TypeError:
+    check("a non-list is a 400, not a 500", True)
 
 
 print("\n9. k -> g softening keeps the wage path alive")

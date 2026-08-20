@@ -18,6 +18,8 @@ from starlette.concurrency import iterate_in_threadpool
 
 import config as C
 from api_keys import KeyAuth, KeyAuthError
+from request_shape import (history_and_context, last_question,
+                           normalize_messages)
 from pipeline import (UpstreamUnavailable, get_rag, last_usage,
                       stream_answer)
 
@@ -124,21 +126,11 @@ async def retrieve(req: Request):
 async def chat(req: Request):
     try:
         body = await req.json()
-        messages = body.get("messages") or []
-        if not isinstance(messages, list):
-            raise TypeError("messages must be an array")
-        # OpenAI's wire format allows "content": null (tool-call turns, an
-        # unset system prompt). m.get("content", "") returns None for an
-        # explicit null, and joining that raised TypeError *outside* this
-        # guard -- a plain-text 500 the customer's bot cannot parse, on the
-        # second message of any thread that keeps history. Normalise once,
-        # here, before anything is counted against the caller's daily cap.
-        messages = [m for m in messages if isinstance(m, dict)]
-        for m in messages:
-            content = m.get("content")
-            m["content"] = content if isinstance(content, str) else (
-                "" if content is None else str(content))
-        question = messages[-1]["content"] if messages else ""
+        # Coerced before anything is counted against the caller's daily cap,
+        # and inside this guard so a malformed body is a 400, never a 500.
+        # See request_shape.py for the "content": null crash this replaces.
+        messages = normalize_messages(body.get("messages"))
+        question = last_question(messages)
     except Exception:
         return JSONResponse(status_code=400, content={
             "error": {"type": "invalid_request_error",
@@ -147,11 +139,8 @@ async def chat(req: Request):
         key_id = _keyauth.admit(req)
     except KeyAuthError as e:
         return JSONResponse(status_code=e.status, content=e.body())
-    history = [m for m in messages[:-1] if m.get("role") in ("user", "assistant")]
     # earlier turns also let a follow-up like "va 12-moddasi-chi?" inherit its code
-    context = "\n".join(
-        m["content"] for m in messages[-C.HISTORY_TURNS : -1]
-    )
+    history, context = history_and_context(messages, C.HISTORY_TURNS)
     want_stream = bool(body.get("stream"))
 
     t0 = time.time()
