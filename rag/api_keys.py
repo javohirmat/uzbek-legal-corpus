@@ -54,7 +54,7 @@ def _tomorrow() -> str:
 
 class KeyAuth:
     def __init__(self, keys: dict[str, dict], state_path: str):
-        # secret -> {name, limit}; name -> today's counters
+        # secret -> {name, limit, id}; key id -> today's counters
         self._by_secret = keys
         self._state_path = state_path
         self._lock = threading.Lock()
@@ -66,33 +66,91 @@ class KeyAuth:
     def from_env(cls, env=None) -> "KeyAuth":
         env = os.environ if env is None else env
         raw = (env.get("TOMARIS_API_KEYS") or "").strip()
+        # Env files and some dashboards keep the quotes literally.
+        if len(raw) >= 2 and raw[0] == raw[-1] and raw[0] in "\"'":
+            raw = raw[1:-1].strip()
+        # ';' or a newline is meant as a separator but would be swallowed into
+        # the secret, handing the customer a key that 401s. Never guess.
+        if raw and re.search(r"[;\n\r]", raw):
+            raise SystemExit(
+                "[api-keys] TOMARIS_API_KEYS entries must be separated by ',' "
+                "-- found ';' or a newline. Refusing to start rather than "
+                "register a corrupted key.")
+
         keys: dict[str, dict] = {}
+        seen_ids: dict[str, int] = {}
         for part in raw.split(","):
             part = part.strip()
             if not part:
                 continue
-            bits = [b.strip() for b in part.split(":")]
-            if len(bits) < 2 or not bits[0] or not bits[1]:
-                print(f"[api-keys] skipping malformed entry: {part[:40]!r}")
+            name, secret, limit, err = cls._parse_entry(part)
+            if err:
+                print(f"[api-keys] skipping malformed entry {part[:40]!r}: {err}")
                 continue
-            name, secret = bits[0], bits[1]
-            limit = 0
-            if len(bits) >= 3 and bits[2].isdigit():
-                limit = int(bits[2])
             if secret in keys:
                 print(f"[api-keys] duplicate secret for {name}; first definition wins")
                 continue
-            keys[secret] = {"name": name, "limit": limit}
+            # Counters are stored per KEY, not per customer name: two keys for
+            # one customer (a rotation, or a staging bot) must meter apart, and
+            # the id must stay non-secret because it is written to disk.
+            seen_ids[name] = seen_ids.get(name, 0) + 1
+            key_id = name if seen_ids[name] == 1 else f"{name}#{seen_ids[name]}"
+            keys[secret] = {"name": name, "limit": limit, "id": key_id}
+
+        # A non-empty setting that produced no key used to fall through to open
+        # mode: the box answers everyone, unmetered, while the operator believes
+        # he just handed out a capped trial key. Empty setting = open is the
+        # documented legacy behaviour and still works.
+        if raw and not keys:
+            raise SystemExit(
+                "[api-keys] TOMARIS_API_KEYS is set but no entry parsed. "
+                "Expected name:key[:daily_limit], comma-separated "
+                '(e.g. TOMARIS_API_KEYS="azizbek:t7-abc123:200"). '
+                "Refusing to start open and unmetered.")
+        if keys:
+            shown = ", ".join(f"{m['id']}({m['limit'] or 'unlimited'})"
+                              for m in keys.values())
+            print(f"[api-keys] {len(keys)} key(s) active: {shown}")
+        else:
+            print("[api-keys] OPEN MODE - no keys configured, no cap, no metering")
         path = env.get("API_USAGE_FILE") or "/workspace/api-usage.json"
         return cls(keys, path)
+
+    @staticmethod
+    def _parse_entry(part: str) -> tuple[str, str, int, str]:
+        """'name:secret[:daily_limit]' -> (name, secret, limit, error).
+
+        The secret itself may contain ':' (sk-live:abc123), so the name is
+        taken from the front and the limit from the back. With three or more
+        fields the last one MUST be a whole number: a typo'd limit used to read
+        as 0, which means *unlimited* -- the opposite of the trial cap the
+        customer was promised.
+        """
+        if ":" not in part:
+            return "", "", 0, "no ':' separator"
+        name, rest = (s.strip() for s in part.split(":", 1))
+        limit = 0
+        if ":" in rest:
+            head, tail = (s.strip() for s in rest.rsplit(":", 1))
+            if tail.isdigit():
+                rest, limit = head, int(tail)
+            else:
+                return "", "", 0, (
+                    f"daily limit {tail!r} is not a whole number "
+                    "(use name:key:200, or name:key for unlimited)")
+        if not name:
+            return "", "", 0, "empty customer name"
+        if not rest:
+            return "", "", 0, "empty key"
+        return name, rest, limit, ""
 
     @property
     def enabled(self) -> bool:
         return bool(self._by_secret)
 
-    def limit_for(self, name: str) -> int:
+    def limit_for(self, key_id: str) -> int:
         for meta in self._by_secret.values():
-            if meta["name"] == name:
+            if meta["id"] == key_id:
                 return meta["limit"]
         return 0
 
@@ -102,11 +160,39 @@ class KeyAuth:
             with open(self._state_path, encoding="utf-8") as f:
                 data = json.load(f)
             if isinstance(data, dict) and isinstance(data.get("days"), dict):
-                self._days = data["days"]
+                # Coerce, do not trust. Granting a customer more headroom
+                # mid-day means hand-editing this file, and a slightly wrong
+                # shape ({"azizbek": {"2026-08-20": 0}}) used to raise inside
+                # _bucket() on EVERY request -- a total outage for the paying
+                # customer while /health still reported ok.
+                self._days = self._coerce(data["days"])
         except FileNotFoundError:
             pass
         except Exception as e:
             print(f"[api-keys] state unreadable, starting fresh: {e}")
+
+    _COUNTER_FIELDS = ("requests", "prompt_tokens", "completion_tokens")
+
+    @classmethod
+    def _coerce(cls, days) -> dict:
+        """Keep only {key_id: {YYYY-MM-DD: {counter: int}}}; drop the rest."""
+        clean: dict[str, dict[str, dict]] = {}
+        for key_id, buckets in (days or {}).items():
+            if not isinstance(key_id, str) or not isinstance(buckets, dict):
+                print(f"[api-keys] dropping unusable usage entry {key_id!r}")
+                continue
+            for day, counters in buckets.items():
+                if not isinstance(day, str) or not isinstance(counters, dict):
+                    print(f"[api-keys] dropping unusable usage bucket {key_id!r}/{day!r}")
+                    continue
+                fixed = {}
+                for field in cls._COUNTER_FIELDS:
+                    try:
+                        fixed[field] = max(0, int(counters.get(field, 0)))
+                    except (TypeError, ValueError):
+                        fixed[field] = 0
+                clean.setdefault(key_id, {})[day] = fixed
+        return clean
 
     def _save(self) -> None:
         self._prune()
@@ -147,14 +233,14 @@ class KeyAuth:
         if meta is None:
             raise KeyAuthError(401, "invalid_api_key", "Invalid API key.")
         if check_cap:
-            bucket = self._bucket(meta["name"])
+            bucket = self._bucket(meta["id"])
             limit = meta["limit"]
             if limit and bucket["requests"] >= limit:
                 raise KeyAuthError(
                     429, "daily_limit_exceeded",
                     f"Daily limit of {limit} requests reached for this key. "
                     f"Resets {_tomorrow()} (UTC).")
-        return meta["name"]
+        return meta["id"]
 
     def admit(self, request) -> str | None:
         """Auth + cap check + increment under one lock.
@@ -176,7 +262,7 @@ class KeyAuth:
             raise KeyAuthError(401, "invalid_api_key", "Invalid API key.")
         with self._lock:
             limit = meta["limit"]
-            bucket = self._bucket(meta["name"])
+            bucket = self._bucket(meta["id"])
             if limit and bucket["requests"] >= limit:
                 raise KeyAuthError(
                     429, "daily_limit_exceeded",
@@ -184,7 +270,7 @@ class KeyAuth:
                     f"Resets {_tomorrow()} (UTC).")
             bucket["requests"] += 1
             self._save()
-        return meta["name"]
+        return meta["id"]
 
     # ------------------------------------------------------------ counters
     def _bucket(self, name: str) -> dict:

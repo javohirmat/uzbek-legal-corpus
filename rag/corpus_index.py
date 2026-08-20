@@ -37,21 +37,47 @@ _ART_RE = re.compile(
 
 # A bare number followed by a count/time word is a quantity, not an article:
 # "Mehnat kodeksi bo'yicha 3 oydan beri oylik bermayapti" is not Article 3.
-# No leading ^: this is used as .match(tail, m.end()), where ^ would only
+# No leading ^: this is used as .match(tail, num_end), where ^ would only
 # anchor at the string's true start, not at pos.
+#
+# Uzbek is agglutinative, so a fixed list of inflected forms can never be
+# complete: "3 oydan" was covered but "3 oyga"/"3 oygacha"/"3 oylik" were not,
+# and each miss handed the user a phantom article instead of retrieval. These
+# stems therefore take an open suffix. Short stems whose prefix collides with
+# ordinary words ("ta" inside "tartibi", "bet" inside "betakror") keep an
+# explicit form list instead.
+_COUNT_STEMS_OPEN = (
+    "oy|yil|kun|hafta|soat|daqiqa|yosh|marta|nafar|kishi|dona|"
+    "foiz|protsent|som|sum|dollar|yevro|rubl|million|mln|mlrd|ming|yuz|"
+    "baravar|barobar|barobardan|farzand|bola|qavat|xona|sinf|kurs|shaxs|"
+    "qism|band|punkt|karra|"
+    "yanvar|fevral|mart|aprel|may|iyun|iyul|avgust|sentabr|oktabr|noyabr|dekabr"
+)
+_COUNT_STEMS_EXACT = (
+    "ta|tasi|tadan|tada|taga|talik|tacha|"
+    "bet|betdan|xil|xildan|xilda"
+)
+_COUNT_STEMS_RU = (
+    "месяц(?:а|ев|у|ам)?|год(?:а|у|ам)?|лет|час(?:а|ов|ам)?|"
+    "день|дня|дней|недел(?:я|и|ю|ь)|человек(?:а|ам)?|процент(?:а|ов)?|"
+    "рубл(?:ь|я|ей)|доллар(?:а|ов)?|тысяч(?:а|и|у)?|миллион(?:а|ов)?"
+)
+# The same Russian words after transliteration. pipeline._refs retries a failed
+# parse against normalize_query(text), where "3 месяца" has already become
+# "3 mesyatsa" -- so a Cyrillic-only guard passed on the raw text and then let
+# the quantity through on the retry. This is the form the server actually sees
+# for a Russian story that names an Uzbek code.
+_COUNT_STEMS_RU_LAT = (
+    "mesyats|god|let|nedel|chas|den|dnya|dney|chelovek|tisyach|"
+    "raz|shtuk|detey|reben|rebyon"
+)
 _COUNT_AFTER = re.compile(
-    r"\s*[-‐‑‒–—]?\s*(?:oy|oydan|oyda|oylik|oyi|oylab|yil|yilda|yildan|yili|"
-    r"yillardan|yillik|soat|soatdan|soatlik|hafta|haftadan|"
-    r"kunlik|kunlikdan|kun|kunda|kundan|"
-    r"kishi|kishidan|marta|martadan|ta|tasi|tadan|som|foizli|foizdan|foiz|"
-    r"protsent|"
-    r"daqiqa|daqiqadan|dona|ming|mln|mlrd|yuz|xil|bet|qavat|xona|sinf|"
-    r"sinfdan|kurs|yosh|yoshda|farzand|farzandimga|farzandiga|farzandlar|"
-    r"shaxs|dollar|yevro|rubl|qism|"
-    r"yanvar|fevral|mart|aprel|may|iyun|iyul|avgust|sentabr|oktabr|noyabr|"
-    r"dekabr|yanvardan|dekabrdan|"
-    r"месяц(?:а|ев|у)?|год(?:а|у)?|лет|час(?:а|ов)?|"
-    r"день|дня|дней|человек|процент)\b"
+    r"\s*[-‐‑‒–—]?\s*(?:"
+    r"(?:" + _COUNT_STEMS_OPEN + r")[a-zʻʼ]*"
+    r"|(?:" + _COUNT_STEMS_RU_LAT + r")[a-z]*"
+    r"|(?:" + _COUNT_STEMS_EXACT + r")"
+    r"|(?:" + _COUNT_STEMS_RU + r")"
+    r")\b"
 )
 # After a code name, these tails are story facts, not article ids:
 # leftover phone digits, %, the year of 12.05.2024, 12/05 dates,
@@ -59,6 +85,17 @@ _COUNT_AFTER = re.compile(
 _NOT_ARTICLE_TAIL = re.compile(
     r"(?:\d|%|\.\d{2,4}\b|/\d|\s+\d{3}(?:\s+\d{3})+|\s+\d{3}\s*(?:som|sum|ming|mln))"
 )
+# Russian cites the article before the code: "ст. 169 УК", "статья 253 ТК".
+# Anchored to the end of the look-back window so the number must sit directly
+# in front of the code mention, and gated on an explicit citation word so a
+# bare quantity ("3 oydan beri mehnat kodeksi") can never match.
+_CITE_BEFORE = re.compile(
+    r"(?<!\w)(?:st|statya|statyi|statyu|statyasi|modda|moddasi|"
+    r"ст|стат[ья][яию]?)\.?\s*"
+    r"(\d{1,4})(?:\.(\d{1,2}))?\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?[\s,.-]*$",
+    re.IGNORECASE,
+)
+
 _TITLE_PREFIX = re.compile(r"^ozbekiston respublikasining\s+", re.IGNORECASE)
 
 
@@ -183,12 +220,33 @@ class CorpusIndex:
             else:
                 self.ambiguous[abbr] = [s for o in owners for s in groups[o]]
 
-        # Russian-style abbreviations arrive after transliteration
-        # ("УК 173" -> "uk 173"): уголовный -> jinoyat, трудовой -> mehnat.
+        # Russian-style names arrive after transliteration ("УК 173" -> "uk
+        # 173"). The partner's audience writes Russian, so both the short
+        # abbreviations and the spelled-out code names are registered.
+        # Deliberately absent: "sk" (Семейный) and "zhk"/"jk" (Жилищный) --
+        # both collide with Uzbek abbreviations that mean something else.
         for abbr, members in (("uk", ["jinoyat_kodeksi"]),
-                              ("tk", ["mehnat_kodeksi"])):
-            if abbr not in self.aliases and abbr not in self.ambiguous:
-                put(abbr, members)
+                              ("tk", ["mehnat_kodeksi"]),
+                              ("gk", ["fuqarolik_kodeksi"]),
+                              ("nk", ["soliq_kodeksi"]),
+                              ("upk", ["jinoyat_protsessual_kodeksi"]),
+                              ("gpk", ["fuqarolik_protsessual_kodeksi"]),
+                              ("koao", ["mamuriy_javobgarlik_kodeksi"]),
+                              ("ugolovniy kodeks", ["jinoyat_kodeksi"]),
+                              ("ugolovnogo kodeksa", ["jinoyat_kodeksi"]),
+                              ("trudovoy kodeks", ["mehnat_kodeksi"]),
+                              ("trudovogo kodeksa", ["mehnat_kodeksi"]),
+                              ("grajdanskiy kodeks", ["fuqarolik_kodeksi"]),
+                              ("grajdanskogo kodeksa", ["fuqarolik_kodeksi"]),
+                              ("semeyniy kodeks", ["oila_kodeksi"]),
+                              ("semeynogo kodeksa", ["oila_kodeksi"]),
+                              ("nalogoviy kodeks", ["soliq_kodeksi"]),
+                              ("nalogovogo kodeksa", ["soliq_kodeksi"])):
+            if abbr in self.aliases or abbr in self.ambiguous:
+                continue
+            present = [m for m in members if m in groups]
+            if present:
+                put(abbr, [s for m in present for s in groups[m]])
 
         # Unique single-word subjects, so "Mehnat 253-modda" resolves without
         # the word "kodeksi". Only when exactly one logical code claims the
@@ -319,6 +377,22 @@ class CorpusIndex:
         # out of the article-lookup path.
         covered = [r["span"] for r in refs]
         for pos, slugs, amb in mentions:
+            # Russian names the article BEFORE the code ("ст. 169 УК"), so also
+            # look back -- but only when an explicit citation word introduces
+            # the number, otherwise "3 oydan beri mehnat kodeksi" would read
+            # its quantity as an article.
+            head = t[max(0, pos - 40):pos]
+            hm = _CITE_BEFORE.search(head)
+            if hm and not any(s <= max(0, pos - 40) + hm.start(1) < e for s, e in covered):
+                hstart = max(0, pos - 40) + hm.start(1)
+                refs.append({
+                    "slugs": slugs, "ambiguous": amb,
+                    "cands": candidates(hm.group(1), hm.group(3), hm.group(2)),
+                    "digits": hm.group(1), "raw": hm.group(1),
+                    "span": (hstart, hstart + len(hm.group(1))),
+                })
+                covered.append((hstart, hstart + len(hm.group(1))))
+                continue
             tail = t[pos:pos + 120]
             for m in re.finditer(r"(?<!\w)(\d{1,4})(?:\.(\d{1,2}))?\s*([¹²³⁴⁵⁶⁷⁸⁹][⁰¹²³⁴⁵⁶⁷⁸⁹]*)?(?!\s*-?\s*modda)", tail):
                 start = pos + m.start()
@@ -327,7 +401,13 @@ class CorpusIndex:
                 between = t[pos:start]
                 if len(between) > 40 or re.search(r"\d", between):
                     continue
-                if _COUNT_AFTER.match(tail, m.end()) or _NOT_ARTICLE_TAIL.match(tail, m.end()):
+                # Anchor the guards to the end of the NUMBER, not to the end of
+                # the match: the regex's \s* before the optional superscript
+                # swallows the separating space, which made _NOT_ARTICLE_TAIL's
+                # leading \d fire on the next article ("JK 169 170" -> nothing).
+                num_end = m.end(3) if m.group(3) else (
+                    m.end(2) if m.group(2) else m.end(1))
+                if _COUNT_AFTER.match(tail, num_end) or _NOT_ARTICLE_TAIL.match(tail, num_end):
                     continue
                 refs.append({
                     "slugs": slugs, "ambiguous": amb,
@@ -358,11 +438,20 @@ class CorpusIndex:
             for cand in ref["cands"]:
                 if (slug, cand) in self.by_key:
                     return ("EXISTS", (slug, cand), self.by_key[(slug, cand)])
-        # "4801-modda" typed flat -> article_raw map resolves it to 480¹ exactly
-        for slug in ref["slugs"]:
-            rec = self.by_flat.get((slug, ref["digits"]))
-            if rec is not None:
-                return ("EXISTS", (slug, rec["article_id"]), rec)
+        # "4801-modda" typed flat -> article_raw map resolves it to 480¹ exactly.
+        #
+        # Only for a number the user typed FLAT. When they explicitly asked for
+        # an insert ("JK 169⁵", "MJK 27.2"), every candidate carries a dot, and
+        # this map is keyed on the bare digits -- so it used to answer with the
+        # BASE article (169 Oʻgʻrilik) as if it were the one requested. Serving
+        # a different article is worse than saying the number does not exist,
+        # which is the whole guarantee behind the deterministic path.
+        asked_for_insert = any("." in c for c in ref["cands"])
+        if not asked_for_insert:
+            for slug in ref["slugs"]:
+                rec = self.by_flat.get((slug, ref["digits"]))
+                if rec is not None:
+                    return ("EXISTS", (slug, rec["article_id"]), rec)
 
         base = int(ref["digits"])
         top = max(self.max_by_slug.get(s, 0) for s in ref["slugs"])

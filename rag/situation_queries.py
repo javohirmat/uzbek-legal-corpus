@@ -48,7 +48,8 @@ ISSUE_TEMPLATES = [
     )],
      "query": "mulkka yetkazilgan zarar qoplash Fuqarolik kodeksi"},
     {"when": [_phrase_re(p) for p in (
-        "oylik", "oylk", "maosh", "ish haqi", "ish haqqi", "zarplat", "oklad", "zp",
+        "oylik", "oylig", "oylk", "maosh", "ish haqi", "ish haqqi", "ish haqim",
+        "zarplat", "oklad", "zp",
     )],
      "query": "ish haqini toʻlash muddatlari Mehnat kodeksi"},
     {"when": [_phrase_re(p) for p in (
@@ -64,6 +65,10 @@ ISSUE_TEMPLATES = [
     {"when": [_phrase_re(p) for p in (
         "urishib", "urish", "urib", "urdim", "qamash", "qamoq", "kaltak",
         "janjal", "haqorat", "turtib",
+        # "erim meni uradi/urdi/uryapti" is how this is actually reported;
+        # the -ish/-ib forms above never matched it. Not "ur" on its own --
+        # that swallows Urganch, urugʻ, urush.
+        "urdi", "uradi", "uryapti", "urmoqda", "uraveradi", "urardi",
     )],
      "query": "yengil tanaga shikast yetkazish kaltaklash haqorat Maʼmuriy javobgarlik kodeksi"},
     {"when": [_phrase_re(p) for p in (
@@ -72,6 +77,8 @@ ISSUE_TEMPLATES = [
      "query": "oʻgʻrilik oʻzganing mol-mulkini yashirin ravishda talon-toroj qilish Jinoyat kodeksi"},
     {"when": [_phrase_re(p) for p in ("nalog", "soliq toʻlama", "soliq tolama")],
      "query": "soliq toʻlamaganlik uchun javobgarlik Soliq kodeksi"},
+    {"when": [_phrase_re(p) for p in ("ajrash", "razvod", "razvest", "nikohni bekor")],
+     "query": "nikohni bekor qilish ajrashish tartibi Oila kodeksi"},
     {"when": [_phrase_re(p) for p in ("aliment", "alimet")],
      "query": "aliment undirish voyaga yetmagan bolalarni taʼminlash Oila kodeksi"},
     {"when": [_phrase_re(p) for p in (
@@ -156,6 +163,10 @@ def rrf_fuse(ranked_lists, k_const=None):
     return sorted(fused, key=lambda key: -fused[key])
 
 
+_NAMES_TAX = re.compile(
+    r"(?<!\w)(?:soliq|solig|nalog|qqs|nds|ndfl|aksiz)\w*", re.IGNORECASE)
+
+
 def exclude_unmentioned_soliq(keys, questions):
     """Drop Soliq hits unless a search query actually names tax.
 
@@ -164,7 +175,12 @@ def exclude_unmentioned_soliq(keys, questions):
     already search 'Soliq kodeksi' and keep the family.
     """
     blob = norm(" ".join(str(q) for q in questions if q))
-    if "soliq" in blob:
+    # Uzbek softens q -> gʻ before a vowel suffix, and norm() strips the okina:
+    # "daromad soligʻi" ("income tax", the only way anyone says it) folds to
+    # "soligi", which does not contain "soliq". The bare stem almost never
+    # appears in a real sentence, so matching only "soliq" dropped 100% of the
+    # Tax Code from every question that was literally about a named tax.
+    if _NAMES_TAX.search(blob):
         return list(keys)
     return [k for k in keys if k[0] != "soliq_kodeksi"]
 

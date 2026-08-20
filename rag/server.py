@@ -18,7 +18,8 @@ from starlette.concurrency import iterate_in_threadpool
 
 import config as C
 from api_keys import KeyAuth, KeyAuthError
-from pipeline import UpstreamUnavailable, get_rag, stream_answer
+from pipeline import (UpstreamUnavailable, get_rag, last_usage,
+                      stream_answer)
 
 app = FastAPI(title="Tomaris legal RAG")
 app.add_middleware(
@@ -123,10 +124,21 @@ async def retrieve(req: Request):
 async def chat(req: Request):
     try:
         body = await req.json()
-        messages = body.get("messages", [])
+        messages = body.get("messages") or []
+        if not isinstance(messages, list):
+            raise TypeError("messages must be an array")
+        # OpenAI's wire format allows "content": null (tool-call turns, an
+        # unset system prompt). m.get("content", "") returns None for an
+        # explicit null, and joining that raised TypeError *outside* this
+        # guard -- a plain-text 500 the customer's bot cannot parse, on the
+        # second message of any thread that keeps history. Normalise once,
+        # here, before anything is counted against the caller's daily cap.
+        messages = [m for m in messages if isinstance(m, dict)]
+        for m in messages:
+            content = m.get("content")
+            m["content"] = content if isinstance(content, str) else (
+                "" if content is None else str(content))
         question = messages[-1]["content"] if messages else ""
-        if not isinstance(question, str):
-            question = str(question)
     except Exception:
         return JSONResponse(status_code=400, content={
             "error": {"type": "invalid_request_error",
@@ -138,7 +150,7 @@ async def chat(req: Request):
     history = [m for m in messages[:-1] if m.get("role") in ("user", "assistant")]
     # earlier turns also let a follow-up like "va 12-moddasi-chi?" inherit its code
     context = "\n".join(
-        m.get("content", "") for m in messages[-C.HISTORY_TURNS : -1]
+        m["content"] for m in messages[-C.HISTORY_TURNS : -1]
     )
     want_stream = bool(body.get("stream"))
 
@@ -275,6 +287,10 @@ async def chat(req: Request):
         # the event loop that freezes every other request -- /health, streams,
         # even the instant deterministic answers -- until it finishes.
         result = await run_in_threadpool(run)
+        nonstream_usage = await run_in_threadpool(last_usage)
+        if nonstream_usage:
+            _keyauth.add_usage(key_id, nonstream_usage["prompt_tokens"],
+                               nonstream_usage["completion_tokens"])
     except UpstreamUnavailable as e:
         print(f"[upstream-unavailable] {e}")
         return JSONResponse(
@@ -332,7 +348,10 @@ async def chat(req: Request):
                     "finish_reason": "stop",
                 }
             ],
-            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+            # Real counts when the model was called; the override and
+            # deterministic paths legitimately consume none.
+            "usage": nonstream_usage or {
+                "prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
             "citations": result.citations,
             "retrieval_mode": result.mode,
         }

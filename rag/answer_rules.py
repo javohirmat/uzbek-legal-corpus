@@ -44,6 +44,23 @@ def _phrase(p):
     return re.compile(r"(?<!\w)" + body + r"(?!\w)")
 
 
+def _phrase_loose(p):
+    """Same, but the final word may carry any Uzbek suffix.
+
+    Used for `not` only. Uzbek is agglutinative and the bare stem is the form
+    nobody types: a rule guarded with "kodeks" was still fired by "Fuqarolik
+    kodeksi boʻyicha kredit foizi", because "kodeksi" is not "kodeks". A guard
+    that misses means a configured answer overrides a real statute question,
+    so `not` must over-match rather than under-match -- the cost of a false
+    block is only that the question takes the normal retrieval path.
+    """
+    words = norm(p).split()
+    if not words:
+        return None
+    body = r"\s+".join(re.escape(w) for w in words)
+    return re.compile(r"(?<!\w)" + body + r"\w*")
+
+
 class Overrides:
     def __init__(self, rules):
         self.rules = []
@@ -52,7 +69,7 @@ class Overrides:
                 "id": r.get("id", ""),
                 "any": [p for p in map(_phrase, r.get("any", [])) if p],
                 "all": [p for p in map(_phrase, r.get("all", [])) if p],
-                "not": [p for p in map(_phrase, r.get("not", [])) if p],
+                "not": [p for p in map(_phrase_loose, r.get("not", [])) if p],
                 "answer": r["answer"],
                 "source": r.get("source", ""),
             })

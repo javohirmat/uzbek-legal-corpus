@@ -42,6 +42,17 @@ say "3. vector index (before vLLM starts, so the GPU is free) — ~2 min"
 cd $REPO/rag && $W/venv-rag/bin/python build_index.py
 
 say "4. register services + expose the API"
+# Per-customer keys. Unset = open box (fine for your own testing, NOT for a
+# key you hand out). Set it in the Vast instance env, before this runs:
+#   TOMARIS_API_KEYS="azizbek:t7-$(openssl rand -hex 12):200"
+# name:key:daily_request_limit, comma-separated. The service refuses to start
+# if the value is set but unparseable, rather than silently serving everyone.
+if [ -n "${TOMARIS_API_KEYS:-}" ]; then
+  echo "   API keys: configured ($(echo "$TOMARIS_API_KEYS" | tr ',' '\n' | wc -l | tr -d ' ') entry/entries)"
+else
+  echo "   API keys: NONE -- this box will answer anyone who finds the port."
+  echo "   To meter a customer:  export TOMARIS_API_KEYS=\"name:key:200\"  and re-run step 4."
+fi
 PORT=$(vast-capabilities 2>/dev/null | python3 -c "
 import json,sys
 free=[p for p in json.load(sys.stdin)['instance']['open_ports']
@@ -57,7 +68,12 @@ for i in $(seq 1 60); do
 done
 supervisorctl status | grep tomaris
 
-PUB=$(eval echo "\$VAST_TCP_PORT_${PORT}")
+# set -u would abort the whole run here if Vast has not exported these -- after
+# the 54 GB download and a working install, which reads as "the deploy failed"
+# and loses the URL the frontend needs. Degrade to a placeholder instead.
+PUB=$(eval echo "\${VAST_TCP_PORT_${PORT}:-}")
+[ -z "$PUB" ] && PUB="$PORT"
+IP="${PUBLIC_IPADDR:-<box-public-ip>}"
 say "6. verify"
 curl -s "http://localhost:${PORT}/health"; echo
 curl -s -X POST "http://localhost:${PORT}/v1/chat/completions" \
@@ -69,7 +85,7 @@ cat <<EOF
 
 DONE. Give the frontend this as VAST_API_URL (base URL, no path):
 
-    http://${PUBLIC_IPADDR}:${PUB}
+    http://${IP}:${PUB}
 
 Live transcript:  tail -f /workspace/chat-history.jsonl
 Service logs:     tail -f /var/log/portal/tomaris-rag.log

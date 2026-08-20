@@ -222,14 +222,19 @@ for q, want in [
     check(q, hit["id"] if hit else None, want)
 
 print("\n12. shipped overrides.json serves no invented data as real")
-# The file may carry demo rules -- the feature is unsellable if it cannot be
-# shown -- but every rule shipped in this repo must announce itself as a
-# sample. The failure being guarded against is the original one: a fabricated
-# 24% tariff returned under a confident "Bank tariflari (2026-08)" source
-# line, indistinguishable from a real answer. A customer's own deployment
-# replaces these rules and drops the label; that file is not in git.
+# It must ship EMPTY. Overrides are returned verbatim before parsing, retrieval
+# and the model, so a demo rule is not a harmless sample: the shipped
+# "ish vaqti" rule answered "Ish vaqti haftasiga necha soat?" -- a Mehnat
+# kodeksi 182-modda question, and the most common labour question there is --
+# with a fabricated bank opening-hours schedule. The demos live in
+# overrides.example.json, which is never loaded.
 live = Overrides.load(C.OVERRIDES_JSON)
-for r in live.rules:
+check("overrides.json ships empty", len(live.rules), 0)
+for q in ["Ish vaqti haftasiga necha soat boʻlishi kerak?",
+          "Tungi ish vaqti qanday hisoblanadi",
+          "kredit foizi qancha"]:
+    check(f"no canned answer for {q[:38]!r}", live.match(q), None)
+for r in live.rules:                     # still holds if a demo is ever re-added
     labelled = "namuna" in (r["answer"] + " " + r["source"]).lower()
     check(f"rule '{r['id']}' labelled as sample", labelled, True)
 

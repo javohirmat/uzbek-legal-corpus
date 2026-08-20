@@ -6,6 +6,7 @@ answers cannot be hallucinated. Only open questions go to generation, and what
 comes back is audited against the articles that were actually supplied.
 """
 import json
+import threading
 from datetime import datetime, timedelta, timezone
 
 import dspy
@@ -180,6 +181,34 @@ def _last_reasoning():
         return rc if isinstance(rc, str) and rc.strip() else ""
     except Exception:
         return ""
+
+
+def last_usage():
+    """Real token counts off the most recent completion, or {} if absent.
+
+    The non-streaming path reported a hardcoded 0/0/0, so every request that
+    did not stream was invisible to /v1/usage -- and most OpenAI SDK
+    integrations read exactly that field. Same source and same best-effort
+    caveat as `_last_reasoning`: history is per-LM, so under genuinely
+    concurrent load a count can be attributed to the neighbouring request.
+    """
+    try:
+        resp = lm.history[-1].get("response")
+        usage = getattr(resp, "usage", None)
+        if usage is None and isinstance(resp, dict):
+            usage = resp.get("usage")
+        if usage is None:
+            return {}
+        get = (lambda k: usage.get(k)) if isinstance(usage, dict) else (
+            lambda k: getattr(usage, k, None))
+        prompt = int(get("prompt_tokens") or 0)
+        completion = int(get("completion_tokens") or 0)
+        if not (prompt or completion):
+            return {}
+        return {"prompt_tokens": prompt, "completion_tokens": completion,
+                "total_tokens": prompt + completion}
+    except Exception:
+        return {}
 
 
 def _sources(articles):
@@ -445,12 +474,19 @@ class LegalRAG(dspy.Module):
 
 
 _rag = None
+# Both server entry points call get_rag() from a threadpool, so two requests
+# arriving before the index is warm would each build a LegalRAG -- loading the
+# corpus and a second copy of the embedding model. Double-checked locking keeps
+# the fast path free of the lock once the index exists.
+_rag_lock = threading.Lock()
 
 
 def get_rag():
     global _rag
     if _rag is None:
-        _rag = LegalRAG()
+        with _rag_lock:
+            if _rag is None:
+                _rag = LegalRAG()
     return _rag
 
 

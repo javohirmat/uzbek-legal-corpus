@@ -9,7 +9,7 @@
             "ishdan chiqarish", "ishdan boʻshat"],
    "add": "mehnat shartnomasini bekor qilish xodimni ishdan boʻshatish asoslari"},
 
-  {"when": ["oylik", "maosh", "ish haqi", "ish haqqi", "zarplata"],
+  {"when": ["oylik", "oylig", "maosh", "ish haqi", "ish haqim", "ish haqqi", "zarplata"],
    "add": "ish haqini toʻlash muddatlari har yarim oyda"},
 
   {"when": ["taʼtil", "tatil", "otpusk"],

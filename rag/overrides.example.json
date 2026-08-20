@@ -1,10 +1,18 @@
 [
   {
-    "_comment": "EXAMPLE ONLY - invented values, never real tariffs. Copy this file to overrides.json and replace with a customer's actual answers, or leave overrides.json as [] to disable the feature.",
+    "_comment": "EXAMPLE ONLY - invented values, never real tariffs. Copy this file to overrides.json and replace with a customer's actual answers, or leave overrides.json as [] to disable the feature. NOTE the `not` list: a trigger phrase that is also a statutory topic (\"ish vaqti\" is the title of a whole Mehnat kodeksi chapter) must be fenced, or a real legal question gets a configured answer instead of the law.",
     "id": "kredit-foizi",
-    "any": ["kredit foizi", "foiz stavkasi", "kredit stavkasi"],
-    "not": ["ipoteka"],
+    "any": ["bank kredit foizi", "bankning foiz stavkasi", "sizning kredit stavkangiz"],
+    "not": ["ipoteka", "kodeks", "qonun", "modda", "sud", "huquq", "javobgarlik"],
     "answer": "NAMUNA: isteʼmol krediti boʻyicha yillik stavka — XX%. Muddat XX oygacha. Bu koʻrsatkichlar namuna uchun, haqiqiy tariflar emas.",
+    "source": "NAMUNA maʼlumot"
+  },
+  {
+    "_comment": "EXAMPLE ONLY. The trigger is deliberately narrowed to the BANK's opening hours: bare \"ish vaqti\" would swallow Mehnat kodeksi 182-modda (\"Ish vaqtining normal davomiyligi\"), which is the most common labour question in Uzbekistan.",
+    "id": "bank-ish-vaqti",
+    "any": ["bank ish vaqti", "filial ish vaqti", "filial qachon ochiladi", "bank qachon ochiladi"],
+    "not": ["kodeks", "qonun", "modda", "sud", "huquq", "mehnat", "xodim", "ishchi"],
+    "answer": "NAMUNA: filiallar dushanbadan jumagacha 09:00–18:00, shanba kuni 09:00–13:00. Bu namuna jadval, haqiqiy bank jadvali emas.",
     "source": "NAMUNA maʼlumot"
   }
 ]

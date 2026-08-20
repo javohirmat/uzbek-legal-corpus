@@ -112,6 +112,10 @@ LATIN_LEGAL_CUES = (
     "fuqarolik",
     "mehnat",
     "soliq",
+    # q -> gʻ softens the same way: "daromad soligʻi" (income tax) is the only
+    # way anyone names a tax, and norm() strips the okina to "soligi".
+    "solig",
+    "qamog",
     "bojxona",
     "ijara",
     "nikoh",
@@ -137,6 +141,16 @@ LATIN_LEGAL_CUES = (
     "mudofaa",
     "askar",
     "oylik",
+    # Uzbek softens final -k to -g before a vowel suffix, so "my salary" is
+    # always "oyligim", never "oylikim" -- the cue list missed the only form
+    # anyone types. Same for the other -lik nouns below.
+    "oylig",
+    "javobgarlig",
+    "vorislig",
+    "ogirlig",
+    "ish haqi",
+    "ish haqim",
+    "mehnat haqi",
     "oylk",
     "zp",
     "maosh",
